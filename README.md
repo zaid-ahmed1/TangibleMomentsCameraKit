@@ -55,6 +55,9 @@ Prerequisites
 - **Camera Passthrough API does not work in the Editor or XR Simulator.**
 - Get more information from the [Meta Quest Developer Documentation](https://developers.meta.com/horizon/documentation/unity/unity-pca-documentation)
 
+> [!CAUTION]
+> Every feature involving accessing the camera has significant impact on your application's performance. Be aware of this and ask yourself if the feature you are trying to implement can be done any other way besides using cameras.
+
 Installation
 -------------
 1. **Clone the Repository:**
