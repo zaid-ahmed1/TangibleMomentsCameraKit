@@ -1,17 +1,18 @@
-QuestVisionKit is a collection of template and reference projects demonstrating how to use Meta Quest’s new Passthrough Camera API for advanced AR/VR vision, tracking, and shader effects.
+QuestCameraKit is a collection of template and reference projects demonstrating how to use Meta Quest’s new Passthrough Camera API for advanced AR/VR vision, tracking, and shader effects.
 
 Overview
 ========
 
 The repository includes the following sample projects:
 
-1. 🟢 Color Picker
+1. 🎨 Color Picker
    --------------------------------
    - **Purpose:** Convert a 3D point in space to its corresponding 2D image pixel.
    - **Description:** This sample shows the mapping between 3D space and 2D image coordinates using the Passthrough Camera API. We use MRUK's EnvironmentRaycastManager to determine a 3D point in our environment and map it to the location on our WebcamTexture. We then extract the pixel on that point, to determine the color of a real world object.
-| Color Picker (Environment Mode)            | Color Picker (Manual Mode)                 |
-|--------------------------------------------|--------------------------------------------|
-| ![CPE](Media/ColorPicker_Environment.gif)  | ![CPM](Media/ColorPicker_Manual.gif)       |
+
+| Color Picker (Environment Mode)             | Color Picker (Manual Mode)           |
+|---------------------------------------------|--------------------------------------|
+| ![CPE](Media/ColorPicker_Environment.gif)   | ![CPM](Media/ColorPicker_Manual.gif) |
 
 
 2. 🟡 Object Detection with Unity Sentis - Human (or animal) intrusion detection for safety
@@ -33,15 +34,11 @@ The repository includes the following sample projects:
    --------------------------------
    - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
    - **Description:** In this sample we implement a simple connection to OpenAI's vision model. Additionally it is connected to Meta's Voice SDK for easy voice commands. The goal is to send an image to an LLM, using a simple wake workd and voice command, to quickly and seamleslly get an answer.
-  
-Status Legend
-=============================
-- 🟢 **Green:** Fully Implemented – This sample is complete and works as expected.
-- 🟡 **Yellow:** Known Issues or Limitations – The sample is not fully implemented yet or has some known issues.
-- 🔴 **Red:** Work in Progress (WIP) – The sample is currently under active development.
 
 Getting Started
 ===============
+
+![PCA](/Media/PCA_Overview.png 'PCA')
 
 Prerequisites:
 --------------
