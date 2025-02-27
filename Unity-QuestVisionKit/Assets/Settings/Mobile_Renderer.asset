@@ -24,9 +24,8 @@ MonoBehaviour:
     probeSamplingDebugMesh: {fileID: 0}
     probeSamplingDebugTexture: {fileID: 0}
     probeVolumeBlendStatesCS: {fileID: 0}
-  m_RendererFeatures:
-  - {fileID: 7572420238061996637}
-  m_RendererFeatureMap: 5d0aaa0b16a41669
+  m_RendererFeatures: []
+  m_RendererFeatureMap: 
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 0}
@@ -52,20 +51,3 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
---- !u!114 &7572420238061996637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cba536ffe39944609436be358df6a1e, type: 3}
-  m_Name: GaussianBlurFeature
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  kernelSize: 3
-  kernelStep: 2
-  tintColor: {r: 1, g: 1, b: 1, a: 1}
-  blurMaterial: {fileID: 2100000, guid: 929305d27d1324726bbafe2845d85cb8, type: 2}
