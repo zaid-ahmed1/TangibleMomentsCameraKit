@@ -89,10 +89,13 @@ imgui.ini
 
 **/Photon/
 **/TextMesh Pro/
+**/TextMesh Pro.meta
 Assets/Resources/OculusPlatformSettings.asset
 Assets/Resources/OVRPlatformToolSettings.asset
 ProjectSettings/QualitySettings.asset
 /.utmp/*
+*wit.asset
+*wit.asset.meta
 
 **/ParrelSync
 **/ParrelSync.meta
@@ -115,6 +118,13 @@ Assets/Oculus/Avatar2.meta
 Assets/Oculus/Avatar2_SampleAssets
 Assets/Oculus/Avatar2_SampleAssets.meta
 Assets/.avatar_sdk_sample_assets_importer.txt
+Assets/InputSystem_Actions.inputactions
+Assets/InputSystem_Actions.inputactions.meta
+Assets/Packages/*
+Assets/Nuget
+Assets/Nuget.meta
+Assets/Nuget.config
+Assets/Nuget.config.meta
 **/RuntimeActionBindings.json
 **/RuntimeActionBindings.json.meta
 .editorconfig
