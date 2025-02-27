@@ -127,21 +127,17 @@ public class ColorPicker : MonoBehaviour
             return Vector2.zero;
         }
 
-        // Scale factors if the texture resolution differs from the intrinsics resolution.
-        float scaleX = _webcamTexture.width / (float)intrinsics.Resolution.x;
-        float scaleY = _webcamTexture.height / (float)intrinsics.Resolution.y;
+        var scaleX = _webcamTexture.width / (float)intrinsics.Resolution.x;
+        var scaleY = _webcamTexture.height / (float)intrinsics.Resolution.y;
 
-        // Calculate pixel coordinates using the pinhole camera model.
-        float u_pixel = intrinsics.FocalLength.x * (localPoint.x / localPoint.z) + intrinsics.PrincipalPoint.x;
-        float v_pixel = intrinsics.FocalLength.y * (localPoint.y / localPoint.z) + intrinsics.PrincipalPoint.y;
+        var uPixel = intrinsics.FocalLength.x * (localPoint.x / localPoint.z) + intrinsics.PrincipalPoint.x;
+        var vPixel = intrinsics.FocalLength.y * (localPoint.y / localPoint.z) + intrinsics.PrincipalPoint.y;
 
-        // Apply scaling to match the actual texture resolution.
-        u_pixel *= scaleX;
-        v_pixel *= scaleY;
+        uPixel *= scaleX;
+        vPixel *= scaleY;
 
-        // Convert to normalized UV coordinates.
-        float u = u_pixel / _webcamTexture.width;
-        float v = v_pixel / _webcamTexture.height; // Remove the inversion if the texture appears upside down.
+        var u = uPixel / _webcamTexture.width;
+        var v = vPixel / _webcamTexture.height;
 
         return new Vector2(u, v);
     }
