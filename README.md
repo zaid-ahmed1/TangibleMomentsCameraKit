@@ -9,6 +9,10 @@ The repository includes the following sample projects:
    --------------------------------
    - **Purpose:** Convert a 3D point in space to its corresponding 2D image pixel.
    - **Description:** This sample shows the mapping between 3D space and 2D image coordinates using the Passthrough Camera API. We use MRUK's EnvironmentRaycastManager to determine a 3D point in our environment and map it to the location on our WebcamTexture. We then extract the pixel on that point, to determine the color of a real world object.
+| Color Picker (Environment Mode)            | Color Picker (Manual Mode)                 |
+|--------------------------------------------|--------------------------------------------|
+| ![CPE](Media/ColorPicker_Environment.gif)  | ![CPM](Media/ColorPicker_Manual.gif)       |
+
 
 2. 🟡 Object Detection with Unity Sentis - Human (or animal) intrusion detection for safety
    --------------------------------
