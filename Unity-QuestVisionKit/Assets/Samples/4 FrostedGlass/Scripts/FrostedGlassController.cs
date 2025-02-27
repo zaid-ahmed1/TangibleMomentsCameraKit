@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 using PassthroughCameraSamples;
 
 public class FrostedGlassController : MonoBehaviour
@@ -7,18 +7,14 @@ public class FrostedGlassController : MonoBehaviour
     [SerializeField] private WebCamTextureManager passthroughCameraManager;
     [SerializeField] private Material mappingBlurMaterial;
     [SerializeField] private Color tintColor = Color.white;
-    [SerializeField] private int kernelSize = 3;
-    [SerializeField] private int kernelStep = 1;
 
     private WebCamTexture _webcamTexture;
     private bool _cameraFound = true;
 
     private static readonly int MainTexId = Shader.PropertyToID("_MainTex");
     private static readonly int TintColorId = Shader.PropertyToID("_TintColor");
-    private static readonly int CameraPosId = Shader.PropertyToID("_CameraPos");
-    private static readonly int KernelSizeId = Shader.PropertyToID("_KernelSize");
-    private static readonly int KernelStepId = Shader.PropertyToID("_KernelStep");
     private static readonly int TextureSizeId = Shader.PropertyToID("_TextureSize");
+    private static readonly int CameraPosId = Shader.PropertyToID("_CameraPos");
     private static readonly int FocalLengthId = Shader.PropertyToID("_FocalLength");
     private static readonly int PrincipalPointId = Shader.PropertyToID("_PrincipalPoint");
     private static readonly int IntrinsicResolutionId = Shader.PropertyToID("_IntrinsicResolution");
@@ -26,13 +22,12 @@ public class FrostedGlassController : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return new WaitUntil(() => passthroughCameraManager.WebCamTexture != null && passthroughCameraManager.WebCamTexture.isPlaying);
+        yield return new WaitUntil(() =>
+            passthroughCameraManager.WebCamTexture != null && passthroughCameraManager.WebCamTexture.isPlaying);
 
         _webcamTexture = passthroughCameraManager.WebCamTexture;
         mappingBlurMaterial.SetTexture(MainTexId, _webcamTexture);
         mappingBlurMaterial.SetColor(TintColorId, tintColor);
-        mappingBlurMaterial.SetInt(KernelSizeId, kernelSize);
-        mappingBlurMaterial.SetInt(KernelStepId, kernelStep);
 
         var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(passthroughCameraManager.eye);
         mappingBlurMaterial.SetVector(IntrinsicResolutionId, new Vector4(intrinsics.Resolution.x, intrinsics.Resolution.y, 0, 0));
@@ -40,10 +35,7 @@ public class FrostedGlassController : MonoBehaviour
 
     private void Update()
     {
-        if (!_webcamTexture || !_cameraFound)
-        {
-            return;
-        }
+        if (!_webcamTexture || !_cameraFound) return;
 
         var texSize = new Vector2(_webcamTexture.width, _webcamTexture.height);
         mappingBlurMaterial.SetVector(TextureSizeId, texSize);
