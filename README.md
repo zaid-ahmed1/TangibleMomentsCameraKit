@@ -3,8 +3,6 @@ QuestCameraKit is a collection of template and reference projects demonstrating 
 Overview
 ========
 
-The repository includes the following sample projects:
-
 1. 🎨 Color Picker
    --------------------------------
    - **Purpose:** Convert a 3D point in space to its corresponding 2D image pixel.
@@ -210,7 +208,7 @@ Running the Samples
 > The Meta Project Setup Tool (PST) will show a warning and tell you to uncheck it, so do not fix this warning.
 
 5. **[OpenAI vision model & voice commands](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
-- Open the `OpenAIVision` scene.
+- Open the `ImageLLM` scene.
 - Build the scene and run the APK on your headset.
 
 License
@@ -232,5 +230,5 @@ Acknowledgements & Credits
 - Thanks to **[Julian Triveri](https://github.com/trev3d/QuestDisplayAccessDemo)** for constantly pushing the boundaries with what is possible with Meta Quest hardware.
 
 --------------------------------------------------------------------------------
-Happy coding and enjoy exploring the possibilities with QuestVisionKit!
+Happy coding and enjoy exploring the possibilities with QuestCameraKit!
 --------------------------------------------------------------------------------
