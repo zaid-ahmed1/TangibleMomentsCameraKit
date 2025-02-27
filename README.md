@@ -18,31 +18,29 @@ The repository includes the following sample projects:
 2. 🍎 Object Detection with Unity Sentis
    --------------------------------
    - **Purpose:** Use the Unity Sentis framework to infer different ML models to detect and track objects.
-   - **Description:** Learn how to convert detected image coordinates (e.g. bounding boxes) back into 3D points for dynamic interaction within your scenes. In this sample you will also see how to filter labels. This means e.g. you can only detect humans and pets, to create a more safe play-area for your VR game. The sample video below is filtered to monitor, person and laptop.
+   - **Description:** Learn how to convert detected image coordinates (e.g. bounding boxes) back into 3D points for dynamic interaction within your scenes. In this sample you will also see how to filter labels. This means e.g. you can only detect humans and pets, to create a more safe play-area for your VR game. The sample video below is filtered to monitor, person and laptop. The sample is running at around 60 fps.
 
 3. 📱 QR Code Tracking with ZXing
    --------------------------------
-   - **Purpose:** Detect and track QR codes in real time.
-   - **Description:** Similarly to the object detection sample, get QR code coordinated and projects them into 3D space. Detect QR codes and call their URLs.
+   - **Purpose:** Detect and track QR codes in real time. Open webviews or log-in to 3rd party services with ease.
+   - **Description:** Similarly to the object detection sample, get QR code coordinated and projects them into 3D space. Detect QR codes and call their URLs. You can select between a multiple or single QR code mode. The sample is running at around 70 fps for multiple QR codes and a stable 72 fps for a single code.
 
 | Object Detection with Unity Sentis          | QR Code Tracking with Zxing           |
 |---------------------------------------------|---------------------------------------|
 | ![OBJD](Media/ObjectDetection.gif)          | ![QRCT](Media/QRCodeTracking.gif)     |
 
-4. 🪟 Frosted Glass Shader
+4. 🪟 Frosted Glass Shader (WIP)
    --------------------------------
    - **Purpose:** Apply a custom frosted glass shader effect to virtual surfaces.
    - **Description:** A shader which takes our camera feed as input to blur the content behind it. I know you want the Apple Vision Pro forsted glass 👀
 
-5. 🧠 OpenAI vision model & voice commands
+5. 🧠 OpenAI vision model & voice commands (WIP)
    --------------------------------
    - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
    - **Description:** In this sample we implement a simple connection to OpenAI's vision model. Additionally it is connected to Meta's Voice SDK for easy voice commands. The goal is to send an image to an LLM, using a simple wake workd and voice command, to quickly and seamleslly get an answer.
 
 Getting Started with PCA
 ===============
-
-![PCA](/Media/PCA_Overview.png 'PCA')
 
 | **Information**        | **Details**                                                                                                                                                                                             |
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -52,19 +50,19 @@ Getting Started with PCA
 | **Public Experimental**| Apps using PCA are not allowed to be submitted to the Meta Horizon Store yet.                                                                                                                           |
 | **Specifications**     | - Frame Rate: 30fps<br>- Image latency: 40-60ms<br>- Available resolutions per eye: 320x240, 640x480, 800x600, 1280x960px                                                                               |
 
-Prerequisites:
+Prerequisites
 --------------
 - **Meta Quest Device:** Ensure you are runnning on a Quest 3 or Quest 3s and your device is updated to HorizonOS v74 or later.
 - **Unity:** Recommended version 6 (unity 6000.0.39f1). Also runs on Unity 2022 LTS.
-- **Passthrough Camera API:** Follow Meta Quest’s documentation to enable and configure the API. The API is part of the Meta XR Core SDK v74 or later.
-- **Sentis Framework:** For image tracking samples, refer to the Sentis documentation for installation and setup.
 - **Camera Passthrough API does not work in the Editor or XR Simulator.**
+- Get more information from the [Meta Quest Developer Documentation](https://developers.meta.com/horizon/documentation/unity/unity-pca-documentation)
 
-Installation:
+Installation
 -------------
 1. **Clone the Repository:**
-   Run the following command in your terminal:
-git clone https://github.com/yourusername/QuestVisionKit.git
+   ```
+   git clone https://github.com/yourusername/QuestVisionKit.git
+   ```
 
 2. **Open the Project in Unity:**
 Launch Unity and open the cloned project folder.
@@ -75,16 +73,17 @@ Follow the instructions in the section below to run one of the samples.
 Running the Samples
 ===================
 
-- **Color Picker**
-  - Open the `ColorPicker` scene and run the application.
-  - Build the scene and run the APK on your headset.
-  - Use your controller, aim the ray onto a surface in your real space and press the trigger to observe the corresponding pixel from the passthrough camera feed.
+1. **[Color Picker](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
+- Open the `ColorPicker` scene and run the application.
+- Build the scene and run the APK on your headset.
+- Aim the ray onto a surface in your real space and press the A button or pinch your fingers to observe the cube changing it's color to the color in your real environment.
 
-- **Object Detection with Unity Sentis**
-  - Open the `ObjectDetection` scene.
-  - You will need Unity Sentis for this project to run (com.unity.sentis).
-  - Select the labels you would like to track. No label means all objects will be tracked.
-  - Build the scene and run the APK on your headset. Look around your room and see how tracked objects receive a bounding box in accurate 3D space.
+2. **[Object Detection with Unity Sentis](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
+- Open the `ObjectDetection` scene.
+- You will need [Unity Sentis](https://docs.unity3d.com/Packages/com.unity.sentis@2.1/manual/get-started.html) for this project to run (com.unity.sentis@2.1.2).
+- Select the labels you would like to track. No label means all objects will be tracked.
+- Build the scene and run the APK on your headset. Look around your room and see how tracked objects receive a bounding box in accurate 3D space.
+- Below you can see all the labels that are provided:
 
 <table>
   <tr>
@@ -189,38 +188,46 @@ Running the Samples
   </tr>
 </table>
 
-- **QR Code Tracking**
-  - Open the `QRCodeTracking` scene to test real-time QR code detection and tracking.
-  - You will need to install [NuGet for Unity]()
-  - After install you will have a new Menu `NuGet`. Click on it and then on `Manage NuGet Packages`. Search for the [ZXing.Net package](https://github.com/micjahn/ZXing.Net/) from Michael Jahn and install it.
-  - Build the scene and run the APK on your headset. Look at a QR code to see the marker in 3D space and URL of the QR code.
+3. **[QR Code Tracking](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
+- Open the `QRCodeTracking` scene to test real-time QR code detection and tracking.
+- You will need to install [NuGet for Unity](https://github.com/GlitchEnzo/NuGetForUnity)
+- After installing NuGet for Unity you will have a new Menu `NuGet`. Click on it and then on `Manage NuGet Packages`. Search for the [ZXing.Net package](https://github.com/micjahn/ZXing.Net/) from Michael Jahn and install it.
+- Build the scene and run the APK on your headset. Look at a QR code to see the marker in 3D space and URL of the QR code.
+  
+**Troubleshooting**: If you ever get the error below, make sure in your `Player Settings` under `Scripting Define Symbols`.
+  ```
+  The type or namespace name 'ZXing' could not be found (are you missing a using directive or an assembly reference?)
+  ```
 
-- **Frosted Glass Shader**
-  - Open the `FrostedGlass` scene.
-  - Build the scene and run the APK on your headset.
-  - Look at the panel from different angles and observe how objects behind it are blurred.
+4. **[Frosted Glass Shader](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
+- Open the `FrostedGlass` scene.
+- Build the scene and run the APK on your headset.
+- Look at the panel from different angles and observe how objects behind it are blurred.
 
-- **OpenAI vision model & voice commands**
-   - Open the `OpenAIVision` scene.
-   - Build the scene and run the APK on your headset.
+**Troubleshooting**: If you cannot see the blur effect, make sure in your render asset, the `Opaque Texture` check-box is checked. 
+
+> [!WARNING]  
+> The Meta Project Setup Tool (PST) will show a warning and tell you to uncheck it, so do not fix this warning.
+
+5. **[OpenAI vision model & voice commands](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
+- Open the `OpenAIVision` scene.
+- Build the scene and run the APK on your headset.
 
 License
 =======
 
-This project is licensed under the MIT License. See the LICENSE file for details. Feel free to use the samples for your own projects, though I would appreciate if you would leave some credits in your work.
+This project is licensed under the MIT License. See the LICENSE file for details. Feel free to use the samples for your own projects, though I would appreciate if you would leave some credits to this repo in your work ❤️
 
 Contact
 =======
 
-For questions, suggestions, or feedback, please open an issue in the repository or contact me on [X](https://x.com/xrdevrob), [LinkedIn](https://www.linkedin.com/in/robertocoviello/), or at [roberto@blackwhale.dev](mailto:roberto@blackwhale.dev). Find all my for [here](https://bento.me/blackwhale) or join our growing XR developer community on [Discord](https://discord.gg/KkstGGwueN).
+For questions, suggestions, or feedback, please open an issue in the repository or contact me on [X](https://x.com/xrdevrob), [LinkedIn](https://www.linkedin.com/in/robertocoviello/), or at [roberto@blackwhale.dev](mailto:roberto@blackwhale.dev). Find all my info [here](https://bento.me/blackwhale) or join our growing XR developer community on [Discord](https://discord.gg/KkstGGwueN).
 
-Acknowledgements
+Acknowledgements & Credits
 ================
 
-- **[Meta](https://developers.meta.com/horizon/documentation/unity/unity-development-overview/):** For the Passthrough Camera API.
-- **[Unity Sentis](https://docs.unity3d.com/Packages/com.unity.sentis@2.1/manual/index.html):** For powering the image tracking samples.
-- **[OpenAI](https://platform.openai.com/docs/guides/vision):** For providing advanced vision capabilities.
-- Thanks to shader wizard [Daniel Ilett](https://www.youtube.com/@danielilett) for helping me set up the `FrostedGlass` scene.
+- **[Meta](https://developers.meta.com/horizon/documentation/unity/unity-development-overview/):** For the Passthrough Camera API and [**Passthrough Camera API Samples**](https://github.com/oculus-samples/Unity-PassthroughCameraApiSamples/).
+- Thanks to shader wizard [Daniel Ilett](https://www.youtube.com/@danielilett) for helping me set up the `FrostedGlass` sample.
 - Thanks to **[Michael Jahn](https://github.com/micjahn/ZXing.Net/)** for the XZing.Net library used for the QR code tracking samples.
 - Thanks to **[Julian Triveri](https://github.com/trev3d/QuestDisplayAccessDemo)** for constantly pushing the boundaries with what is possible with Meta Quest hardware.
 
