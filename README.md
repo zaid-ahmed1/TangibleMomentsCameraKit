@@ -16,26 +16,28 @@ Overview
 2. 🍎 Object Detection with Unity Sentis
    --------------------------------
    - **Purpose:** Use the Unity Sentis framework to infer different ML models to detect and track objects.
-   - **Description:** Learn how to convert detected image coordinates (e.g. bounding boxes) back into 3D points for dynamic interaction within your scenes. In this sample you will also see how to filter labels. This means e.g. you can only detect humans and pets, to create a more safe play-area for your VR game. The sample video below is filtered to monitor, person and laptop. The sample is running at around 60 fps.
+   - **Description:** Learn how to convert detected image coordinates (e.g. bounding boxes) back into 3D points for dynamic interaction within your scenes. In this sample you will also see how to filter labels. This means e.g. you can only detect humans and pets, to create a more safe play-area for your VR game. The sample video below is filtered to monitor, person and laptop. The sample is running at around `60 fps`.
 
 3. 📱 QR Code Tracking with ZXing
    --------------------------------
    - **Purpose:** Detect and track QR codes in real time. Open webviews or log-in to 3rd party services with ease.
-   - **Description:** Similarly to the object detection sample, get QR code coordinated and projects them into 3D space. Detect QR codes and call their URLs. You can select between a multiple or single QR code mode. The sample is running at around 70 fps for multiple QR codes and a stable 72 fps for a single code.
+   - **Description:** Similarly to the object detection sample, get QR code coordinated and projects them into 3D space. Detect QR codes and call their URLs. You can select between a multiple or single QR code mode. The sample is running at around `70 fps` for multiple QR codes and a stable `72 fps` for a single code.
 
 | Object Detection with Unity Sentis          | QR Code Tracking with Zxing           |
 |---------------------------------------------|---------------------------------------|
 | ![OBJD](Media/ObjectDetection.gif)          | ![QRCT](Media/QRCodeTracking.gif)     |
 
-4. 🪟 Frosted Glass Shader (WIP)
+4. 🪟 Frosted Glass Shader
    --------------------------------
    - **Purpose:** Apply a custom frosted glass shader effect to virtual surfaces.
-   - **Description:** A shader which takes our camera feed as input to blur the content behind it. I know you want the Apple Vision Pro forsted glass 👀
+   - **Description:** A shader which takes our camera feed as input to blur the content behind it. I know you want the [Apple Vision Pro forsted glass](https://developer.apple.com/documentation/visionos/) 👀
+   - **`Todo`**: We have a shader that correctly maps the camera texture onto a quad, and we have a vertical blur and a horizontal blur shader. Ideally we would combine all of these into one shader effect to be able to easily apply it to meshes or UI elements.
 
-5. 🧠 OpenAI vision model & voice commands (WIP)
+5. 🧠 OpenAI vision model
    --------------------------------
    - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
-   - **Description:** In this sample we implement a simple connection to OpenAI's vision model. Additionally it is connected to Meta's Voice SDK for easy voice commands. The goal is to send an image to an LLM, using a simple wake workd and voice command, to quickly and seamleslly get an answer.
+   - **Description:** In this sample we implement a simple connection to OpenAI's vision model. Additionally it is connected to Meta's Voice SDK for easy voice commands. It is inspired by the [AndroidXR developer demo](https://x.com/MKBHD/status/1884023199622672452).
+   - **`Todo`**: Sample is not fully implemented yet. There is a lot of cleaining up to do.
 
 Getting Started with PCA
 ===============
@@ -46,7 +48,7 @@ Getting Started with PCA
 | **Unity WebcamTexture**| - Access through Unity’s WebcamTexture<br>- Only one camera at a time (left or right), a Unity limitation                                                                                               |
 | **Android Camera2 API**| - Unobstructed forward-facing RGB cameras<br>- Provides camera intrinsics (camera ID, height, width, lens translation & rotation)<br>- Android Manifest: `horizonos.permission.HEADSET_CAMERA`          |
 | **Public Experimental**| Apps using PCA are not allowed to be submitted to the Meta Horizon Store yet.                                                                                                                           |
-| **Specifications**     | - Frame Rate: 30fps<br>- Image latency: 40-60ms<br>- Available resolutions per eye: 320x240, 640x480, 800x600, 1280x960px                                                                               |
+| **Specifications**     | - Frame Rate: 30fps<br>- Image latency: 40-60ms<br>- Available resolutions per eye: `320x240`, `640x480`, `800x600`, `1280x960`                                                                         |
 
 Prerequisites
 --------------
@@ -230,7 +232,7 @@ Acknowledgements & Credits
 - **[Meta](https://developers.meta.com/horizon/documentation/unity/unity-development-overview/):** For the Passthrough Camera API and [**Passthrough Camera API Samples**](https://github.com/oculus-samples/Unity-PassthroughCameraApiSamples/).
 - Thanks to shader wizard [Daniel Ilett](https://www.youtube.com/@danielilett) for helping me set up the `FrostedGlass` sample.
 - Thanks to **[Michael Jahn](https://github.com/micjahn/ZXing.Net/)** for the XZing.Net library used for the QR code tracking samples.
-- Thanks to **[Julian Triveri](https://github.com/trev3d/QuestDisplayAccessDemo)** for constantly pushing the boundaries with what is possible with Meta Quest hardware.
+- Thanks to **[Julian Triveri](https://github.com/trev3d/QuestDisplayAccessDemo)** for constantly pushing the boundaries with what is possible with Meta Quest hardware and software.
 
 --------------------------------------------------------------------------------
 Happy coding and enjoy exploring the possibilities with QuestCameraKit!
