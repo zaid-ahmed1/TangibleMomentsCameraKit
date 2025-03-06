@@ -24,9 +24,8 @@ MonoBehaviour:
     probeSamplingDebugMesh: {fileID: 0}
     probeSamplingDebugTexture: {fileID: 0}
     probeVolumeBlendStatesCS: {fileID: 0}
-  m_RendererFeatures:
-  - {fileID: 574593363905720659}
-  m_RendererFeatureMap: 53b1e5c19e5df907
+  m_RendererFeatures: []
+  m_RendererFeatureMap: 
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 0}
@@ -67,5 +66,9 @@ MonoBehaviour:
   m_Active: 1
   kernelSize: 200
   kernelStep: 4
-  tintColor: {r: 1, g: 1, b: 1, a: 1}
+  tintColor:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
   blurMaterial: {fileID: 2100000, guid: 929305d27d1324726bbafe2845d85cb8, type: 2}
