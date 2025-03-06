@@ -17,7 +17,6 @@ public static class ZXingDefineSymbolChecker
     public static void UpdateZXingDefine()
     {
         var hasZXing = HasZXingDLL();
-        Debug.Log("[ZXingDefineSymbolChecker] ZXing DLL present: " + hasZXing);
 
         var targets = new[]
         {

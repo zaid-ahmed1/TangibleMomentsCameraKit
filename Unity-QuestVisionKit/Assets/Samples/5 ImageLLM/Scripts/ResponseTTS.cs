@@ -1,96 +1,8 @@
 using System.Collections;
-using System.Text;
 using System.Linq;
-using TMPro;
+using System.Text;
 using UnityEngine;
 using Meta.WitAi.TTS.Utilities;
-
-public class ResponseTTS : MonoBehaviour
-{
-    [Header("TTS Components")]
-    [Tooltip("TTS speaker component responsible for accessing voice settings.")]
-    [SerializeField] private TTSSpeaker ttsSpeaker;
-
-    [Tooltip("Text component that displays the response text.")]
-    [SerializeField] private TextMeshProUGUI responseText;
-
-    [Header("TTS Voice Settings")]
-    [Tooltip("TTS Character.")]
-    [SerializeField] private CharacterEffect selectedCharacter = CharacterEffect.Robot;
-
-    [Tooltip("TTS Environment.")]
-    [SerializeField] private EnvironmentEffect selectedEnvironment = EnvironmentEffect.Phone;
-
-    [Tooltip("TTS Voice.")]
-    [SerializeField] private VoiceSettings selectedVoice = VoiceSettings.Charlie;
-
-    private void OnValidate() => ApplySelectedVoice();
-
-    private void ApplySelectedVoice()
-    {
-        if (ttsSpeaker && ttsSpeaker.TTSService)
-        {
-            var selectedVoiceId = selectedVoice.ToVoiceId();
-            var voiceSettings = ttsSpeaker.TTSService.GetAllPresetVoiceSettings();
-            var selectedVoiceSetting = voiceSettings.FirstOrDefault(vs => vs.SettingsId == selectedVoiceId);
-
-            if (selectedVoiceSetting != null)
-            {
-                ttsSpeaker.VoiceID = selectedVoiceSetting.SettingsId;
-            }
-            else
-            {
-                Debug.LogWarning($"Selected voice {selectedVoice} not found in TTS Service.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("TTS Service not found or TTSSpeaker is not assigned.");
-        }
-    }
-
-    /// <summary>
-    /// Initiates speaking the provided text, applying character/environment effects if configured.
-    /// </summary>
-    /// <param name="textToSpeak">The response text to speak.</param>
-    public void Speak(string textToSpeak)
-    {
-        responseText.text = textToSpeak;
-        StartCoroutine(SpeakAsync(textToSpeak));
-    }
-
-    private IEnumerator SpeakAsync(string text)
-    {
-        var ssmlText = ApplyCharacterAndEnvironmentEffect(text, selectedCharacter, selectedEnvironment);
-        yield return ttsSpeaker.SpeakAsync(ssmlText);
-    }
-
-    private static string ApplyCharacterAndEnvironmentEffect(string text, CharacterEffect character, EnvironmentEffect environment)
-    {
-        if (character == CharacterEffect.None && environment == EnvironmentEffect.None)
-        {
-            return text;
-        }
-
-        var sb = new StringBuilder();
-        sb.Append("<speak><sfx");
-
-        if (character != CharacterEffect.None)
-        {
-            sb.AppendFormat(" character=\"{0}\"", character.ToString().ToLower());
-        }
-
-        if (environment != EnvironmentEffect.None)
-        {
-            sb.AppendFormat(" environment=\"{0}\"", environment.ToString().ToLower());
-        }
-
-        sb.Append(">");
-        sb.Append(text);
-        sb.Append("</sfx></speak>");
-        return sb.ToString();
-    }
-}
 
 public enum CharacterEffect
 {
@@ -186,5 +98,75 @@ public static class VoiceSettingsExtensions
             VoiceSettings.Wizard          => "WIT$WIZARD",
             _ => string.Empty
         };
+    }
+}
+
+public class ResponseTTS : MonoBehaviour
+{
+    [Header("TTS Components")]
+    [SerializeField] private TTSSpeaker ttsSpeaker;
+
+    [Header("TTS Voice Settings")]
+    [SerializeField] private CharacterEffect selectedCharacter = CharacterEffect.Robot;
+    [SerializeField] private EnvironmentEffect selectedEnvironment = EnvironmentEffect.Phone;
+    [SerializeField] private VoiceSettings selectedVoice = VoiceSettings.Charlie;
+
+    private void OnValidate() => ApplySelectedVoice();
+
+    private void ApplySelectedVoice()
+    {
+        if (ttsSpeaker && ttsSpeaker.TTSService != null)
+        {
+            var selectedVoiceId = selectedVoice.ToVoiceId();
+            var voiceSettings = ttsSpeaker.TTSService.GetAllPresetVoiceSettings();
+            var selectedVoiceSetting = voiceSettings.FirstOrDefault(vs => vs.SettingsId == selectedVoiceId);
+            if (selectedVoiceSetting != null)
+            {
+                ttsSpeaker.VoiceID = selectedVoiceSetting.SettingsId;
+            }
+            else
+                Debug.LogWarning($"Selected voice {selectedVoice} not found in TTS Service.");
+        }
+        else
+        {
+            Debug.LogWarning("TTS Service not found or TTSSpeaker not assigned.");
+        }
+    }
+
+    /// <summary>
+    /// Displays the response text and initiates speaking.
+    /// </summary>
+    public void Speak(string textToSpeak)
+    {
+        StartCoroutine(SpeakAsync(textToSpeak));
+    }
+
+    private IEnumerator SpeakAsync(string text)
+    {
+        var ssmlText = ApplyEffects(text, selectedCharacter, selectedEnvironment);
+        yield return ttsSpeaker.SpeakAsync(ssmlText);
+    }
+
+    private static string ApplyEffects(string text, CharacterEffect character, EnvironmentEffect environment)
+    {
+        if (character == CharacterEffect.None && environment == EnvironmentEffect.None)
+            return text;
+
+        var sb = new StringBuilder();
+        sb.Append("<speak><sfx");
+        if (character != CharacterEffect.None)
+        {
+            sb.AppendFormat(" character=\"{0}\"", character.ToString().ToLower());
+        }
+
+        if (environment != EnvironmentEffect.None)
+        {
+            sb.AppendFormat(" environment=\"{0}\"", environment.ToString().ToLower());
+        }
+        
+        sb.Append(">");
+        sb.Append(text);
+        sb.Append("</sfx></speak>");
+        return sb.ToString();
     }
 }
