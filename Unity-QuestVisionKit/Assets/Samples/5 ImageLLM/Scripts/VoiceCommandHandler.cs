@@ -1,18 +1,11 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using TMPro;
-using Meta.WitAi.Dictation.Data;
-using Oculus.Voice.Dictation;
 using PassthroughCameraSamples;
 
 public class VoiceCommandHandler : MonoBehaviour
 {
-    [Header("Voice Components")]
-    [SerializeField] private AppDictationExperience appDictationExperience;
-    [SerializeField] private TextMeshProUGUI inputTranscriptText;
-
     [Header("Webcam Manager")]
     [SerializeField] private WebCamTextureManager webcamManager;
 
@@ -23,57 +16,37 @@ public class VoiceCommandHandler : MonoBehaviour
     [Tooltip("Assign a dummy image for testing in the editor or if no webcam is available.")]
     [SerializeField] private Texture2D dummyImage;
 
-    [Header("Events (Optional)")]
-    public UnityEvent<string> onTranscriptionComplete;
+    private STTActivation _sttActivation;
 
-    private void Awake()
+    private void Start()
     {
-        if (appDictationExperience == null)
+        _sttActivation = FindFirstObjectByType<STTActivation>();
+        if (_sttActivation == null)
         {
-            Debug.LogError("AppDictationExperience is not assigned in VoiceCommandHandler.");
+            Debug.LogError("STTActivation not found in the scene.");
             return;
         }
-        
-        appDictationExperience.DictationEvents.OnDictationSessionStarted.AddListener(OnDictationStarted);
-        appDictationExperience.DictationEvents.OnPartialTranscription.AddListener(OnPartialTranscription);
-        appDictationExperience.DictationEvents.OnFullTranscription.AddListener(OnFullTranscription);
+
+        _sttActivation.onTranscriptionComplete.AddListener(OnTranscriptionReceived);
     }
 
     private void OnDestroy()
     {
-        if (appDictationExperience == null)
+        if (_sttActivation != null)
         {
-            return;
-        }
-        
-        appDictationExperience.DictationEvents.OnDictationSessionStarted.RemoveListener(OnDictationStarted);
-        appDictationExperience.DictationEvents.OnPartialTranscription.RemoveListener(OnPartialTranscription);
-        appDictationExperience.DictationEvents.OnFullTranscription.RemoveListener(OnFullTranscription);
-    }
-
-    private void OnDictationStarted(DictationSession arg0)
-    {
-        Debug.Log("Dictation session started.");
-    }
-
-    private void OnPartialTranscription(string transcription)
-    {
-        if (inputTranscriptText != null)
-        {
-            inputTranscriptText.text = transcription;
+            _sttActivation.onTranscriptionComplete.RemoveListener(OnTranscriptionReceived);
         }
     }
 
-    private void OnFullTranscription(string transcription)
+    private void OnTranscriptionReceived(string transcription)
     {
-        onTranscriptionComplete?.Invoke(transcription);
         StartCoroutine(CaptureAndSendImage(transcription));
     }
 
     public IEnumerator CaptureAndSendImage(string transcription)
     {
         Texture2D capturedTexture;
-        
+
         if (Application.isEditor || !webcamManager || !webcamManager.WebCamTexture || !webcamManager.WebCamTexture.isPlaying)
         {
             if (dummyImage)
@@ -92,6 +65,7 @@ public class VoiceCommandHandler : MonoBehaviour
         else
         {
             yield return new WaitForEndOfFrame();
+            // Todo: delay to avoid showing hands on screenshots
             var webCamTex = webcamManager.WebCamTexture;
             capturedTexture = new Texture2D(webCamTex.width, webCamTex.height, TextureFormat.RGBA32, false);
             capturedTexture.SetPixels(webCamTex.GetPixels());

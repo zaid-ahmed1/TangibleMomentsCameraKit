@@ -7,12 +7,46 @@ using UnityEngine.Networking;
 using UnityEngine.Events;
 using OVRSimpleJSON;
 
+#region Enums and Extensions
+
+public enum TTSModel 
+{
+    Tts1,
+    Tts1Hd,
+}
+public static class TtsModelExtensions
+{
+    public static string EnumToString(this TTSModel model)
+    {
+        switch(model)
+        {
+            case TTSModel.Tts1:
+                return "tts-1";
+            case TTSModel.Tts1Hd:
+                return "tts-1-hd";
+            default: 
+                Debug.Log(model + " is not a valid TTSModel.");
+                return "tts-1";
+        }
+    }
+}
+
+public enum TtsVoice
+{
+    Alloy,
+    Echo,
+    Fable,
+    Onyx,
+    Nova,
+    Shimmer
+}
+
 public enum OpenAIVisionModel
 {
     O1,
-    GPT4O,
-    GPT4OMini,
-    GPT4Turbo
+    Gpt4O,
+    Gpt4OMini,
+    Gpt4Turbo
 }
 
 public static class OpenAIVisionModelExtensions
@@ -22,17 +56,14 @@ public static class OpenAIVisionModelExtensions
         return model switch
         {
             OpenAIVisionModel.O1         => "o1",
-            OpenAIVisionModel.GPT4O       => "gpt-4o",
-            OpenAIVisionModel.GPT4OMini   => "gpt-4o-mini",
-            OpenAIVisionModel.GPT4Turbo   => "gpt-4-turbo",
+            OpenAIVisionModel.Gpt4O       => "gpt-4o",
+            OpenAIVisionModel.Gpt4OMini   => "gpt-4o-mini",
+            OpenAIVisionModel.Gpt4Turbo   => "gpt-4-turbo",
             _                           => "gpt-4o"
         };
     }
 }
 
-/// <summary>
-/// Selects which types of data will be sent to the API.
-/// </summary>
 public enum OpenAICommandMode
 {
     ImageAndText,
@@ -40,30 +71,106 @@ public enum OpenAICommandMode
     TextOnly
 }
 
+#endregion
+
 public class ImageOpenAIConnector : MonoBehaviour
 {
     [Header("API & Model Settings")]
-    [SerializeField] private string apiKey = "YOUR_API_KEY";
-    [SerializeField] private OpenAIVisionModel selectedModel = OpenAIVisionModel.GPT4O;
-
-    [Header("Command Settings")]
-    [SerializeField] private OpenAICommandMode commandMode = OpenAICommandMode.ImageAndText;
+    [SerializeField, Tooltip("Your OpenAI API key.")] 
+    private string apiKey = "YOUR_API_KEY";
+    [SerializeField] private OpenAIVisionModel selectedModel = OpenAIVisionModel.Gpt4O;
     
-    public OpenAICommandMode CommandMode => commandMode;
-    [SerializeField] private string instructions = ""; 
-
+    [Header("Command Settings")]
+    public OpenAICommandMode commandMode = OpenAICommandMode.ImageAndText;
+    [SerializeField] private string instructions = "";
+    
     [Header("Response Components")]
-    [SerializeField] private ResponseTTS voiceAssistant;
+    [SerializeField] private TTSManager ttsManager;
 
     [Header("Events (Optional)")]
     public UnityEvent onRequestSent;
     public UnityEvent<string> onResponseReceived;
 
+    private const string OutputFormat = "mp3";
+
+    [Serializable]
+    private class TtsPayload
+    {
+        public string model;
+        public string input;
+        public string voice;
+        public string responseFormat;
+        public float speed;
+    }
+
+    #region Text-To-Speech Functionality
+
     /// <summary>
-    /// Sends the captured image (if needed) and transcription command to OpenAI.
+    /// Requests text-to-speech audio from OpenAI.
     /// </summary>
-    /// <param name="image">The captured image. In TextOnly mode this is ignored.</param>
-    /// <param name="command">The main command text (e.g. transcription).</param>
+    /// <param name="text">Text to be synthesized.</param>
+    /// <param name="onSuccess">Callback with the resulting audio data.</param>
+    /// <param name="onError">Callback with error message.</param>
+    /// <param name="model">TTS model to use.</param>
+    /// <param name="voice">Voice to use.</param>
+    /// <param name="speed">Speed factor for the speech.</param>
+    public IEnumerator RequestTextToSpeech(string text, Action<byte[]> onSuccess, Action<string> onError, 
+                                             TTSModel model = TTSModel.Tts1, TtsVoice voice = TtsVoice.Alloy, float speed = 1f)
+    {
+        Debug.Log("Sending new request to OpenAI TTS.");
+        
+        var payload = new TtsPayload
+        {
+            model = model.EnumToString(),
+            input = text,
+            voice = voice.ToString().ToLower(),
+            responseFormat = OutputFormat,
+            speed = speed
+        };
+
+        var jsonPayload = JsonUtility.ToJson(payload);
+
+        using var request = new UnityWebRequest("https://api.openai.com/v1/audio/speech", "POST");
+        var bodyRaw = Encoding.UTF8.GetBytes(jsonPayload);
+        
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Authorization", "Bearer " + apiKey);
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.ConnectionError ||
+            request.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError("TTS Request Error: " + request.error);
+            onError?.Invoke(request.error);
+        }
+        else
+        {
+            var audioData = request.downloadHandler.data;
+            onSuccess?.Invoke(audioData);
+        }
+    }
+
+    /// <summary>
+    /// Sets the API key used for both TTS and image/chat requests.
+    /// </summary>
+    /// <param name="newAPIKey">The new API key.</param>
+    public void SetAPIKey(string newAPIKey)
+    {
+        apiKey = newAPIKey;
+    }
+
+    #endregion
+
+    #region Image and Chat Functionality
+
+    /// <summary>
+    /// Sends an image (and optionally text) to OpenAI.
+    /// </summary>
+    /// <param name="image">The image to send.</param>
+    /// <param name="command">The command text.</param>
     public void SendImage(Texture2D image, string command)
     {
         StartCoroutine(SendImageRequest(image, command));
@@ -109,16 +216,17 @@ public class ImageOpenAIConnector : MonoBehaviour
         }
 
         var contentJson = string.Join(",", contentElements);
-        var payloadJson = $"{{" +
+        var payloadJson = "{" +
                           $"\"model\":\"{selectedModel.ToModelString()}\"," +
-                          $"\"messages\":[{{" +
+                          "\"messages\":[{" +
                           $"\"role\":\"user\",\"content\":[{contentJson}]" +
-                          $"}}]," +
-                          $"\"max_tokens\":300" +
-                          $"}}";
+                          "}]," +
+                          "\"max_tokens\":300" +
+                          "}";
 
         using var request = new UnityWebRequest("https://api.openai.com/v1/chat/completions", "POST");
         var bodyRaw = Encoding.UTF8.GetBytes(payloadJson);
+        
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
@@ -138,13 +246,18 @@ public class ImageOpenAIConnector : MonoBehaviour
             var responseContent = jsonResponse["choices"][0]["message"]["content"].Value;
             onResponseReceived?.Invoke(responseContent);
 
-            if (voiceAssistant)
+            if (ttsManager)
             {
-                voiceAssistant.Speak(responseContent);
+                ttsManager.SynthesizeAndPlay(responseContent);
             }
+                
             Debug.Log(responseContent);
         }
     }
+
+    #endregion
+
+    #region Utility Methods
 
     /// <summary>
     /// Resizes or converts the given texture to a 512x512 uncompressed RGBA32 texture.
@@ -173,4 +286,6 @@ public class ImageOpenAIConnector : MonoBehaviour
     {
         return input.Replace("\"", "\\\"");
     }
+
+    #endregion
 }

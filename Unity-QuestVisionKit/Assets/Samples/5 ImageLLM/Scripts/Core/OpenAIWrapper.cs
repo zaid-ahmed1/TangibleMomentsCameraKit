@@ -19,7 +19,7 @@ public class OpenAIWrapper : MonoBehaviour
         public float speed;
     }
 
-    public async Task<byte[]> RequestTextToSpeech(string text, TTSModel model = TTSModel.TTS_1, TTSVoice voice = TTSVoice.Alloy, float speed = 1f)
+    public async Task<byte[]> RequestTextToSpeech(string text, TTSModel model = TTSModel.Tts1, TtsVoice voice = TtsVoice.Alloy, float speed = 1f)
     {
         Debug.Log("Sending new request to OpenAI TTS.");
         using var httpClient = new HttpClient();

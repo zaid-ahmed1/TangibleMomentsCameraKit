@@ -17,7 +17,7 @@ public class UIExample : MonoBehaviour
     {
         if (ttsManager)
         {
-            ttsManager.SynthesizeAndPlay(input.text, (TTSModel) modelDropdown.value, (TTSVoice) voiceDropdown.value, speedSlider.value);
+            ttsManager.SynthesizeAndPlay(input.text, (TTSModel) modelDropdown.value, (TtsVoice) voiceDropdown.value, speedSlider.value);
             talkingEffect ??= StartCoroutine(TalkingEffect());
         }
     }
