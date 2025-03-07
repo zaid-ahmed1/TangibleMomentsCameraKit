@@ -36,8 +36,8 @@ Overview
 5. 🧠 OpenAI vision model
    --------------------------------
    - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
-   - **Description:** In this sample we implement a simple connection to OpenAI's vision model. Additionally it is connected to Meta's Voice SDK for easy voice commands. It is inspired by the [AndroidXR developer demo](https://x.com/MKBHD/status/1884023199622672452).
-   - **`Todo`**: Sample is not fully implemented yet. There is a lot of cleaining up to do.
+   - **Description:** In this sample we implement a simple connection to OpenAI's vision model. Additionally it is connected to OpenAI's whisper model for easy STT on device. The OpenAI whusper API is then used to turn the response text into speech. It is inspired by the [AndroidXR developer demo](https://x.com/MKBHD/status/1884023199622672452).
+   - **`Todo`**: The project works with Whisper, but is extremely slow on the headset. While it takes around 1-2 seconds on a Windows and Mac machine for the full loop, the headset can take up to 15 seconds to get a response. Currently investigating this issue.
 
 Getting Started with PCA
 ===============
@@ -214,7 +214,11 @@ Running the Samples
 
 5. **[OpenAI vision model & voice commands](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
 - Open the `ImageLLM` scene.
+- Make sure you have a `ggml-tiny.bin` file in your project under `Assets/StreamingAssets/Whisper`. If not, I have saved one under `Assets\Samples\5 ImageLLM\Model`, just move it manually to the `StreamingAssets`.
+- Make sure the `TTS Manager` in your project has the correct path to your ggml-tiny.bin file's location, so `Whisper/ggml-tiny.bin` as the path until `StreamingAssets` is already assumed by the script.
 - Build the scene and run the APK on your headset.
+
+**Troubleshooting**: When testing the scene on your Windows machine, the project may automatically remove the Windows dll files for Whisper. It will throw an error in the console. To fix this [download the dlls](https://github.com/Macoron/whisper.unity/tree/master/Packages/com.whisper.unity/Plugins/Windows) and place them under `Packages/com.whisper.unity/Plugins/Windows`.
 
 License
 =======
@@ -229,10 +233,12 @@ For questions, suggestions, or feedback, please open an issue in the repository 
 Acknowledgements & Credits
 ================
 
-- **[Meta](https://developers.meta.com/horizon/documentation/unity/unity-development-overview/):** For the Passthrough Camera API and [**Passthrough Camera API Samples**](https://github.com/oculus-samples/Unity-PassthroughCameraApiSamples/).
+- **Meta** For the Passthrough Camera API and [**Passthrough Camera API Samples**](https://github.com/oculus-samples/Unity-PassthroughCameraApiSamples/).
 - Thanks to shader wizard [Daniel Ilett](https://www.youtube.com/@danielilett) for helping me set up the `FrostedGlass` sample.
 - Thanks to **[Michael Jahn](https://github.com/micjahn/ZXing.Net/)** for the XZing.Net library used for the QR code tracking samples.
 - Thanks to **[Julian Triveri](https://github.com/trev3d/QuestDisplayAccessDemo)** for constantly pushing the boundaries with what is possible with Meta Quest hardware and software.
+- Thanks to **[Aleksandr Evgrashin](https://github.com/Macoron)** for providing the STT capabilities with the `whisper.unity` package.
+- Thanks to **[Martin Pluisch](https://github.com/mapluisch)** for providing the TTS capabilities with the `OpenAI-Text-To-Speech-for-Unity` package.
 
 --------------------------------------------------------------------------------
 Happy coding and enjoy exploring the possibilities with QuestCameraKit!
