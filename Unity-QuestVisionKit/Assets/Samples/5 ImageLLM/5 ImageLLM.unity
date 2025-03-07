@@ -3854,7 +3854,7 @@ MonoBehaviour:
   apiKey: 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
   selectedModel: 1
   commandMode: 0
-  instructions: 
+  instructions: If you see a hand or arm on the image, ignore it please.
   ttsManager: {fileID: 710117856915307813}
   onRequestSent:
     m_PersistentCalls:
