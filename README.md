@@ -36,7 +36,7 @@ Overview
 5. 🧠 OpenAI vision model
    --------------------------------
 - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
-- **Description:** In this sample we implement a simple connection to OpenAI's vision API. Additionally we use a small on-device Whisper model to turn our speech into text. We then use the OpenAI Whisper API to turn the response text into speech. It is inspired by the.
+- **Description:** In this sample we implement a simple connection to OpenAI's vision API. Additionally we use a small on-device Whisper model to turn our speech into text. We then use the OpenAI Whisper API to turn the response text into speech.
 - **`Todo`**: The project works with Whisper, but is extremely slow on the headset. While it takes around 1-2 seconds on a Windows and Mac machine for the full loop, the headset can take up to 15 seconds to get a response. Currently investigating this issue.
 
 Getting Started with PCA
