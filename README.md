@@ -5,8 +5,8 @@ Overview
 
 1. 🎨 Color Picker
    --------------------------------
-   - **Purpose:** Convert a 3D point in space to its corresponding 2D image pixel.
-   - **Description:** This sample shows the mapping between 3D space and 2D image coordinates using the Passthrough Camera API. We use MRUK's EnvironmentRaycastManager to determine a 3D point in our environment and map it to the location on our WebcamTexture. We then extract the pixel on that point, to determine the color of a real world object.
+- **Purpose:** Convert a 3D point in space to its corresponding 2D image pixel.
+- **Description:** This sample shows the mapping between 3D space and 2D image coordinates using the Passthrough Camera API. We use MRUK's EnvironmentRaycastManager to determine a 3D point in our environment and map it to the location on our WebcamTexture. We then extract the pixel on that point, to determine the color of a real world object.
 
 | Color Picker (Environment Mode)             | Color Picker (Manual Mode)           |
 |---------------------------------------------|--------------------------------------|
@@ -15,13 +15,13 @@ Overview
 
 2. 🍎 Object Detection with Unity Sentis
    --------------------------------
-   - **Purpose:** Use the Unity Sentis framework to infer different ML models to detect and track objects.
-   - **Description:** Learn how to convert detected image coordinates (e.g. bounding boxes) back into 3D points for dynamic interaction within your scenes. In this sample you will also see how to filter labels. This means e.g. you can only detect humans and pets, to create a more safe play-area for your VR game. The sample video below is filtered to monitor, person and laptop. The sample is running at around `60 fps`.
+- **Purpose:** Use the Unity Sentis framework to infer different ML models to detect and track objects.
+- **Description:** Learn how to convert detected image coordinates (e.g. bounding boxes) back into 3D points for dynamic interaction within your scenes. In this sample you will also see how to filter labels. This means e.g. you can only detect humans and pets, to create a more safe play-area for your VR game. The sample video below is filtered to monitor, person and laptop. The sample is running at around `60 fps`.
 
 3. 📱 QR Code Tracking with ZXing
    --------------------------------
-   - **Purpose:** Detect and track QR codes in real time. Open webviews or log-in to 3rd party services with ease.
-   - **Description:** Similarly to the object detection sample, get QR code coordinated and projects them into 3D space. Detect QR codes and call their URLs. You can select between a multiple or single QR code mode. The sample is running at around `70 fps` for multiple QR codes and a stable `72 fps` for a single code.
+- **Purpose:** Detect and track QR codes in real time. Open webviews or log-in to 3rd party services with ease.
+- **Description:** Similarly to the object detection sample, get QR code coordinated and projects them into 3D space. Detect QR codes and call their URLs. You can select between a multiple or single QR code mode. The sample is running at around `70 fps` for multiple QR codes and a stable `72 fps` for a single code.
 
 | Object Detection with Unity Sentis          | QR Code Tracking with Zxing           |
 |---------------------------------------------|---------------------------------------|
@@ -29,31 +29,31 @@ Overview
 
 4. 🪟 Frosted Glass Shader
    --------------------------------
-   - **Purpose:** Apply a custom frosted glass shader effect to virtual surfaces.
-   - **Description:** A shader which takes our camera feed as input to blur the content behind it. I know you want the [Apple Vision Pro forsted glass](https://developer.apple.com/documentation/visionos/) 👀
-   - **`Todo`**: We have a shader that correctly maps the camera texture onto a quad, and we have a vertical blur and a horizontal blur shader. Ideally we would combine all of these into one shader effect to be able to easily apply it to meshes or UI elements.
+- **Purpose:** Apply a custom frosted glass shader effect to virtual surfaces.
+- **Description:** A shader which takes our camera feed as input to blur the content behind it. I know you want the [Apple Vision Pro forsted glass](https://developer.apple.com/documentation/visionos/) 👀
+- **`Todo`**: We have a shader that correctly maps the camera texture onto a quad, and we have a vertical blur and a horizontal blur shader. Ideally we would combine all of these into one shader effect to be able to easily apply it to meshes or UI elements.
 
 5. 🧠 OpenAI vision model
    --------------------------------
-   - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
-   - **Description:** In this sample we implement a simple connection to OpenAI's vision model. Additionally it is connected to OpenAI's whisper model for easy STT on device. The OpenAI whusper API is then used to turn the response text into speech. It is inspired by the [AndroidXR developer demo](https://x.com/MKBHD/status/1884023199622672452).
-   - **`Todo`**: The project works with Whisper, but is extremely slow on the headset. While it takes around 1-2 seconds on a Windows and Mac machine for the full loop, the headset can take up to 15 seconds to get a response. Currently investigating this issue.
+- **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
+- **Description:** In this sample we implement a simple connection to OpenAI's vision API. Additionally we use a small on-device Whisper model to turn our speech into text. We then use the OpenAI Whisper API to turn the response text into speech. It is inspired by the.
+- **`Todo`**: The project works with Whisper, but is extremely slow on the headset. While it takes around 1-2 seconds on a Windows and Mac machine for the full loop, the headset can take up to 15 seconds to get a response. Currently investigating this issue.
 
 Getting Started with PCA
 ===============
 
 | **Information**        | **Details**                                                                                                                                                                                             |
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Device Requirements**| - Only for Meta Quest 3 and 3s<br>- HorizonOS v74 or later                                                                                                                                              |
+| **Device Requirements**| - Only for Meta `Quest 3` and `3s`<br>- `HorizonOS v74` or later                                                                                                                                              |
 | **Unity WebcamTexture**| - Access through Unity’s WebcamTexture<br>- Only one camera at a time (left or right), a Unity limitation                                                                                               |
-| **Android Camera2 API**| - Unobstructed forward-facing RGB cameras<br>- Provides camera intrinsics (camera ID, height, width, lens translation & rotation)<br>- Android Manifest: `horizonos.permission.HEADSET_CAMERA`          |
+| **Android Camera2 API**| - Unobstructed forward-facing RGB cameras<br>- Provides camera intrinsics (`camera ID`, `height`, `width`, `lens translation & rotation`)<br>- Android Manifest: `horizonos.permission.HEADSET_CAMERA`          |
 | **Public Experimental**| Apps using PCA are not allowed to be submitted to the Meta Horizon Store yet.                                                                                                                           |
-| **Specifications**     | - Frame Rate: 30fps<br>- Image latency: 40-60ms<br>- Available resolutions per eye: `320x240`, `640x480`, `800x600`, `1280x960`                                                                         |
+| **Specifications**     | - Frame Rate: `30fps`<br>- Image latency: `40-60ms`<br>- Available resolutions per eye: `320x240`, `640x480`, `800x600`, `1280x960`                                                                         |
 
 Prerequisites
 --------------
-- **Meta Quest Device:** Ensure you are runnning on a Quest 3 or Quest 3s and your device is updated to HorizonOS v74 or later.
-- **Unity:** Recommended version 6 (unity 6000.0.39f1). Also runs on Unity 2022 LTS.
+- **Meta Quest Device:** Ensure you are runnning on a `Quest 3` or `Quest 3s` and your device is updated to `HorizonOS v74` or later.
+- **Unity:** Recommended is `Unity 6`. Also runs on Unity `2022.3. LTS`.
 - **Camera Passthrough API does not work in the Editor or XR Simulator.**
 - Get more information from the [Meta Quest Developer Documentation](https://developers.meta.com/horizon/documentation/unity/unity-pca-documentation)
 
