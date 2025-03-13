@@ -15,8 +15,8 @@ Overview
 
 2. 🍎 Object Detection with Unity Sentis
    --------------------------------
-- **Purpose:** Use the Unity Sentis framework to infer different ML models to detect and track objects.
-- **Description:** Learn how to convert detected image coordinates (e.g. bounding boxes) back into 3D points for dynamic interaction within your scenes. In this sample you will also see how to filter labels. This means e.g. you can only detect humans and pets, to create a more safe play-area for your VR game. The sample video below is filtered to monitor, person and laptop. The sample is running at around `60 fps`.
+- **Purpose:** Convert 2D screen coordinates into their corresponding 3D points in space.
+- **Description:** Use the Unity Sentis framework to infer different ML models to detect and track objects. Learn how to convert detected image coordinates (e.g. bounding boxes) back into 3D points for dynamic interaction within your scenes. In this sample you will also see how to filter labels. This means e.g. you can only detect humans and pets, to create a more safe play-area for your VR game. The sample video below is filtered to monitor, person and laptop. The sample is running at around `60 fps`.
 
 3. 📱 QR Code Tracking with ZXing
    --------------------------------
@@ -31,13 +31,12 @@ Overview
    --------------------------------
 - **Purpose:** Apply a custom frosted glass shader effect to virtual surfaces.
 - **Description:** A shader which takes our camera feed as input to blur the content behind it. I know you want the [Apple Vision Pro forsted glass](https://developer.apple.com/documentation/visionos/) 👀
-- **`Todo`**: We have a shader that correctly maps the camera texture onto a quad, and we have a vertical blur and a horizontal blur shader. Ideally we would combine all of these into one shader effect to be able to easily apply it to meshes or UI elements.
+- **`Todo`**: We have a shader that correctly maps the camera texture onto a quad, and we have one vertical blur shader and one horizontal blur shader. Ideally we would combine all of these into one shader effect to be able to easily apply it to meshes or UI elements.
 
 5. 🧠 OpenAI vision model
    --------------------------------
 - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
-- **Description:** In this sample we implement a simple connection to OpenAI's vision API. Additionally we use a small on-device Whisper model to turn our speech into text. We then use the OpenAI Whisper API to turn the response text into speech.
-- **`Todo`**: The project works with Whisper, but is extremely slow on the headset. While it takes around 1-2 seconds on a Windows and Mac machine for the full loop, the headset can take up to 15 seconds to get a response. Currently investigating this issue.
+- **Description:** We use a the OpenAI Speech to text API to create a coommand. We then send this command together with a screenshot to the Vision model. Lastly, we get the response back and use the Text to speech API to turn the response text into an audio file in Unity to speak the response. The user can select different speakers, models, and speed. For the command we can add additional instructions for the model, as well as select an image, image & text, or just a text mode. The whole loop takes anywhere from `2-6 seconds`, depending on the internet connection.
 
 Getting Started with PCA
 ===============
@@ -86,7 +85,8 @@ Running the Samples
 - You will need [Unity Sentis](https://docs.unity3d.com/Packages/com.unity.sentis@2.1/manual/get-started.html) for this project to run (com.unity.sentis@2.1.2).
 - Select the labels you would like to track. No label means all objects will be tracked.
 - Build the scene and run the APK on your headset. Look around your room and see how tracked objects receive a bounding box in accurate 3D space.
-- Below you can see all the labels that are provided:
+
+Below you can see all the labels that are provided:
 
 <table>
   <tr>
@@ -197,7 +197,7 @@ Running the Samples
 - After installing NuGet for Unity you will have a new Menu `NuGet`. Click on it and then on `Manage NuGet Packages`. Search for the [ZXing.Net package](https://github.com/micjahn/ZXing.Net/) from Michael Jahn and install it.
 - Build the scene and run the APK on your headset. Look at a QR code to see the marker in 3D space and URL of the QR code.
   
-**Troubleshooting**: If you ever get the error below, make sure in your `Player Settings` under `Scripting Define Symbols`.
+**Troubleshooting**: If you ever get the error below, make sure in your `Player Settings` under `Scripting Define Symbols` you see `ZXING_ENABLED`.
   ```
   The type or namespace name 'ZXing' could not be found (are you missing a using directive or an assembly reference?)
   ```
@@ -207,18 +207,101 @@ Running the Samples
 - Build the scene and run the APK on your headset.
 - Look at the panel from different angles and observe how objects behind it are blurred.
 
-**Troubleshooting**: If you cannot see the blur effect, make sure in your render asset, the `Opaque Texture` check-box is checked. 
+**Troubleshooting**: If you cannot see the blur effect, make sure in your render asset the `Opaque Texture` check-box is checked. 
 
 > [!WARNING]  
 > The Meta Project Setup Tool (PST) will show a warning and tell you to uncheck it, so do not fix this warning.
 
 5. **[OpenAI vision model & voice commands](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
 - Open the `ImageLLM` scene.
-- Make sure you have a `ggml-tiny.bin` file in your project under `Assets/StreamingAssets/Whisper`. If not, I have saved one under `Assets\Samples\5 ImageLLM\Model`, just move it manually to the `StreamingAssets`.
-- Make sure the `TTS Manager` in your project has the correct path to your ggml-tiny.bin file's location, so `Whisper/ggml-tiny.bin` as the path until `StreamingAssets` is already assumed by the script.
+- Make sure to create an [API key](https://platform.openai.com/api-keys) and enter it in the `OpenAI Manager prefab`.
+- Select your desired model and optionally give the LLM some instructions.
+- Make sure your headset is connected to the internet (the faster the better).
 - Build the scene and run the APK on your headset.
 
-**Troubleshooting**: When testing the scene on your Windows machine, the project may automatically remove the Windows dll files for Whisper. It will throw an error in the console. To fix this [download the dlls](https://github.com/Macoron/whisper.unity/tree/master/Packages/com.whisper.unity/Plugins/Windows) and place them under `Packages/com.whisper.unity/Plugins/Windows`.
+> [!NOTE]  
+> File uploads are currently limited to `25 MB` and the following input file types are supported: `mp3`, `mp4`, `mpeg`, `mpga`, `m4a`, `wav`, and `webm`.
+
+Below you can see all supported languages. You can send commands and receive results in any of these languages:
+<table>
+  <tr>
+    <td>Afrikaans</td>
+    <td>Arabic</td>
+    <td>Armenian</td>
+    <td>Azerbaijani</td>
+    <td>Belarusian</td>
+    <td>Bosnian</td>
+    <td>Bulgarian</td>
+    <td>Catalan</td>
+    <td>Chinese</td>
+  </tr>
+  <tr>
+    <td>Croatian</td>
+    <td>Czech</td>
+    <td>Danish</td>
+    <td>Dutch</td>
+    <td>English</td>
+    <td>Estonian</td>
+    <td>Finnish</td>
+    <td>French</td>
+    <td>Galician</td>
+  </tr>
+  <tr>
+    <td>German</td>
+    <td>Greek</td>
+    <td>Hebrew</td>
+    <td>Hindi</td>
+    <td>Hungarian</td>
+    <td>Icelandic</td>
+    <td>Indonesian</td>
+    <td>Italian</td>
+    <td>Japanese</td>
+  </tr>
+  <tr>
+    <td>Kannada</td>
+    <td>Kazakh</td>
+    <td>Korean</td>
+    <td>Latvian</td>
+    <td>Lithuanian</td>
+    <td>Macedonian</td>
+    <td>Malay</td>
+    <td>Marathi</td>
+    <td>Maori</td>
+  </tr>
+  <tr>
+    <td>Nepali</td>
+    <td>Norwegian</td>
+    <td>Persian</td>
+    <td>Polish</td>
+    <td>Portuguese</td>
+    <td>Romanian</td>
+    <td>Russian</td>
+    <td>Serbian</td>
+    <td>Slovak</td>
+  </tr>
+  <tr>
+    <td>Slovenian</td>
+    <td>Spanish</td>
+    <td>Swahili</td>
+    <td>Swedish</td>
+    <td>Tagalog</td>
+    <td>Tamil</td>
+    <td>Thai</td>
+    <td>Turkish</td>
+    <td>Ukrainian</td>
+  </tr>
+  <tr>
+    <td>Urdu</td>
+    <td>Vietnamese</td>
+    <td>Welsh</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 
 License
 =======
@@ -237,8 +320,6 @@ Acknowledgements & Credits
 - Thanks to shader wizard [Daniel Ilett](https://www.youtube.com/@danielilett) for helping me set up the `FrostedGlass` sample.
 - Thanks to **[Michael Jahn](https://github.com/micjahn/ZXing.Net/)** for the XZing.Net library used for the QR code tracking samples.
 - Thanks to **[Julian Triveri](https://github.com/trev3d/QuestDisplayAccessDemo)** for constantly pushing the boundaries with what is possible with Meta Quest hardware and software.
-- Thanks to **[Aleksandr Evgrashin](https://github.com/Macoron)** for providing the STT capabilities with the `whisper.unity` package.
-- Thanks to **[Martin Pluisch](https://github.com/mapluisch)** for providing the TTS capabilities with the `OpenAI-Text-To-Speech-for-Unity` package.
 
 --------------------------------------------------------------------------------
 Happy coding and enjoy exploring the possibilities with QuestCameraKit!
