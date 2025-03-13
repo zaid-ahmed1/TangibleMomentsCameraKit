@@ -38,6 +38,10 @@ Overview
 - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
 - **Description:** We use a the OpenAI Speech to text API to create a coommand. We then send this command together with a screenshot to the Vision model. Lastly, we get the response back and use the Text to speech API to turn the response text into an audio file in Unity to speak the response. The user can select different speakers, models, and speed. For the command we can add additional instructions for the model, as well as select an image, image & text, or just a text mode. The whole loop takes anywhere from `2-6 seconds`, depending on the internet connection.
 
+|            Frosted Glass Shader             |       OpenAI vision model             |
+|---------------------------------------------|---------------------------------------|
+|    ![OBJD](Media/FrostedGlass.gif)          |        ![LLM](Media/LLM.mov)          |
+
 Getting Started with PCA
 ===============
 
