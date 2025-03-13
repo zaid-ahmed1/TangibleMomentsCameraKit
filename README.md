@@ -3,12 +3,6 @@ QuestCameraKit is a collection of template and reference projects demonstrating 
 Overview
 ========
 
-| 1. 🎨 Color Picker                          | 2. 🍎 Object Detection                      | 3. 📱 QR Code Tracking                | 4. 🪟 Frosted Glass                   |
-|---------------------------------------------|---------------------------------------------|---------------------------------------|---------------------------------------|
-| ![CPE](Media/ColorPicker_Environment.gif)   | ![OBJD](Media/ObjectDetection.gif)          | ![QR Code](Media/QRCodeTracking.gif)  | ![Frosted](Media/FrostedGlass.gif)    |
-
-https://github.com/user-attachments/assets/a4cfbfc2-0306-40dc-a9a3-cdccffa7afea
-
 1. 🎨 Color Picker
    --------------------------------
 - **Purpose:** Convert a 3D point in space to its corresponding 2D image pixel.
@@ -18,6 +12,10 @@ https://github.com/user-attachments/assets/a4cfbfc2-0306-40dc-a9a3-cdccffa7afea
    --------------------------------
 - **Purpose:** Convert 2D screen coordinates into their corresponding 3D points in space.
 - **Description:** Use the Unity Sentis framework to infer different ML models to detect and track objects. Learn how to convert detected image coordinates (e.g. bounding boxes) back into 3D points for dynamic interaction within your scenes. In this sample you will also see how to filter labels. This means e.g. you can only detect humans and pets, to create a more safe play-area for your VR game. The sample video below is filtered to monitor, person and laptop. The sample is running at around `60 fps`.
+
+| 1. 🎨 Color Picker                          | 2. 🍎 Object Detection                      |
+|---------------------------------------------|---------------------------------------------|
+| ![CPE](Media/ColorPicker_Environment.gif)   | ![OBJD](Media/ObjectDetection.gif)          |
 
 3. 📱 QR Code Tracking with ZXing
    --------------------------------
@@ -30,10 +28,16 @@ https://github.com/user-attachments/assets/a4cfbfc2-0306-40dc-a9a3-cdccffa7afea
 - **Description:** A shader which takes our camera feed as input to blur the content behind it.
 - **`Todo`**: We have a shader that correctly maps the camera texture onto a quad, and we have one vertical blur shader and one horizontal blur shader. Ideally we would combine all of these into one shader effect to be able to easily apply it to meshes or UI elements.
 
+| 3. 📱 QR Code Tracking                | 4. 🪟 Frosted Glass                   |
+|---------------------------------------|---------------------------------------|
+| ![QR Code](Media/QRCodeTracking.gif)  | ![Frosted](Media/FrostedGlass.gif)    |
+
 5. 🧠 OpenAI vision model
    --------------------------------
 - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
 - **Description:** We use a the OpenAI Speech to text API to create a coommand. We then send this command together with a screenshot to the Vision model. Lastly, we get the response back and use the Text to speech API to turn the response text into an audio file in Unity to speak the response. The user can select different speakers, models, and speed. For the command we can add additional instructions for the model, as well as select an image, image & text, or just a text mode. The whole loop takes anywhere from `2-6 seconds`, depending on the internet connection.
+
+https://github.com/user-attachments/assets/a4cfbfc2-0306-40dc-a9a3-cdccffa7afea
 
 Getting Started with PCA
 ===============
