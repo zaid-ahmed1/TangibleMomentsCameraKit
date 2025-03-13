@@ -3,15 +3,16 @@ QuestCameraKit is a collection of template and reference projects demonstrating 
 Overview
 ========
 
+| 1. 🎨 Color Picker                          | 2. 🍎 Object Detection                      | 3. 📱 QR Code Tracking                | 4. 🪟 Frosted Glass                   |
+|---------------------------------------------|---------------------------------------------|---------------------------------------|---------------------------------------|
+| ![CPE](Media/ColorPicker_Environment.gif)   | ![OBJD](Media/ObjectDetection.gif)          | ![QR Code](Media/QRCodeTracking.gif)  | ![Frosted](Media/FrostedGlass.gif)    |
+
+https://github.com/user-attachments/assets/a4cfbfc2-0306-40dc-a9a3-cdccffa7afea
+
 1. 🎨 Color Picker
    --------------------------------
 - **Purpose:** Convert a 3D point in space to its corresponding 2D image pixel.
 - **Description:** This sample shows the mapping between 3D space and 2D image coordinates using the Passthrough Camera API. We use MRUK's EnvironmentRaycastManager to determine a 3D point in our environment and map it to the location on our WebcamTexture. We then extract the pixel on that point, to determine the color of a real world object.
-
-| Color Picker (Environment Mode)             | Color Picker (Manual Mode)           |
-|---------------------------------------------|--------------------------------------|
-| ![CPE](Media/ColorPicker_Environment.gif)   | ![CPM](Media/ColorPicker_Manual.gif) |
-
 
 2. 🍎 Object Detection with Unity Sentis
    --------------------------------
@@ -23,24 +24,16 @@ Overview
 - **Purpose:** Detect and track QR codes in real time. Open webviews or log-in to 3rd party services with ease.
 - **Description:** Similarly to the object detection sample, get QR code coordinated and projects them into 3D space. Detect QR codes and call their URLs. You can select between a multiple or single QR code mode. The sample is running at around `70 fps` for multiple QR codes and a stable `72 fps` for a single code.
 
-| Object Detection with Unity Sentis          | QR Code Tracking with Zxing           |
-|---------------------------------------------|---------------------------------------|
-| ![OBJD](Media/ObjectDetection.gif)          | ![QRCT](Media/QRCodeTracking.gif)     |
-
 4. 🪟 Frosted Glass Shader
    --------------------------------
 - **Purpose:** Apply a custom frosted glass shader effect to virtual surfaces.
-- **Description:** A shader which takes our camera feed as input to blur the content behind it. I know you want the [Apple Vision Pro forsted glass](https://developer.apple.com/documentation/visionos/) 👀
+- **Description:** A shader which takes our camera feed as input to blur the content behind it.
 - **`Todo`**: We have a shader that correctly maps the camera texture onto a quad, and we have one vertical blur shader and one horizontal blur shader. Ideally we would combine all of these into one shader effect to be able to easily apply it to meshes or UI elements.
 
 5. 🧠 OpenAI vision model
    --------------------------------
 - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
 - **Description:** We use a the OpenAI Speech to text API to create a coommand. We then send this command together with a screenshot to the Vision model. Lastly, we get the response back and use the Text to speech API to turn the response text into an audio file in Unity to speak the response. The user can select different speakers, models, and speed. For the command we can add additional instructions for the model, as well as select an image, image & text, or just a text mode. The whole loop takes anywhere from `2-6 seconds`, depending on the internet connection.
-
-|            Frosted Glass Shader             |       OpenAI vision model             |
-|---------------------------------------------|---------------------------------------|
-|    ![OBJD](Media/FrostedGlass.gif)          |        ![LLM](Media/LLM.mov)          |
 
 Getting Started with PCA
 ===============
