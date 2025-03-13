@@ -3861,6 +3861,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 798435756079333793, guid: 0dc6a13ceb442495eb5d0119a04b4297, type: 3}
+      propertyPath: apiKey
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 798435756079333793, guid: 0dc6a13ceb442495eb5d0119a04b4297, type: 3}
       propertyPath: sttManager
       value: 
       objectReference: {fileID: 1337591124}
