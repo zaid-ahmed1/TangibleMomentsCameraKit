@@ -77,7 +77,7 @@ Running the Samples
 ===================
 
 1. **[Color Picker](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
-- Open the `ColorPicker` scene and run the application.
+- Open the `ColorPicker` scene.
 - Build the scene and run the APK on your headset.
 - Aim the ray onto a surface in your real space and press the A button or pinch your fingers to observe the cube changing it's color to the color in your real environment.
 
