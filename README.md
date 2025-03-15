@@ -1,5 +1,11 @@
 QuestCameraKit is a collection of template and reference projects demonstrating how to use Meta Quest’s new **Passthrough Camera API** `(PCA)` for advanced AR/VR vision, tracking, and shader effects.
 
+[![Support on Patreon](https://img.shields.io/badge/Become%20a%20Patron-orange?logo=patreon&style=flat-square)](https://www.patreon.com/c/blackwhalestudio)
+[![Follow on X](https://img.shields.io/twitter/follow/xrdevrob?style=social)](https://x.com/xrdevrob)
+
+[![Watch the video](https://img.youtube.com/vi/1z3pcMJbnRA/0.jpg)](https://www.youtube.com/watch?v=1z3pcMJbnRA)
+
+
 Overview
 ========
 
