@@ -1,27 +1,28 @@
 // Copyright (c) Meta Platforms, Inc. and affiliates.
 
 using System.Collections;
+using System.Linq;
+using Meta.XR.Samples;
 using UnityEngine;
 using UnityEngine.Assertions;
+using PCD = PassthroughCameraSamples.PassthroughCameraDebugger;
 
 namespace PassthroughCameraSamples
 {
-    using PCD = PassthroughCameraDebugger;
-
     public class WebCamTextureManager : MonoBehaviour
     {
-        [SerializeField] public PassthroughCameraEye eye = PassthroughCameraEye.Left;
+        [SerializeField] public PassthroughCameraEye Eye = PassthroughCameraEye.Left;
         [SerializeField, Tooltip("The requested resolution of the camera may not be supported by the chosen camera. In such cases, the closest available values will be used.\n\n" +
                                  "When set to (0,0), the highest supported resolution will be used.")]
-        public Vector2Int requestedResolution;
-        [SerializeField] public PassthroughCameraPermissions _cameraPermissions;
+        public Vector2Int RequestedResolution;
+        [SerializeField] public PassthroughCameraPermissions CameraPermissions;
 
         /// <summary>
         /// Returns <see cref="WebCamTexture"/> reference if required permissions were granted and this component is enabled. Else, returns null.
         /// </summary>
         public WebCamTexture WebCamTexture { get; private set; }
 
-        private bool _hasPermission;
+        private bool m_hasPermission;
 
         private void Awake()
         {
@@ -29,7 +30,7 @@ namespace PassthroughCameraSamples
             Assert.AreEqual(1, FindObjectsByType<WebCamTextureManager>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length,
                 $"PCA: Passthrough Camera: more than one {nameof(WebCamTextureManager)} component. Only one instance is allowed at a time. Current instance: {name}");
 #if UNITY_ANDROID
-            _cameraPermissions.AskCameraPermissions();
+            CameraPermissions.AskCameraPermissions();
 #endif
         }
 
@@ -44,8 +45,8 @@ namespace PassthroughCameraSamples
                 return;
             }
 
-            _hasPermission = PassthroughCameraPermissions.HasCameraPermission == true;
-            if (!_hasPermission)
+            m_hasPermission = PassthroughCameraPermissions.HasCameraPermission == true;
+            if (!m_hasPermission)
             {
                 PCD.DebugMessage(LogType.Error,
                     $"PCA: Passthrough Camera requires permission(s) {string.Join(" and ", PassthroughCameraPermissions.CameraPermissions)}. Waiting for them to be granted...");
@@ -53,7 +54,7 @@ namespace PassthroughCameraSamples
             }
 
             PCD.DebugMessage(LogType.Log, "PCA: All permissions have been granted");
-            StartCoroutine(InitializeWebCamTexture());
+            _ = StartCoroutine(InitializeWebCamTexture());
         }
 
         private void OnDisable()
@@ -70,13 +71,13 @@ namespace PassthroughCameraSamples
 
         private void Update()
         {
-            if (!_hasPermission)
+            if (!m_hasPermission)
             {
                 if (PassthroughCameraPermissions.HasCameraPermission != true)
                     return;
 
-                _hasPermission = true;
-                StartCoroutine(InitializeWebCamTexture());
+                m_hasPermission = true;
+                _ = StartCoroutine(InitializeWebCamTexture());
             }
         }
 
@@ -85,12 +86,21 @@ namespace PassthroughCameraSamples
             while (true)
             {
                 var devices = WebCamTexture.devices;
-                if (PassthroughCameraUtils.EnsureInitialized() && PassthroughCameraUtils.cameraEyeToCameraIdMap.TryGetValue(eye, out var cameraData))
+                if (PassthroughCameraUtils.EnsureInitialized() && PassthroughCameraUtils.CameraEyeToCameraIdMap.TryGetValue(Eye, out var cameraData))
                 {
                     if (cameraData.index < devices.Length)
                     {
-                        string deviceName = devices[cameraData.index].name;
-                        var webCamTexture = requestedResolution == Vector2Int.zero ? new WebCamTexture(deviceName) : new WebCamTexture(deviceName, requestedResolution.x, requestedResolution.y);
+                        var deviceName = devices[cameraData.index].name;
+                        WebCamTexture webCamTexture;
+                        if (RequestedResolution == Vector2Int.zero)
+                        {
+                            var largestResolution = PassthroughCameraUtils.GetOutputSizes(Eye).OrderBy(static size => size.x * size.y).Last();
+                            webCamTexture = new WebCamTexture(deviceName, largestResolution.x, largestResolution.y);
+                        }
+                        else
+                        {
+                            webCamTexture = new WebCamTexture(deviceName, RequestedResolution.x, RequestedResolution.y);
+                        }
                         // There is a bug in the current implementation of WebCamTexture: if 'Play()' is called at the same frame the WebCamTexture was created, this error is logged and the WebCamTexture object doesn't work:
                         //     Camera2: SecurityException java.lang.SecurityException: validateClientPermissionsLocked:1325: Callers from device user 0 are not currently allowed to connect to camera "66"
                         //     Camera2: Timeout waiting to open camera.
@@ -98,9 +108,9 @@ namespace PassthroughCameraSamples
                         yield return null;
                         webCamTexture.Play();
                         var currentResolution = new Vector2Int(webCamTexture.width, webCamTexture.height);
-                        if (requestedResolution != Vector2Int.zero && requestedResolution != currentResolution)
+                        if (RequestedResolution != Vector2Int.zero && RequestedResolution != currentResolution)
                         {
-                            PCD.DebugMessage(LogType.Warning, $"WebCamTexture created, but '{nameof(requestedResolution)}' {requestedResolution} is not supported. Current resolution: {currentResolution}.");
+                            PCD.DebugMessage(LogType.Warning, $"WebCamTexture created, but '{nameof(RequestedResolution)}' {RequestedResolution} is not supported. Current resolution: {currentResolution}.");
                         }
                         WebCamTexture = webCamTexture;
                         PCD.DebugMessage(LogType.Log, $"WebCamTexture created, texturePtr: {WebCamTexture.GetNativeTexturePtr()}, size: {WebCamTexture.width}/{WebCamTexture.height}");

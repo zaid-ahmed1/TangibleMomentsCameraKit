@@ -31,7 +31,7 @@ namespace QuestCameraKit.FrostedGlass
             mappingBlurMaterial.SetTexture(MainTexId, _webcamTexture);
             mappingBlurMaterial.SetColor(TintColorId, tintColor);
 
-            var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(passthroughCameraManager.eye);
+            var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(passthroughCameraManager.Eye);
             mappingBlurMaterial.SetVector(IntrinsicResolutionId,
                 new Vector4(intrinsics.Resolution.x, intrinsics.Resolution.y, 0, 0));
         }
@@ -45,12 +45,12 @@ namespace QuestCameraKit.FrostedGlass
 
             try
             {
-                var camPose = PassthroughCameraUtils.GetCameraPoseInWorld(passthroughCameraManager.eye);
+                var camPose = PassthroughCameraUtils.GetCameraPoseInWorld(passthroughCameraManager.Eye);
                 mappingBlurMaterial.SetVector(CameraPosId, camPose.position);
                 mappingBlurMaterial.SetMatrix(CameraRotationMatrixId,
                     Matrix4x4.Rotate(Quaternion.Inverse(camPose.rotation)));
 
-                var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(passthroughCameraManager.eye);
+                var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(passthroughCameraManager.Eye);
                 mappingBlurMaterial.SetVector(FocalLengthId, intrinsics.FocalLength);
                 mappingBlurMaterial.SetVector(PrincipalPointId, intrinsics.PrincipalPoint);
                 mappingBlurMaterial.SetVector(IntrinsicResolutionId,

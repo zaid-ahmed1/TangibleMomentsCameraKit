@@ -32,7 +32,7 @@ public class ObjectRenderer : MonoBehaviour
         print($"[Detection3DRenderer] RenderDetections: {numDetections} detections received.");
         ClearPreviousMarkers();
 
-        var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(webCamTextureManager.eye);
+        var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(webCamTextureManager.Eye);
         var camRes = intrinsics.Resolution;
         
         var imageWidth = YoloInputSize;
@@ -56,7 +56,7 @@ public class ObjectRenderer : MonoBehaviour
             var centerPixel = new Vector2(perX * camRes.x, (1.0f - perY) * camRes.y);
             print($"[Detection3DRenderer] Detection {i} Center Pixel: {centerPixel}");
 
-            var centerRay = PassthroughCameraUtils.ScreenPointToRayInWorld(webCamTextureManager.eye, new Vector2Int(Mathf.RoundToInt(centerPixel.x), Mathf.RoundToInt(centerPixel.y)));
+            var centerRay = PassthroughCameraUtils.ScreenPointToRayInWorld(webCamTextureManager.Eye, new Vector2Int(Mathf.RoundToInt(centerPixel.x), Mathf.RoundToInt(centerPixel.y)));
 
             if (!envRaycastManager.Raycast(centerRay, out var centerHit))
             {
@@ -81,8 +81,8 @@ public class ObjectRenderer : MonoBehaviour
                 Mathf.RoundToInt((1.0f - v2) * camRes.y)
             );
 
-            var tlRay = PassthroughCameraUtils.ScreenPointToRayInWorld(webCamTextureManager.eye, tlPixel);
-            var brRay = PassthroughCameraUtils.ScreenPointToRayInWorld(webCamTextureManager.eye, brPixel);
+            var tlRay = PassthroughCameraUtils.ScreenPointToRayInWorld(webCamTextureManager.Eye, tlPixel);
+            var brRay = PassthroughCameraUtils.ScreenPointToRayInWorld(webCamTextureManager.Eye, brPixel);
 
             var depth = Vector3.Distance(_mainCamera.transform.position, markerWorldPos);
             var worldTL = tlRay.GetPoint(depth);

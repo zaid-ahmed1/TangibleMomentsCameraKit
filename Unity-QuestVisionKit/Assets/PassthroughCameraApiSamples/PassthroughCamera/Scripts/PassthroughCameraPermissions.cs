@@ -1,24 +1,24 @@
 // Copyright (c) Meta Platforms, Inc. and affiliates.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Meta.XR.Samples;
 using UnityEngine;
 #if UNITY_ANDROID
 using UnityEngine.Android;
+using PCD = PassthroughCameraSamples.PassthroughCameraDebugger;
+
 #endif
 
 namespace PassthroughCameraSamples
 {
-    using PCD = PassthroughCameraDebugger;
-
     /// <summary>
     /// PLEASE NOTE: Unity doesn't support requesting multiple permissions at the same time with <see cref="Permission.RequestUserPermissions"/> on Android.
     /// This component is a sample and shouldn't be used simultaneously with other scripts that manage Android permissions.
     /// </summary>
     public class PassthroughCameraPermissions : MonoBehaviour
     {
-        [SerializeField] public List<string> PermissionRequestsOnStartup = new List<string> { OVRPermissionsRequester.ScenePermission };
+        [SerializeField] public List<string> PermissionRequestsOnStartup = new() { OVRPermissionsRequester.ScenePermission };
 
         public static readonly string[] CameraPermissions =
         {
@@ -27,7 +27,7 @@ namespace PassthroughCameraSamples
         };
 
         public static bool? HasCameraPermission { get; private set; }
-        private static bool _askedOnce;
+        private static bool s_askedOnce;
 
 #if UNITY_ANDROID
         /// <summary>
@@ -35,11 +35,11 @@ namespace PassthroughCameraSamples
         /// </summary>
         public void AskCameraPermissions()
         {
-            if (_askedOnce)
+            if (s_askedOnce)
             {
                 return;
             }
-            _askedOnce = true;
+            s_askedOnce = true;
             if (IsAllCameraPermissionsGranted())
             {
                 HasCameraPermission = true;
@@ -55,7 +55,7 @@ namespace PassthroughCameraSamples
                 callbacks.PermissionDeniedAndDontAskAgain += PermissionCallbacksPermissionDenied;
 
                 // It's important to request all necessary permissions in one request because only one 'PermissionCallbacks' instance is supported at a time.
-                string[] allPermissions = CameraPermissions.Concat(PermissionRequestsOnStartup).ToArray();
+                var allPermissions = CameraPermissions.Concat(PermissionRequestsOnStartup).ToArray();
                 Permission.RequestUserPermissions(allPermissions, callbacks);
             }
         }
@@ -83,6 +83,7 @@ namespace PassthroughCameraSamples
         {
             PCD.DebugMessage(LogType.Warning, $"PCA: Permission {permissionName} Denied");
             HasCameraPermission = false;
+            s_askedOnce = false;
         }
 
         private static bool IsAllCameraPermissionsGranted() => CameraPermissions.All(Permission.HasUserAuthorizedPermission);

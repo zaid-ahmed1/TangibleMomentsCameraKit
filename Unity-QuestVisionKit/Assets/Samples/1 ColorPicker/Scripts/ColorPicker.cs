@@ -117,9 +117,9 @@ public class ColorPicker : MonoBehaviour
 
     private Vector2 WorldToTextureUV(Vector3 worldPoint)
     {
-        var cameraPose = PassthroughCameraUtils.GetCameraPoseInWorld(_cameraManager.eye);
+        var cameraPose = PassthroughCameraUtils.GetCameraPoseInWorld(_cameraManager.Eye);
         var localPoint = Quaternion.Inverse(cameraPose.rotation) * (worldPoint - cameraPose.position);
-        var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(_cameraManager.eye);
+        var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(_cameraManager.Eye);
 
         if (localPoint.z <= 0.0001f)
         {

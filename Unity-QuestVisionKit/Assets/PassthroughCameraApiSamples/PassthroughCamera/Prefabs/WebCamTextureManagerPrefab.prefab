@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9a7893e57c04c0db4114c70954b915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eye: 0
-  requestedResolution: {x: 0, y: 0}
-  _cameraPermissions: {fileID: 7412840042211121785}
+  Eye: 0
+  RequestedResolution: {x: 0, y: 0}
+  CameraPermissions: {fileID: 7412840042211121785}
 --- !u!114 &7412840042211121785
 MonoBehaviour:
   m_ObjectHideFlags: 0
