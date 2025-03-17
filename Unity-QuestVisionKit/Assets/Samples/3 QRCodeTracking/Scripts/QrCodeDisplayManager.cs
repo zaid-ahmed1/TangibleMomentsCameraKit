@@ -16,7 +16,7 @@ public class QrCodeDisplayManager : MonoBehaviour
 
     private void Awake()
     {
-        _passthroughCameraEye = passthroughCameraManager.eye;
+        _passthroughCameraEye = passthroughCameraManager.Eye;
     }
 
     private void Update()
