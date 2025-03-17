@@ -106,6 +106,8 @@ namespace PassthroughCameraSamples
                         //     Camera2: Timeout waiting to open camera.
                         // Waiting for one frame is important and prevents the bug.
                         yield return null;
+                        // Temporary fix to unblock until issue has been identified
+                        yield return new WaitForSeconds(1);
                         webCamTexture.Play();
                         var currentResolution = new Vector2Int(webCamTexture.width, webCamTexture.height);
                         if (RequestedResolution != Vector2Int.zero && RequestedResolution != currentResolution)
