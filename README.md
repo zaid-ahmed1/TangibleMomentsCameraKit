@@ -310,6 +310,12 @@ Below you can see all supported languages. You can send commands and receive res
   </tr>
 </table>
 
+General Troubleshooting & Known Issues
+========
+
+- Some users have reported that the app crashes the second and every following time the app is opened. A solution described was to go to the Quest settings under `Privacy & Security` and toggle the camera permission and then start the app and accept the permission again. If you encounter this problem please open an issue and send me the crash logs. Thank you!
+- If switching betwenn Unity 6 and other versions such as 2023 or 2022 it can happen that your Android Manifest is getting modified and the app won't run anymore. Should this happen to you make sure to go to `Meta > Tools > Update AndroidManifest.xml` or `Meta > Tools > Create store-compatible AndroidManifest.xml`. After that make sure you add back the `horizonos.permission.HEADSET_CAMERA` manually into your manifest file.
+
 License
 =======
 
