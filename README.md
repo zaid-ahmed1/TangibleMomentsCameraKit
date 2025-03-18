@@ -72,7 +72,7 @@ Installation
 -------------
 1. **Clone the Repository:**
    ```
-   git clone https://github.com/yourusername/QuestVisionKit.git
+   git clone https://github.com/xrdevrob/QuestCameraKit.git
    ```
 
 2. **Open the Project in Unity:**
