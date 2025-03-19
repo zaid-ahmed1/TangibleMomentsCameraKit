@@ -7,6 +7,15 @@ QuestCameraKit is a collection of template and reference projects demonstrating 
 
 [![Watch the video](https://img.youtube.com/vi/1z3pcMJbnRA/0.jpg)](https://www.youtube.com/watch?v=1z3pcMJbnRA)
 
+# Table of Contents
+- [Overview](#overview)
+- [Getting Started with PCA](#getting-started-with-pca)
+- [Running the Samples](#running-the-samples)
+- [General Troubleshooting & Known Issues](#general-troubleshooting--known-issues)
+- [Acknowledgements & Credits](#acknowledgements--credits)
+- [Community Contributions](#community-contributions)
+- [License](#license)
+- [Contact](#contact)
 
 Overview
 ========
@@ -318,6 +327,53 @@ General Troubleshooting & Known Issues
 - Some users have reported that the app crashes the second and every following time the app is opened. A solution described was to go to the Quest settings under `Privacy & Security` and toggle the camera permission and then start the app and accept the permission again. If you encounter this problem please open an issue and send me the crash logs. Thank you!
 - If switching betwenn Unity 6 and other versions such as 2023 or 2022 it can happen that your Android Manifest is getting modified and the app won't run anymore. Should this happen to you make sure to go to `Meta > Tools > Update AndroidManifest.xml` or `Meta > Tools > Create store-compatible AndroidManifest.xml`. After that make sure you add back the `horizonos.permission.HEADSET_CAMERA` manually into your manifest file.
 
+Acknowledgements & Credits
+================
+
+- **Meta** For the Passthrough Camera API and [**Passthrough Camera API Samples**](https://github.com/oculus-samples/Unity-PassthroughCameraApiSamples/).
+- Thanks to shader wizard [Daniel Ilett](https://www.youtube.com/@danielilett) for helping me set up the `FrostedGlass` sample.
+- Thanks to **[Michael Jahn](https://github.com/micjahn/ZXing.Net/)** for the XZing.Net library used for the QR code tracking samples.
+- Thanks to **[Julian Triveri](https://github.com/trev3d/QuestDisplayAccessDemo)** for constantly pushing the boundaries with what is possible with Meta Quest hardware and software.
+
+# Community Contributions
+
+- **Tutorials**
+  - **XR Dev Rob - XR AI Tutorials**, [Watch on YouTube](https://www.youtube.com/watch?v=1z3pcMJbnRA)
+  - **Dilmer Valecillos**, [Watch on YouTube](https://www.youtube.com/watch?v=lhnuP6lJ_yY)
+  - **Skarredghost**, [Watch on YouTube](https://www.youtube.com/watch?v=A2ZhJt-SIBU)
+  - **FireDragonGameStudio**, [Watch on YouTube](https://www.youtube.com/watch?v=1R9yrXePJ40)
+  - **xr masiso**, [Watch on YouTube](https://www.youtube.com/watch?v=FXFgkAmvpgo)
+
+- **Object Detection**
+  - [Udayshankar Ravikumar](https://x.com/uralstechCTO): [Unity Sentis Digit Recognition](https://x.com/uralstechCTO/status/1902056175153377353)
+
+- **Shaders**
+  - [Thomas Ratcliff](https://x.com/devtom7): [Water, blur, zoom shaders](https://x.com/devtom7/status/1901384363658350612)
+  - [Thomas Ratcliff](https://x.com/devtom7): [Pixelate shader](https://x.com/devtom7/status/1902033672041091453)
+
+- **Environment Understanding & Mapping**
+  - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [Turning image into colored point cloud](https://x.com/Tks_Yoshinaga/status/1900923909962133782)
+  - [Alireza Bahremand](https://x.com/lirezaBahremand): [Quest Passthrough to MAST3R-SLAM for scene ply distribution](https://x.com/lirezaBahremand/status/1901665472069902772)
+
+- **Environment Sampling**
+  - [Christoph Spinger](https://www.linkedin.com/in/christoph-spinger-280621190/): [Chameleon color picker](https://www.linkedin.com/feed/update/urn:li:activity:7306688023843250176/)
+  - [Sid Naik](https://www.linkedin.com/in/sidharthrnaik/): [Copy and paste the lighting in his house](https://www.linkedin.com/posts/sidharthrnaik_augmentedreality-virtualreality-vr-activity-7307523483318566912-NpGr/?utm_source=share&utm_medium=member_ios&rcm=ACoAACRDIgYBe94CQK8Ln4nJhdS1WdG2y9aZHYs)
+
+- **Image to 3D**
+  - [Takahiro Horikawa](https://x.com/thorikawa): [Replicate real objects into 3D](https://x.com/thorikawa/status/1901545245944455409)
+
+- **Image to Image, Diffusion & Generation**
+  - [Hugues Bruyère](https://x.com/smallfly): [MR + Diffusion prototype](https://x.com/smallfly/status/1901403937321750862)
+  - [水マヨ](https://x.com/mizzmayo): [AI image description](https://x.com/mizzmayo/status/1901855438083359120)
+  - [妹尾雄大](https://x.com/senooyudai): [Img2Img process of SDXL](https://x.com/senooyudai/status/1900799052054491421)
+
+- **OpenCV for Unity**
+  - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [Using Passthrough Camera API with the OpenCV for Unity plugin](https://x.com/Tks_Yoshinaga/status/1901187442084098464)
+  - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [OpenCV marker detection for object tracking](https://x.com/taka_yoshinaga/status/1901560686603387255)
+
+- **QR Code Tracking**
+  - [Christoph Spinger](https://www.linkedin.com/in/christoph-spinger-280621190/): [QR code object tracking](https://www.linkedin.com/feed/update/urn:li:activity:7306652200418598912/)
+ 
 License
 =======
 
@@ -328,14 +384,7 @@ Contact
 
 For questions, suggestions, or feedback, please open an issue in the repository or contact me on [X](https://x.com/xrdevrob), [LinkedIn](https://www.linkedin.com/in/robertocoviello/), or at [roberto@blackwhale.dev](mailto:roberto@blackwhale.dev). Find all my info [here](https://bento.me/xrdevrob) or join our growing XR developer community on [Discord](https://discord.gg/KkstGGwueN).
 
-Acknowledgements & Credits
-================
-
-- **Meta** For the Passthrough Camera API and [**Passthrough Camera API Samples**](https://github.com/oculus-samples/Unity-PassthroughCameraApiSamples/).
-- Thanks to shader wizard [Daniel Ilett](https://www.youtube.com/@danielilett) for helping me set up the `FrostedGlass` sample.
-- Thanks to **[Michael Jahn](https://github.com/micjahn/ZXing.Net/)** for the XZing.Net library used for the QR code tracking samples.
-- Thanks to **[Julian Triveri](https://github.com/trev3d/QuestDisplayAccessDemo)** for constantly pushing the boundaries with what is possible with Meta Quest hardware and software.
-
 --------------------------------------------------------------------------------
 Happy coding and enjoy exploring the possibilities with QuestCameraKit!
+
 --------------------------------------------------------------------------------
