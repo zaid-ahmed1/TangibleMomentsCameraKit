@@ -13,16 +13,15 @@ QuestCameraKit is a collection of template and reference projects demonstrating 
 - [License](#license)
 - [Contact](#contact)
 
-Overview
-========
+# Overview
 
-1. 🎨 Color Picker
-   --------------------------------
+## 1. 🎨 Color Picker
+
 - **Purpose:** Convert a 3D point in space to its corresponding 2D image pixel.
 - **Description:** This sample shows the mapping between 3D space and 2D image coordinates using the Passthrough Camera API. We use MRUK's EnvironmentRaycastManager to determine a 3D point in our environment and map it to the location on our WebcamTexture. We then extract the pixel on that point, to determine the color of a real world object.
 
-2. 🍎 Object Detection with Unity Sentis
-   --------------------------------
+## 2. 🍎 Object Detection with Unity Sentis
+
 - **Purpose:** Convert 2D screen coordinates into their corresponding 3D points in space.
 - **Description:** Use the Unity Sentis framework to infer different ML models to detect and track objects. Learn how to convert detected image coordinates (e.g. bounding boxes) back into 3D points for dynamic interaction within your scenes. In this sample you will also see how to filter labels. This means e.g. you can only detect humans and pets, to create a more safe play-area for your VR game. The sample video below is filtered to monitor, person and laptop. The sample is running at around `60 fps`.
 
@@ -30,13 +29,13 @@ Overview
 |---------------------------------------------|---------------------------------------------|
 | ![CPE](Media/ColorPicker_Environment.gif)   | ![OBJD](Media/ObjectDetection.gif)          |
 
-3. 📱 QR Code Tracking with ZXing
-   --------------------------------
+## 3. 📱 QR Code Tracking with ZXing
+
 - **Purpose:** Detect and track QR codes in real time. Open webviews or log-in to 3rd party services with ease.
 - **Description:** Similarly to the object detection sample, get QR code coordinated and projects them into 3D space. Detect QR codes and call their URLs. You can select between a multiple or single QR code mode. The sample is running at around `70 fps` for multiple QR codes and a stable `72 fps` for a single code.
 
-4. 🪟 Frosted Glass Shader
-   --------------------------------
+## 4. 🪟 Frosted Glass Shader
+
 - **Purpose:** Apply a custom frosted glass shader effect to virtual surfaces.
 - **Description:** A shader which takes our camera feed as input to blur the content behind it.
 - **`Todo`**: We have a shader that correctly maps the camera texture onto a quad, and we have one vertical blur shader and one horizontal blur shader. Ideally we would combine all of these into one shader effect to be able to easily apply it to meshes or UI elements.
@@ -45,15 +44,15 @@ Overview
 |---------------------------------------|---------------------------------------|
 | ![QR Code](Media/QRCodeTracking.gif)  | ![Frosted](Media/FrostedGlass.gif)    |
 
-5. 🧠 OpenAI vision model
-   --------------------------------
+## 5. 🧠 OpenAI vision model
+
 - **Purpose:** Ask OpenAI's vision model (or any other multi-modal LLM) for context of your current scene.
 - **Description:** We use a the OpenAI Speech to text API to create a coommand. We then send this command together with a screenshot to the Vision model. Lastly, we get the response back and use the Text to speech API to turn the response text into an audio file in Unity to speak the response. The user can select different speakers, models, and speed. For the command we can add additional instructions for the model, as well as select an image, image & text, or just a text mode. The whole loop takes anywhere from `2-6 seconds`, depending on the internet connection.
 
 https://github.com/user-attachments/assets/a4cfbfc2-0306-40dc-a9a3-cdccffa7afea
 
-6. 🎥 WebRTC video streaming
-   --------------------------------
+## 6. 🎥 WebRTC video streaming
+
 - **Purpose:** Stream the Passthrough Camera stream over WebRTC to another client using WebSockets.
 - **Description:** This sample uses [SimpleWebRTC](https://assetstore.unity.com/packages/tools/network/simplewebrtc-309727), which is a Unity-based WebRTC wrapper that facilitates peer-to-peer audio, video, and data communication over WebRTC using [Unitys WebRTC package](https://docs.unity3d.com/Packages/com.unity.webrtc@3.0/manual/index.html). It leverages [NativeWebSocket](https://github.com/endel/NativeWebSocket) for signaling and supports both video and audio streaming. You will need to setup your own websocket signaling server beforehand, either online or in LAN. You can find more information about the necessary steps [here](https://www.youtube.com/watch?v=-CwJTgt_Z3M)
 
@@ -61,8 +60,7 @@ https://github.com/user-attachments/assets/a4cfbfc2-0306-40dc-a9a3-cdccffa7afea
 |------------------------------------------------|
 | ![WebRTC](Media/PCA_WebRTC.gif)                |
 
-Getting Started with PCA
-===============
+# Getting Started with PCA
 
 | **Information**        | **Details**                                                                                                                                                                                             |
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -72,8 +70,8 @@ Getting Started with PCA
 | **Public Experimental**| Apps using PCA are not allowed to be submitted to the Meta Horizon Store yet.                                                                                                                           |
 | **Specifications**     | - Frame Rate: `30fps`<br>- Image latency: `40-60ms`<br>- Available resolutions per eye: `320x240`, `640x480`, `800x600`, `1280x960`                                                                     |
 
-Prerequisites
---------------
+## Prerequisites
+
 - **Meta Quest Device:** Ensure you are runnning on a `Quest 3` or `Quest 3s` and your device is updated to `HorizonOS v74` or later.
 - **Unity:** Recommended is `Unity 6`. Also runs on Unity `2022.3. LTS`.
 - **Camera Passthrough API does not work in the Editor or XR Simulator.**
@@ -82,8 +80,7 @@ Prerequisites
 > [!CAUTION]
 > Every feature involving accessing the camera has significant impact on your application's performance. Be aware of this and ask yourself if the feature you are trying to implement can be done any other way besides using cameras.
 
-Installation
--------------
+## Installation
 1. **Clone the Repository:**
    ```
    git clone https://github.com/xrdevrob/QuestCameraKit.git
@@ -95,15 +92,14 @@ Launch Unity and open the cloned project folder.
 3. **Configure Dependencies:**
 Follow the instructions in the section below to run one of the samples.
 
-Running the Samples
-===================
+# Running the Samples
 
-1. **[Color Picker](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-color-picker)**
+## 1. **[Color Picker](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-color-picker)**
 - Open the `ColorPicker` scene.
 - Build the scene and run the APK on your headset.
 - Aim the ray onto a surface in your real space and press the A button or pinch your fingers to observe the cube changing it's color to the color in your real environment.
 
-2. **[Object Detection with Unity Sentis](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-object-detection-with-unity-sentis)**
+## 2. **[Object Detection with Unity Sentis](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-object-detection-with-unity-sentis)**
 - Open the `ObjectDetection` scene.
 - You will need [Unity Sentis](https://docs.unity3d.com/Packages/com.unity.sentis@2.1/manual/get-started.html) for this project to run (com.unity.sentis@2.1.2).
 - Select the labels you would like to track. No label means all objects will be tracked. <details>
@@ -214,7 +210,7 @@ Running the Samples
 
 - Build the scene and run the APK on your headset. Look around your room and see how tracked objects receive a bounding box in accurate 3D space.
 
-3. **[QR Code Tracking](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-qr-code-tracking-with-zxing)**
+## 3. **[QR Code Tracking](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-qr-code-tracking-with-zxing)**
 - Open the `QRCodeTracking` scene to test real-time QR code detection and tracking.
 - Install [NuGet for Unity](https://github.com/GlitchEnzo/NuGetForUnity)
 - Click on the `NuGet` menu and then on `Manage NuGet Packages`. Search for the [ZXing.Net package](https://github.com/micjahn/ZXing.Net/) from Michael Jahn and install it.
@@ -222,7 +218,7 @@ Running the Samples
 - In order to see the label of your QR code, you will also need to install TextMeshPro!
 - Build the scene and run the APK on your headset. Look at a QR code to see the marker in 3D space and URL of the QR code.
 
-4. **[Frosted Glass Shader](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-frosted-glass-shader)**
+## 4. **[Frosted Glass Shader](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-frosted-glass-shader)**
 - Open the `FrostedGlass` scene.
 - Make sure in your render asset the `Opaque Texture` check-box is checked.
 - Build the scene and run the APK on your headset.
@@ -231,7 +227,7 @@ Running the Samples
 > [!WARNING]  
 > The Meta Project Setup Tool (PST) will show a warning and tell you to uncheck it, so do not fix this warning.
 
-5. **[OpenAI vision model & voice commands](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-openai-vision-model)**
+## 5. **[OpenAI vision model & voice commands](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-openai-vision-model)**
 - Open the `ImageLLM` scene.
 - Make sure to create an [API key](https://platform.openai.com/api-keys) and enter it in the `OpenAI Manager prefab`.
 - Select your desired model and optionally give the LLM some instructions.
@@ -325,7 +321,7 @@ You can send commands and receive results in any of these languages:
 </table>
 </details>
 
-6. **[WebRTC video streaming](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-webrtc-video-streaming)**
+## 6. **[WebRTC video streaming](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-webrtc-video-streaming)**
 
 - Open the `WebcamToWebRTC` scene.
 - Link up your signaling server on the `Client-STUNConnection` component in the `Web Socket Server Address` field.
@@ -351,14 +347,12 @@ You can send commands and receive results in any of these languages:
 > [!WARNING] 
 > The Meta Project Setup Tool (PST) will show 2 warnings (opaque textures and low overhead mode GLES). Do NOT fix this warnings.
 
-General Troubleshooting & Known Issues
-========
+# General Troubleshooting & Known Issues
 
 - Some users have reported that the app crashes the second and every following time the app is opened. A solution described was to go to the Quest settings under `Privacy & Security` and toggle the camera permission and then start the app and accept the permission again. If you encounter this problem please open an issue and send me the crash logs. Thank you!
 - If switching betwenn Unity 6 and other versions such as 2023 or 2022 it can happen that your Android Manifest is getting modified and the app won't run anymore. Should this happen to you make sure to go to `Meta > Tools > Update AndroidManifest.xml` or `Meta > Tools > Create store-compatible AndroidManifest.xml`. After that make sure you add back the `horizonos.permission.HEADSET_CAMERA` manually into your manifest file.
 
-Acknowledgements & Credits
-================
+# Acknowledgements & Credits
 
 - **Meta** For the Passthrough Camera API and [**Passthrough Camera API Samples**](https://github.com/oculus-samples/Unity-PassthroughCameraApiSamples/).
 - Thanks to shader wizard [Daniel Ilett](https://www.youtube.com/@danielilett) for helping me set up the `FrostedGlass` sample.
@@ -410,13 +404,11 @@ Acknowledgements & Credits
 - **QR Code Tracking**
   - [Christoph Spinger](https://www.linkedin.com/in/christoph-spinger-280621190/): [QR code object tracking](https://www.linkedin.com/feed/update/urn:li:activity:7306652200418598912/)
  
-License
-=======
+# License
 
 This project is licensed under the MIT License. See the LICENSE file for details. Feel free to use the samples for your own projects, though I would appreciate if you would leave some credits to this repo in your work ❤️
 
-Contact
-=======
+# Contact
 
 For questions, suggestions, or feedback, please open an issue in the repository or contact me on [X](https://x.com/xrdevrob), [LinkedIn](https://www.linkedin.com/in/robertocoviello/), or at [roberto@blackwhale.dev](mailto:roberto@blackwhale.dev). Find all my info [here](https://bento.me/xrdevrob) or join our growing XR developer community on [Discord](https://discord.gg/KkstGGwueN).
 
