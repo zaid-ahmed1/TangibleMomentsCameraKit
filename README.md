@@ -56,6 +56,11 @@ Overview
 
 https://github.com/user-attachments/assets/a4cfbfc2-0306-40dc-a9a3-cdccffa7afea
 
+6. 🎥 WebRTC video streaming
+   --------------------------------
+- **Purpose:** Stream passthrough video stream over WebRTC to another client over web.
+- **Description:** This sample uses [SimpleWebRTC](https://assetstore.unity.com/packages/tools/network/simplewebrtc-309727), which is a Unity-based WebRTC wrapper that facilitates peer-to-peer audio, video, and data communication over WebRTC using [Unitys WebRTC package](https://docs.unity3d.com/Packages/com.unity.webrtc@3.0/manual/index.html). It leverages [NativeWebSocket](https://github.com/endel/NativeWebSocket) for signaling and supports both video and audio streaming. You will need to setup your own websocket signaling server beforehand, either online or in LAN. You can find more information about the necessary steps [here](https://www.youtube.com/watch?v=-CwJTgt_Z3M)
+
 Getting Started with PCA
 ===============
 
@@ -93,12 +98,12 @@ Follow the instructions in the section below to run one of the samples.
 Running the Samples
 ===================
 
-1. **[Color Picker](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
+1. **[Color Picker](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-color-picker)**
 - Open the `ColorPicker` scene.
 - Build the scene and run the APK on your headset.
 - Aim the ray onto a surface in your real space and press the A button or pinch your fingers to observe the cube changing it's color to the color in your real environment.
 
-2. **[Object Detection with Unity Sentis](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
+2. **[Object Detection with Unity Sentis](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-object-detection-with-unity-sentis)**
 - Open the `ObjectDetection` scene.
 - You will need [Unity Sentis](https://docs.unity3d.com/Packages/com.unity.sentis@2.1/manual/get-started.html) for this project to run (com.unity.sentis@2.1.2).
 - Select the labels you would like to track. No label means all objects will be tracked.
@@ -209,7 +214,7 @@ Below you can see all the labels that are provided:
   </tr>
 </table>
 
-3. **[QR Code Tracking](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
+3. **[QR Code Tracking](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-qr-code-tracking-with-zxing)**
 - Open the `QRCodeTracking` scene to test real-time QR code detection and tracking.
 - You will need to install [NuGet for Unity](https://github.com/GlitchEnzo/NuGetForUnity)
 - After installing NuGet for Unity you will have a new Menu `NuGet`. Click on it and then on `Manage NuGet Packages`. Search for the [ZXing.Net package](https://github.com/micjahn/ZXing.Net/) from Michael Jahn and install it.
@@ -220,7 +225,7 @@ Below you can see all the labels that are provided:
   The type or namespace name 'ZXing' could not be found (are you missing a using directive or an assembly reference?)
   ```
 
-4. **[Frosted Glass Shader](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
+4. **[Frosted Glass Shader](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-frosted-glass-shader)**
 - Open the `FrostedGlass` scene.
 - Build the scene and run the APK on your headset.
 - Look at the panel from different angles and observe how objects behind it are blurred.
@@ -230,7 +235,7 @@ Below you can see all the labels that are provided:
 > [!WARNING]  
 > The Meta Project Setup Tool (PST) will show a warning and tell you to uncheck it, so do not fix this warning.
 
-5. **[OpenAI vision model & voice commands](https://github.com/xrdevrob/QuestCameraKit/edit/main/README.md#-color-picker)**
+5. **[OpenAI vision model & voice commands](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-openai-vision-model)**
 - Open the `ImageLLM` scene.
 - Make sure to create an [API key](https://platform.openai.com/api-keys) and enter it in the `OpenAI Manager prefab`.
 - Select your desired model and optionally give the LLM some instructions.
@@ -320,6 +325,37 @@ Below you can see all supported languages. You can send commands and receive res
     <td></td>
   </tr>
 </table>
+
+6. **[WebRTC video streaming](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-webrtc-video-streaming)**
+
+- Open the `WebcamToWebRTC` scene.
+- Add the `WebcamToWebRTC` scene to the build settings.
+- Link up your signaling server on `[BuildingBlock] Camera Rig/TrackingSpace/CenterEyeAnchor/Client-STUNConnection` at the field `Web Socket Server Address`.
+- Build and deploy the `WebcamToWebRTC` scene to your Quest3 device.
+- If you have your own project for the receiving client (e.g. using the **SimpleWebRTC** sample scene `WebRTC-SingleClient-STUNConnection`), you can skip the next steps.
+- Open the `WebRTC-SingleClient` scene.
+- Disable the `Oculus` setting for the target platform (Android or Windows) under Project `Settings/XR Plug-In Management`.
+- Remove the `WebcamToWebRTC` scene from build settings and add the `WebRTC-SingleClient` scene.
+- Build and deploy the WebRTC client app on another device or start it on your PC or from within the Unity Editor. More information can be found [here](https://www.youtube.com/watch?v=-CwJTgt_Z3M)
+- Start the WebRTC app on your Quest and on your phone.
+- Quest and client streaming devices should connect automatically to the websocket signaling server.
+- Perform the Start gesture with your left hand, or press the menu button on your left controller to start streaming from Quest3 to your WebRTC client app.
+
+**Troubleshooting**:
+- If there are compiler errors, make sure all packages were imported correctly.
+	- Open the `Package Manager`, click on the + sign in the upper left/right corner.
+	- Select "Add package from git URL".
+	- Enter URL: https://github.com/endel/NativeWebSocket.git#upm and click in Install.
+	- After the installation finished, click on the + sign in the upper left/right corner again.
+	- Enter URL https://github.com/FireDragonGameStudio/SimpleWebRTC.git?path=/Assets/SimpleWebRTC#upm and click on Install
+- Make sure your own websocket signaling server is up and running. You can find more information about the necessary steps [here](https://youtu.be/-CwJTgt_Z3M?t=1458).
+- If you're going to stream over LAN, make sure the `STUN Server Address` field on `[BuildingBlock] Camera Rig/TrackingSpace/CenterEyeAnchor/Client-STUNConnection` is empty, otherwise leave the default value.
+- Make sure to enable the `Web Socket Connection active` flag on `[BuildingBlock] Camera Rig/TrackingSpace/CenterEyeAnchor/Client-STUNConnection` to connect to the websocket server automatically on start.
+- WebRTC video streaming does **NOT** work, when the **Graphics API** is set to **Vulkan**. Make sure to switch to **OpenGLES3** under `Project Settings/Player`.
+- Make sure to **DISABLE** the **Low Overhead Mode (GLES)** setting for Android in `Project Settings/XR Plug-In Management/Oculus`. Otherwise this optimization will prevent your Quest from sending the video stream to a receiving client.
+
+> [!WARNING] 
+> The Meta Project Setup Tool (PST) will show 2 warnings (opaque textures and low overhead mode GLES). Do NOT fix this warnings.
 
 General Troubleshooting & Known Issues
 ========
