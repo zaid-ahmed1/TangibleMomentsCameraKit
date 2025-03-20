@@ -58,7 +58,7 @@ https://github.com/user-attachments/assets/a4cfbfc2-0306-40dc-a9a3-cdccffa7afea
 
 6. 🎥 WebRTC video streaming
    --------------------------------
-- **Purpose:** Stream passthrough video stream over WebRTC to another client over web.
+- **Purpose:** Stream the Passthrough Camera stream over WebRTC to another client using WebSockets.
 - **Description:** This sample uses [SimpleWebRTC](https://assetstore.unity.com/packages/tools/network/simplewebrtc-309727), which is a Unity-based WebRTC wrapper that facilitates peer-to-peer audio, video, and data communication over WebRTC using [Unitys WebRTC package](https://docs.unity3d.com/Packages/com.unity.webrtc@3.0/manual/index.html). It leverages [NativeWebSocket](https://github.com/endel/NativeWebSocket) for signaling and supports both video and audio streaming. You will need to setup your own websocket signaling server beforehand, either online or in LAN. You can find more information about the necessary steps [here](https://www.youtube.com/watch?v=-CwJTgt_Z3M)
 
 Getting Started with PCA
@@ -66,11 +66,11 @@ Getting Started with PCA
 
 | **Information**        | **Details**                                                                                                                                                                                             |
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Device Requirements**| - Only for Meta `Quest 3` and `3s`<br>- `HorizonOS v74` or later                                                                                                                                              |
+| **Device Requirements**| - Only for Meta `Quest 3` and `3s`<br>- `HorizonOS v74` or later                                                                                                                                        |
 | **Unity WebcamTexture**| - Access through Unity’s WebcamTexture<br>- Only one camera at a time (left or right), a Unity limitation                                                                                               |
-| **Android Camera2 API**| - Unobstructed forward-facing RGB cameras<br>- Provides camera intrinsics (`camera ID`, `height`, `width`, `lens translation & rotation`)<br>- Android Manifest: `horizonos.permission.HEADSET_CAMERA`          |
+| **Android Camera2 API**| - Unobstructed forward-facing RGB cameras<br>- Provides camera intrinsics (`camera ID`, `height`, `width`, `lens translation & rotation`)<br>- Android Manifest: `horizonos.permission.HEADSET_CAMERA`  |
 | **Public Experimental**| Apps using PCA are not allowed to be submitted to the Meta Horizon Store yet.                                                                                                                           |
-| **Specifications**     | - Frame Rate: `30fps`<br>- Image latency: `40-60ms`<br>- Available resolutions per eye: `320x240`, `640x480`, `800x600`, `1280x960`                                                                         |
+| **Specifications**     | - Frame Rate: `30fps`<br>- Image latency: `40-60ms`<br>- Available resolutions per eye: `320x240`, `640x480`, `800x600`, `1280x960`                                                                     |
 
 Prerequisites
 --------------
@@ -106,131 +106,127 @@ Running the Samples
 2. **[Object Detection with Unity Sentis](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-object-detection-with-unity-sentis)**
 - Open the `ObjectDetection` scene.
 - You will need [Unity Sentis](https://docs.unity3d.com/Packages/com.unity.sentis@2.1/manual/get-started.html) for this project to run (com.unity.sentis@2.1.2).
-- Select the labels you would like to track. No label means all objects will be tracked.
+- Select the labels you would like to track. No label means all objects will be tracked. <details>
+  <summary>Show all available labels</summary>
+  <table>
+    <tr>
+      <td>person</td>
+      <td>bicycle</td>
+      <td>car</td>
+      <td>motorbike</td>
+      <td>aeroplane</td>
+      <td>bus</td>
+      <td>train</td>
+      <td>truck</td>
+    </tr>
+    <tr>
+      <td>boat</td>
+      <td>traffic light</td>
+      <td>fire hydrant</td>
+      <td>stop sign</td>
+      <td>parking meter</td>
+      <td>bench</td>
+      <td>bird</td>
+      <td>cat</td>
+    </tr>
+    <tr>
+      <td>dog</td>
+      <td>horse</td>
+      <td>sheep</td>
+      <td>cow</td>
+      <td>elephant</td>
+      <td>bear</td>
+      <td>zebra</td>
+      <td>giraffe</td>
+    </tr>
+    <tr>
+      <td>backpack</td>
+      <td>umbrella</td>
+      <td>handbag</td>
+      <td>tie</td>
+      <td>suitcase</td>
+      <td>frisbee</td>
+      <td>skis</td>
+      <td>snowboard</td>
+    </tr>
+    <tr>
+      <td>sports ball</td>
+      <td>kite</td>
+      <td>baseball bat</td>
+      <td>baseball glove</td>
+      <td>skateboard</td>
+      <td>surfboard</td>
+      <td>tennis racket</td>
+      <td>bottle</td>
+    </tr>
+    <tr>
+      <td>wine glass</td>
+      <td>cup</td>
+      <td>fork</td>
+      <td>knife</td>
+      <td>spoon</td>
+      <td>bowl</td>
+      <td>banana</td>
+      <td>apple</td>
+    </tr>
+    <tr>
+      <td>sandwich</td>
+      <td>orange</td>
+      <td>broccoli</td>
+      <td>carrot</td>
+      <td>hot dog</td>
+      <td>pizza</td>
+      <td>donut</td>
+      <td>cake</td>
+    </tr>
+    <tr>
+      <td>chair</td>
+      <td>sofa</td>
+      <td>pottedplant</td>
+      <td>bed</td>
+      <td>diningtable</td>
+      <td>toilet</td>
+      <td>tvmonitor</td>
+      <td>laptop</td>
+    </tr>
+    <tr>
+      <td>mouse</td>
+      <td>remote</td>
+      <td>keyboard</td>
+      <td>cell phone</td>
+      <td>microwave</td>
+      <td>oven</td>
+      <td>toaster</td>
+      <td>sink</td>
+    </tr>
+    <tr>
+      <td>refrigerator</td>
+      <td>book</td>
+      <td>clock</td>
+      <td>vase</td>
+      <td>scissors</td>
+      <td>teddy bear</td>
+      <td>hair drier</td>
+      <td>toothbrush</td>
+    </tr>
+  </table>
+</details>
+
 - Build the scene and run the APK on your headset. Look around your room and see how tracked objects receive a bounding box in accurate 3D space.
-
-Below you can see all the labels that are provided:
-
-<table>
-  <tr>
-    <td>person</td>
-    <td>bicycle</td>
-    <td>car</td>
-    <td>motorbike</td>
-    <td>aeroplane</td>
-    <td>bus</td>
-    <td>train</td>
-    <td>truck</td>
-  </tr>
-  <tr>
-    <td>boat</td>
-    <td>traffic light</td>
-    <td>fire hydrant</td>
-    <td>stop sign</td>
-    <td>parking meter</td>
-    <td>bench</td>
-    <td>bird</td>
-    <td>cat</td>
-  </tr>
-  <tr>
-    <td>dog</td>
-    <td>horse</td>
-    <td>sheep</td>
-    <td>cow</td>
-    <td>elephant</td>
-    <td>bear</td>
-    <td>zebra</td>
-    <td>giraffe</td>
-  </tr>
-  <tr>
-    <td>backpack</td>
-    <td>umbrella</td>
-    <td>handbag</td>
-    <td>tie</td>
-    <td>suitcase</td>
-    <td>frisbee</td>
-    <td>skis</td>
-    <td>snowboard</td>
-  </tr>
-  <tr>
-    <td>sports ball</td>
-    <td>kite</td>
-    <td>baseball bat</td>
-    <td>baseball glove</td>
-    <td>skateboard</td>
-    <td>surfboard</td>
-    <td>tennis racket</td>
-    <td>bottle</td>
-  </tr>
-  <tr>
-    <td>wine glass</td>
-    <td>cup</td>
-    <td>fork</td>
-    <td>knife</td>
-    <td>spoon</td>
-    <td>bowl</td>
-    <td>banana</td>
-    <td>apple</td>
-  </tr>
-  <tr>
-    <td>sandwich</td>
-    <td>orange</td>
-    <td>broccoli</td>
-    <td>carrot</td>
-    <td>hot dog</td>
-    <td>pizza</td>
-    <td>donut</td>
-    <td>cake</td>
-  </tr>
-  <tr>
-    <td>chair</td>
-    <td>sofa</td>
-    <td>pottedplant</td>
-    <td>bed</td>
-    <td>diningtable</td>
-    <td>toilet</td>
-    <td>tvmonitor</td>
-    <td>laptop</td>
-  </tr>
-  <tr>
-    <td>mouse</td>
-    <td>remote</td>
-    <td>keyboard</td>
-    <td>cell phone</td>
-    <td>microwave</td>
-    <td>oven</td>
-    <td>toaster</td>
-    <td>sink</td>
-  </tr>
-  <tr>
-    <td>refrigerator</td>
-    <td>book</td>
-    <td>clock</td>
-    <td>vase</td>
-    <td>scissors</td>
-    <td>teddy bear</td>
-    <td>hair drier</td>
-    <td>toothbrush</td>
-  </tr>
-</table>
 
 3. **[QR Code Tracking](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-qr-code-tracking-with-zxing)**
 - Open the `QRCodeTracking` scene to test real-time QR code detection and tracking.
-- You will need to install [NuGet for Unity](https://github.com/GlitchEnzo/NuGetForUnity)
-- After installing NuGet for Unity you will have a new Menu `NuGet`. Click on it and then on `Manage NuGet Packages`. Search for the [ZXing.Net package](https://github.com/micjahn/ZXing.Net/) from Michael Jahn and install it.
+- Install [NuGet for Unity](https://github.com/GlitchEnzo/NuGetForUnity)
+- Click on the `NuGet` menu and then on `Manage NuGet Packages`. Search for the [ZXing.Net package](https://github.com/micjahn/ZXing.Net/) from Michael Jahn and install it.
+- Make sure in your `Player Settings` under `Scripting Define Symbols` you see `ZXING_ENABLED`. The ZXingDefineSymbolChecker class should automatically detect if `ZXing.Net` is installed and add the symbol.
+- In order to see the label of your QR code, you will also need to install TextMeshPro!
 - Build the scene and run the APK on your headset. Look at a QR code to see the marker in 3D space and URL of the QR code.
-  
-**Troubleshooting**: If you ever get the error below, make sure in your `Player Settings` under `Scripting Define Symbols` you see `ZXING_ENABLED`.
-  ```
-  The type or namespace name 'ZXing' could not be found (are you missing a using directive or an assembly reference?)
-  ```
 
 4. **[Frosted Glass Shader](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-frosted-glass-shader)**
 - Open the `FrostedGlass` scene.
+- Make sure in your render asset the `Opaque Texture` check-box is checked.
 - Build the scene and run the APK on your headset.
 - Look at the panel from different angles and observe how objects behind it are blurred.
-
-**Troubleshooting**: If you cannot see the blur effect, make sure in your render asset the `Opaque Texture` check-box is checked. 
 
 > [!WARNING]  
 > The Meta Project Setup Tool (PST) will show a warning and tell you to uncheck it, so do not fix this warning.
@@ -245,7 +241,9 @@ Below you can see all the labels that are provided:
 > [!NOTE]  
 > File uploads are currently limited to `25 MB` and the following input file types are supported: `mp3`, `mp4`, `mpeg`, `mpga`, `m4a`, `wav`, and `webm`.
 
-Below you can see all supported languages. You can send commands and receive results in any of these languages:
+You can send commands and receive results in any of these languages:
+<details>
+  <summary>Show all suppported languages</summary>
 <table>
   <tr>
     <td>Afrikaans</td>
@@ -325,20 +323,16 @@ Below you can see all supported languages. You can send commands and receive res
     <td></td>
   </tr>
 </table>
+</details>
 
 6. **[WebRTC video streaming](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-webrtc-video-streaming)**
 
 - Open the `WebcamToWebRTC` scene.
-- Add the `WebcamToWebRTC` scene to the build settings.
 - Link up your signaling server on `[BuildingBlock] Camera Rig/TrackingSpace/CenterEyeAnchor/Client-STUNConnection` at the field `Web Socket Server Address`.
-- Build and deploy the `WebcamToWebRTC` scene to your Quest3 device.
-- If you have your own project for the receiving client (e.g. using the **SimpleWebRTC** sample scene `WebRTC-SingleClient-STUNConnection`), you can skip the next steps.
-- Open the `WebRTC-SingleClient` scene.
-- Disable the `Oculus` setting for the target platform (Android or Windows) under Project `Settings/XR Plug-In Management`.
-- Remove the `WebcamToWebRTC` scene from build settings and add the `WebRTC-SingleClient` scene.
-- Build and deploy the WebRTC client app on another device or start it on your PC or from within the Unity Editor. More information can be found [here](https://www.youtube.com/watch?v=-CwJTgt_Z3M)
-- Start the WebRTC app on your Quest and on your phone.
-- Quest and client streaming devices should connect automatically to the websocket signaling server.
+- Build and deploy the `WebRTC-Quest` scene to your Quest3 device.
+- Open the `WebRTC-SingleClient` scene on your Editor.
+- Build and deploy the `WebRTC-SingleClient` scene on another device or start it the Unity Editor. More information can be found [here](https://www.youtube.com/watch?v=-CwJTgt_Z3M)
+- Start the WebRTC app on your Quest and on your other devices. Quest and client streaming devices should connect automatically to the websocket signaling server.
 - Perform the Start gesture with your left hand, or press the menu button on your left controller to start streaming from Quest3 to your WebRTC client app.
 
 **Troubleshooting**:
