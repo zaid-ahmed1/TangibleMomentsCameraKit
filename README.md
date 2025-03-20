@@ -61,6 +61,10 @@ https://github.com/user-attachments/assets/a4cfbfc2-0306-40dc-a9a3-cdccffa7afea
 - **Purpose:** Stream the Passthrough Camera stream over WebRTC to another client using WebSockets.
 - **Description:** This sample uses [SimpleWebRTC](https://assetstore.unity.com/packages/tools/network/simplewebrtc-309727), which is a Unity-based WebRTC wrapper that facilitates peer-to-peer audio, video, and data communication over WebRTC using [Unitys WebRTC package](https://docs.unity3d.com/Packages/com.unity.webrtc@3.0/manual/index.html). It leverages [NativeWebSocket](https://github.com/endel/NativeWebSocket) for signaling and supports both video and audio streaming. You will need to setup your own websocket signaling server beforehand, either online or in LAN. You can find more information about the necessary steps [here](https://www.youtube.com/watch?v=-CwJTgt_Z3M)
 
+| 6. 🎥 WebRTC video streaming                   |
+|------------------------------------------------|
+| ![WebRTC](Media/PCA_WebRTC.gif)                |
+
 Getting Started with PCA
 ===============
 
@@ -328,7 +332,7 @@ You can send commands and receive results in any of these languages:
 6. **[WebRTC video streaming](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-webrtc-video-streaming)**
 
 - Open the `WebcamToWebRTC` scene.
-- Link up your signaling server on `[BuildingBlock] Camera Rig/TrackingSpace/CenterEyeAnchor/Client-STUNConnection` at the field `Web Socket Server Address`.
+- Link up your signaling server on the `Client-STUNConnection` component in the `Web Socket Server Address` field.
 - Build and deploy the `WebRTC-Quest` scene to your Quest3 device.
 - Open the `WebRTC-SingleClient` scene on your Editor.
 - Build and deploy the `WebRTC-SingleClient` scene on another device or start it the Unity Editor. More information can be found [here](https://www.youtube.com/watch?v=-CwJTgt_Z3M)
