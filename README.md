@@ -1,8 +1,6 @@
 QuestCameraKit is a collection of template and reference projects demonstrating how to use Meta Quest’s new **Passthrough Camera API** `(PCA)` for advanced AR/VR vision, tracking, and shader effects.
 
-[![Support on Patreon](https://img.shields.io/badge/Become%20a%20Patron-orange?logo=patreon&style=flat-square)](https://www.patreon.com/c/blackwhalestudio)
 [![Follow on X](https://img.shields.io/twitter/follow/xrdevrob?style=social)](https://x.com/xrdevrob)
-
 [![Join our Discord](https://img.shields.io/badge/Join-Discord-blue?style=social&logo=discord)](https://discord.com/invite/KkstGGwueN)
 
 # Table of Contents
@@ -421,6 +419,9 @@ Contact
 =======
 
 For questions, suggestions, or feedback, please open an issue in the repository or contact me on [X](https://x.com/xrdevrob), [LinkedIn](https://www.linkedin.com/in/robertocoviello/), or at [roberto@blackwhale.dev](mailto:roberto@blackwhale.dev). Find all my info [here](https://bento.me/xrdevrob) or join our growing XR developer community on [Discord](https://discord.gg/KkstGGwueN).
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-FF69B4.svg)](https://github.com/sponsors/xrdevrob)
+[![Support on Patreon](https://img.shields.io/badge/Become%20a%20Patron-orange?logo=patreon&style=flat-square)](https://www.patreon.com/c/blackwhalestudio)
 
 --------------------------------------------------------------------------------
 Happy coding and enjoy exploring the possibilities with QuestCameraKit!
