@@ -323,11 +323,16 @@ You can send commands and receive results in any of these languages:
 
 ## 6. **[WebRTC video streaming](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-webrtc-video-streaming)**
 
+- Open the `Package Manager`, click on the + sign in the upper left/right corner.
+	- Select "Add package from git URL".
+	- Enter URL: https://github.com/endel/NativeWebSocket.git#upm and click in Install.
+	- After the installation finished, click on the + sign in the upper left/right corner again.
+	- Enter URL https://github.com/FireDragonGameStudio/SimpleWebRTC.git?path=/Assets/SimpleWebRTC#upm and click on Install
 - Open the `WebcamToWebRTC` scene.
 - Link up your signaling server on the `Client-STUNConnection` component in the `Web Socket Server Address` field.
 - Build and deploy the `WebRTC-Quest` scene to your Quest3 device.
 - Open the `WebRTC-SingleClient` scene on your Editor.
-- Build and deploy the `WebRTC-SingleClient` scene on another device or start it the Unity Editor. More information can be found [here](https://www.youtube.com/watch?v=-CwJTgt_Z3M)
+- Build and deploy the `WebRTC-SingleClient` scene to another device or start it from within the Unity Editor. More information can be found [here](https://www.youtube.com/watch?v=-CwJTgt_Z3M)
 - Start the WebRTC app on your Quest and on your other devices. Quest and client streaming devices should connect automatically to the websocket signaling server.
 - Perform the Start gesture with your left hand, or press the menu button on your left controller to start streaming from Quest3 to your WebRTC client app.
 
@@ -338,6 +343,7 @@ You can send commands and receive results in any of these languages:
 	- Enter URL: https://github.com/endel/NativeWebSocket.git#upm and click in Install.
 	- After the installation finished, click on the + sign in the upper left/right corner again.
 	- Enter URL https://github.com/FireDragonGameStudio/SimpleWebRTC.git?path=/Assets/SimpleWebRTC#upm and click on Install
+	- Use the menu `Tools/Update WebRTC Define Symbol` to update the scripting define symbols if needed.
 - Make sure your own websocket signaling server is up and running. You can find more information about the necessary steps [here](https://youtu.be/-CwJTgt_Z3M?t=1458).
 - If you're going to stream over LAN, make sure the `STUN Server Address` field on `[BuildingBlock] Camera Rig/TrackingSpace/CenterEyeAnchor/Client-STUNConnection` is empty, otherwise leave the default value.
 - Make sure to enable the `Web Socket Connection active` flag on `[BuildingBlock] Camera Rig/TrackingSpace/CenterEyeAnchor/Client-STUNConnection` to connect to the websocket server automatically on start.

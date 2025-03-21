@@ -2127,7 +2127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passthroughCameraManager: {fileID: 1436385067}
   canvasRawImage: {fileID: 557677174}
-  webRTCConnection: {fileID: 6985653293374303736}
+  connectionGameObject: {fileID: 805715864782633738}
 --- !u!1 &1883890013
 GameObject:
   m_ObjectHideFlags: 0

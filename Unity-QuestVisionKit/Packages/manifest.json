@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "com.endel.nativewebsocket": "https://github.com/endel/NativeWebSocket.git#upm",
-    "com.firedragongamestudio.simplewebrtc": "https://github.com/FireDragonGameStudio/SimpleWebRTC.git?path=/Assets/SimpleWebRTC#upm",
     "com.meta.xr.mrutilitykit": "72.0.0",
     "com.meta.xr.sdk.core": "72.0.0",
     "com.unity.ide.rider": "3.0.34",
