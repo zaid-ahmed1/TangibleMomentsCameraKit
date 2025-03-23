@@ -8708,96 +8708,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6249798676358677811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7767784525747897614}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5e48d93b64a9ae4f9fd5a728c8f51af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _renderers:
-  - {fileID: 0}
-  _vectorProperties: []
-  _colorProperties: []
-  _floatProperties: []
-  _updateEveryFrame: 1
---- !u!114 &6249798676710140290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7767784526099098047}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5e48d93b64a9ae4f9fd5a728c8f51af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _renderers:
-  - {fileID: 0}
-  _vectorProperties: []
-  _colorProperties: []
-  _floatProperties: []
-  _updateEveryFrame: 1
---- !u!114 &6249798676753333725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7767784526192623072}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5e48d93b64a9ae4f9fd5a728c8f51af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _renderers:
-  - {fileID: 0}
-  _vectorProperties: []
-  _colorProperties: []
-  _floatProperties: []
-  _updateEveryFrame: 1
---- !u!114 &6249798676859335823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7767784525144405170}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5e48d93b64a9ae4f9fd5a728c8f51af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _renderers:
-  - {fileID: 0}
-  _vectorProperties: []
-  _colorProperties: []
-  _floatProperties: []
-  _updateEveryFrame: 1
---- !u!114 &6249798677359386517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7767784524646997928}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5e48d93b64a9ae4f9fd5a728c8f51af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _renderers:
-  - {fileID: 0}
-  _vectorProperties: []
-  _colorProperties: []
-  _floatProperties: []
-  _updateEveryFrame: 1
 --- !u!114 &6418746133529383692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9098,7 +9008,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1904365648513716840}
   - component: {fileID: 8857196042138226326}
-  - component: {fileID: 6249798677359386517}
   - component: {fileID: 1532464238}
   m_Layer: 4
   m_Name: Visuals
@@ -9117,7 +9026,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1904365649019517298}
   - component: {fileID: 8857196040566826380}
-  - component: {fileID: 6249798676859335823}
   - component: {fileID: 956950388}
   m_Layer: 4
   m_Name: Visuals
@@ -9136,7 +9044,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1904365649648109774}
   - component: {fileID: 8857196041003570224}
-  - component: {fileID: 6249798676358677811}
   - component: {fileID: 485562056}
   m_Layer: 4
   m_Name: Visuals
@@ -9155,7 +9062,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1904365649428751487}
   - component: {fileID: 8857196040954116225}
-  - component: {fileID: 6249798676710140290}
   - component: {fileID: 31619705}
   m_Layer: 4
   m_Name: Visuals
@@ -9174,7 +9080,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1904365649522405408}
   - component: {fileID: 8857196040861117662}
-  - component: {fileID: 6249798676753333725}
   - component: {fileID: 125267494}
   m_Layer: 4
   m_Name: Visuals
@@ -9281,7 +9186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableView: {fileID: 956950388}
-  _editor: {fileID: 6249798676859335823}
+  _editor: {fileID: 0}
   _colorShaderPropertyName: _Color
   _normalColorState:
     Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 0}
@@ -9404,7 +9309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableView: {fileID: 125267494}
-  _editor: {fileID: 6249798676753333725}
+  _editor: {fileID: 0}
   _colorShaderPropertyName: _Color
   _normalColorState:
     Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 0}
@@ -9527,7 +9432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableView: {fileID: 31619705}
-  _editor: {fileID: 6249798676710140290}
+  _editor: {fileID: 0}
   _colorShaderPropertyName: _Color
   _normalColorState:
     Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 0}
@@ -9650,7 +9555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableView: {fileID: 485562056}
-  _editor: {fileID: 6249798676358677811}
+  _editor: {fileID: 0}
   _colorShaderPropertyName: _Color
   _normalColorState:
     Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 0}
@@ -9773,7 +9678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableView: {fileID: 1532464238}
-  _editor: {fileID: 6249798677359386517}
+  _editor: {fileID: 0}
   _colorShaderPropertyName: _Color
   _normalColorState:
     Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 0}
