@@ -35,15 +35,15 @@ QuestCameraKit is a collection of template and reference projects demonstrating 
 - **Purpose:** Detect and track QR codes in real time. Open webviews or log-in to 3rd party services with ease.
 - **Description:** Similarly to the object detection sample, get QR code coordinated and projects them into 3D space. Detect QR codes and call their URLs. You can select between a multiple or single QR code mode. The sample is running at around `70 fps` for multiple QR codes and a stable `72 fps` for a single code.
 
-## 4. 🪟 Frosted Glass Shader
+## 4. 🪟 Shader Samples
 
-- **Purpose:** Apply a custom frosted glass shader effect to virtual surfaces.
-- **Description:** A shader which takes our camera feed as input to blur the content behind it.
-- **`Todo`**: We have a shader that correctly maps the camera texture onto a quad, and we have one vertical blur shader and one horizontal blur shader. Ideally we would combine all of these into one shader effect to be able to easily apply it to meshes or UI elements.
+- **Purpose:** Apply a custom shader effect to virtual surfaces.
+- **Description:** A shader which takes our camera feed as input to manipulate the content behind it.
+- **`Todo`**: We are aware of the huge demand for a proper forsted glass shader and are working hard on coming up with the best solution for this.
 
 | 3. 📱 QR Code Tracking                | 4. 🪟 Frosted Glass                   |
 |---------------------------------------|---------------------------------------|
-| ![QR Code](Media/QRCodeTracking.gif)  | ![Frosted](Media/FrostedGlass.gif)    |
+| ![QR Code](Media/QRCodeTracking.gif)  | ![Frosted](Media/ShaderSamples.gif)    |
 
 ## 5. 🧠 OpenAI vision model
 
