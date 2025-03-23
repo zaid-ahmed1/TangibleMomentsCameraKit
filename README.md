@@ -401,6 +401,7 @@ You can send commands and receive results in any of these languages:
   - [Hugues Bruyère](https://x.com/smallfly): [SAM 2 to our workflow to segment people](https://x.com/smallfly/status/1903560186381377735)
   - [水マヨ](https://x.com/mizzmayo): [AI image description](https://x.com/mizzmayo/status/1901855438083359120)
   - [妹尾雄大](https://x.com/senooyudai): [Img2Img process of SDXL](https://x.com/senooyudai/status/1900799052054491421)
+  - [Rolando Masís-Obando](https://www.linkedin.com/in/rmasiso): [Image to image with LCM and SDXL Turbo](https://www.linkedin.com/feed/update/urn:li:activity:7307797312158789632/)
  
 - Video recording and replay
   - [Lucas Martinic](https://x.com/lucas_martinic): [Rewind what you saw](https://x.com/lucas_martinic/status/1902700951728693618)
