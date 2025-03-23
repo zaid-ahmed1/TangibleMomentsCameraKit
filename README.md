@@ -10,6 +10,7 @@ QuestCameraKit is a collection of template and reference projects demonstrating 
 - [General Troubleshooting & Known Issues](#general-troubleshooting--known-issues)
 - [Acknowledgements & Credits](#acknowledgements--credits)
 - [Community Contributions](#community-contributions)
+- [News](#news)
 - [License](#license)
 - [Contact](#contact)
 
