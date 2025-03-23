@@ -38,12 +38,11 @@ QuestCameraKit is a collection of template and reference projects demonstrating 
 ## 4. 🪟 Shader Samples
 
 - **Purpose:** Apply a custom shader effect to virtual surfaces.
-- **Description:** A shader which takes our camera feed as input to manipulate the content behind it.
-- **`Todo`**: We are aware of the huge demand for a proper forsted glass shader and are working hard on coming up with the best solution for this.
+- **Description:** A shader which takes our camera feed as input to manipulate the content behind it. Right now the project contains a Pixelate, Refract, Water, Zoom, and Blur effect. Frosted Glass shader is work in progress!
 
-| 3. 📱 QR Code Tracking                | 4. 🪟 Frosted Glass                   |
+| 3. 📱 QR Code Tracking                | 4. 🪟 Shader Samples                  |
 |---------------------------------------|---------------------------------------|
-| ![QR Code](Media/QRCodeTracking.gif)  | ![Frosted](Media/ShaderSamples.gif)    |
+| ![QR Code](Media/QRCodeTracking.gif)  | ![Frosted](Media/ShaderSamples.gif)   |
 
 ## 5. 🧠 OpenAI vision model
 
@@ -219,11 +218,10 @@ Follow the instructions in the section below to run one of the samples.
 - In order to see the label of your QR code, you will also need to install TextMeshPro!
 - Build the scene and run the APK on your headset. Look at a QR code to see the marker in 3D space and URL of the QR code.
 
-## 4. **[Frosted Glass Shader](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#-frosted-glass-shader)**
-- Open the `FrostedGlass` scene.
-- Make sure in your render asset the `Opaque Texture` check-box is checked.
+## 4. **[Shader Samples](https://github.com/xrdevrob/QuestCameraKit?tab=readme-ov-file#shader-samples)**
+- Open the `Shader Samples` scene.
 - Build the scene and run the APK on your headset.
-- Look at the panel from different angles and observe how objects behind it are blurred.
+- Look at the spheres from different angles and observe how objects behind it are changing.
 
 > [!WARNING]  
 > The Meta Project Setup Tool (PST) will show a warning and tell you to uncheck it, so do not fix this warning.
@@ -362,10 +360,11 @@ You can send commands and receive results in any of these languages:
 # Acknowledgements & Credits
 
 - Thanks to **Meta** for the Passthrough Camera API and [**Passthrough Camera API Samples**](https://github.com/oculus-samples/Unity-PassthroughCameraApiSamples/).
-- Thanks to shader wizard [Daniel Ilett](https://www.youtube.com/@danielilett) for helping me set up the `FrostedGlass` sample.
+- Thanks to shader wizard [Daniel Ilett](https://www.youtube.com/@danielilett) for helping me in the shader samples.
 - Thanks to **[Michael Jahn](https://github.com/micjahn/ZXing.Net/)** for the XZing.Net library used for the QR code tracking samples.
 - Thanks to **[Julian Triveri](https://github.com/trev3d/QuestDisplayAccessDemo)** for constantly pushing the boundaries with what is possible with Meta Quest hardware and software.
 - Special thanks to [Markus Altenhofer](https://www.linkedin.com/in/markus-altenhofer-176453155/) from [FireDragonGameStudio](https://www.youtube.com/@firedragongamestudio) for contributing the WebRTC sample scene.
+- Special thanks to [Thomas Ratliff](https://x.com/devtom7) for contributing his [shader samples](https://x.com/devtom7/status/1902033672041091453) to the repo.
 
 # Community Contributions
 
