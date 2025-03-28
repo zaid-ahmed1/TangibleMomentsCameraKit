@@ -387,6 +387,7 @@ You can send commands and receive results in any of these languages:
 - **Environment Understanding & Mapping**
   - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [Turning image into colored point cloud](https://x.com/Tks_Yoshinaga/status/1900923909962133782)
   - [Alireza Bahremand](https://x.com/lirezaBahremand): [Quest Passthrough to MAST3R-SLAM for scene ply distribution](https://x.com/lirezaBahremand/status/1901665472069902772)
+  - [うえださん](https://x.com/ueda406): [3D Scanner](https://x.com/ueda406/status/1904771581135774042)
 
 - **Environment Sampling**
   - [Christoph Spinger](https://www.linkedin.com/in/christoph-spinger-280621190/): [Chameleon color picker](https://www.linkedin.com/feed/update/urn:li:activity:7306688023843250176/)
@@ -395,6 +396,7 @@ You can send commands and receive results in any of these languages:
 - **Image to 3D**
   - [Takahiro Horikawa](https://x.com/thorikawa): [Replicate real objects into 3D](https://x.com/thorikawa/status/1901545245944455409)
   - [Matt Hudson](https://x.com/mechpil0t): [Augmented Reality clones](https://x.com/mechpil0t/status/1902879317803294773)
+  - [Aman Bohra](https://www.linkedin.com/in/amanbohra/): [Turning drawings into 3D models](https://www.linkedin.com/feed/update/urn:li:activity:7310875897278918656/)
 
 - **Image to Image, Diffusion & Generation**
   - [Hugues Bruyère](https://x.com/smallfly): [MR + Diffusion prototype](https://x.com/smallfly/status/1901403937321750862)
@@ -410,6 +412,8 @@ You can send commands and receive results in any of these languages:
   - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [Using Passthrough Camera API with the OpenCV for Unity plugin](https://x.com/Tks_Yoshinaga/status/1901187442084098464)
   - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [OpenCV marker detection for object tracking](https://x.com/taka_yoshinaga/status/1901560686603387255)
   - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [OpenCV marker detection for multiple objects](https://x.com/Taka_Yoshinaga/status/1902700309933371558). You can find this project on his [GitHub Repo](https://github.com/TakashiYoshinaga/QuestArUcoMarkerTracking)
+  - [Aurelio Puerta Martín](https://x.com/aurepuerta_dev): [OpenCV with multiple trackers](https://x.com/aurepuerta_dev/status/1905220037167751675)
+  - [くりやま@システム開発](https://x.com/xamel7): [Positioning 3D objects on markers](https://x.com/xamel7/status/1904400697577394181)
 
 - **QR Code Tracking**
   - [Christoph Spinger](https://www.linkedin.com/in/christoph-spinger-280621190/): [QR code object tracking](https://www.linkedin.com/feed/update/urn:li:activity:7306652200418598912/)
