@@ -327,7 +327,7 @@ You can send commands and receive results in any of these languages:
 	- Enter URL: https://github.com/endel/NativeWebSocket.git#upm and click in Install.
 	- After the installation finished, click on the + sign in the upper left/right corner again.
 	- Enter URL https://github.com/FireDragonGameStudio/SimpleWebRTC.git?path=/Assets/SimpleWebRTC#upm and click on Install
-- Open the `WebcamToWebRTC` scene.
+- Open the `WebRTC-Quest` scene.
 - Link up your signaling server on the `Client-STUNConnection` component in the `Web Socket Server Address` field.
 - Build and deploy the `WebRTC-Quest` scene to your Quest3 device.
 - Open the `WebRTC-SingleClient` scene on your Editor.
