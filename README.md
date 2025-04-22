@@ -385,6 +385,7 @@ You can send commands and receive results in any of these languages:
   - [Thomas Ratcliff](https://x.com/devtom7): [Water, blur, zoom shaders](https://x.com/devtom7/status/1901384363658350612)
   - [Thomas Ratcliff](https://x.com/devtom7): [Pixelate shader](https://x.com/devtom7/status/1902033672041091453)
   - [Chukwfumnanya Christoph-Antoine Okafor](https://x.com/covetthatjam): [Frosted Glass Shader](https://x.com/covetthatjam/status/1902423661102923999)
+  - [Bastion](https://x.com/BastionReality): [Glitch Shader](https://x.com/BastionReality)
 
 - **Environment Understanding & Mapping**
   - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [Turning image into colored point cloud](https://x.com/Tks_Yoshinaga/status/1900923909962133782)
@@ -392,6 +393,9 @@ You can send commands and receive results in any of these languages:
   - [うえださん](https://x.com/ueda406): [3D Scanner](https://x.com/ueda406/status/1904771581135774042)
   - [Sander Sneek](https://www.linkedin.com/in/sandersneek/): [Mixed Reality Voxel Demo](https://www.linkedin.com/feed/update/urn:li:activity:7312869115583414273/)
   - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [Point cloud data from Quest in real time](https://x.com/taka_yoshinaga/status/1910141763173712333)
+  - [Bastion](https://x.com/BastionReality): [Sobel edge detection + passthrough camera + R6 Lion scan SFX](https://x.com/BastionReality/status/1912358908804333844)
+  - [Thomas Ratcliff](https://x.com/devtom7): [Dynamic reflection data generation](https://x.com/devtom7/status/1913667214399414659)
+  - [Thomas Ratcliff](https://x.com/devtom7): [Camera based reflection and lighting](https://x.com/devtom7/status/1913965819987366267)
 
 - **Light Estimation**
   - [pjchardt on Reddit](https://www.reddit.com/user/pjchardt/): [Prototype combining real lights and virtual objects using light estimation to affect 3d environment.](https://www.reddit.com/r/OculusQuest/comments/1jlvy3o/meta_quest_cameraapi_prototype_combining_real/)
