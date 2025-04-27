@@ -366,6 +366,35 @@ You can send commands and receive results in any of these languages:
 - Special thanks to [Markus Altenhofer](https://www.linkedin.com/in/markus-altenhofer-176453155/) from [FireDragonGameStudio](https://www.youtube.com/@firedragongamestudio) for contributing the WebRTC sample scene.
 - Special thanks to [Thomas Ratliff](https://x.com/devtom7) for contributing his [shader samples](https://x.com/devtom7/status/1902033672041091453) to the repo.
 
+# Community Highlights
+
+I wanted to dedicate this section to a couple of developers that are doing some great work with Meta Quest and especially the Passthrough Camera API and are actively working on some exciting prototypes:
+
+- [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): Takashi has been doing amazing explorations in XR and with Meta Quest for a long time. His work focuses mainly on scene understanding and scanning. Takashi has also created his own [GitHub repo](https://github.com/TakashiYoshinaga/QuestArUcoMarkerTracking), showing other developers how to use the Unity OpenCV plugin for marker tracking and more.
+  - [Turning image into colored point cloud](https://x.com/Tks_Yoshinaga/status/1900923909962133782)
+  - [Point cloud data from Quest in real time](https://x.com/taka_yoshinaga/status/1910141763173712333)
+  - [Map color images onto a point cloud by combining Quest's Depth API and Passthrough Camera API](https://x.com/Tks_Yoshinaga/status/1916381129508012107)
+  - [Using Passthrough Camera API with the OpenCV for Unity plugin](https://x.com/Tks_Yoshinaga/status/1901187442084098464)
+  - [OpenCV marker detection for object tracking](https://x.com/taka_yoshinaga/status/1901560686603387255)
+  - [OpenCV marker detection for multiple objects](https://x.com/Taka_Yoshinaga/status/1902700309933371558)
+
+- [Thomas Ratcliff](https://x.com/devtom7): A super talented technical artist you should definitely follow. He has been working on passthrough shaders and lighting estimation.
+  - [Water, blur, zoom shaders](https://x.com/devtom7/status/1901384363658350612)
+  - [Pixelate shader](https://x.com/devtom7/status/1902033672041091453)
+  - [Dynamic reflection data generation](https://x.com/devtom7/status/1913667214399414659)
+  - [Camera based reflection and lighting](https://x.com/devtom7/status/1913965819987366267)
+  
+- [Hugues Bruyère](https://x.com/smallfly): Hugues is showcasing and continuously improving his image capturing and stable diffusion prototype. It demonstartes how to capture multiple images, geenrate new images, and stitch them together.
+  - [MR + Diffusion prototype](https://x.com/smallfly/status/1901403937321750862)
+  - [SAM 2 to our workflow to segment people](https://x.com/smallfly/status/1903560186381377735)
+  - [Mixed Reality + Diffusion prototype as a tool for exploring concepts, styles, and moods by transforming real-world surroundings into alternate realities.](https://x.com/smallfly/status/1916234097724215599)
+
+- [Markus Altenhofer](https://www.linkedin.com/in/markus-altenhofer-176453155/): Markus has been putting out some amazing content around Meta Quest and recently combining it with the Passthrough Camera API. You can find all his work on hit YouTube channel [FireDragonGameStudio](https://www.youtube.com/@firedragongamestudio).
+  - [Easy WebRTC video streaming to multiple devices](https://www.youtube.com/watch?v=1R9yrXePJ40)
+  - [Indoor Navigation with QRCode tracking](https://www.youtube.com/watch?v=EUqaOGJxLiY&t)
+  - [XR Minecraft with Meta Quest 3 Depth Sensor and ColorPicker](https://www.youtube.com/watch?v=CNoueOloXNo&t)
+  - [Room detection with Quest 3 Depth Sensor and Object Detection](https://www.youtube.com/watch?v=iimtkRqRxLc)
+
 # Community Contributions
 
 - **Tutorials**
@@ -380,6 +409,7 @@ You can send commands and receive results in any of these languages:
   - [Udayshankar Ravikumar](https://x.com/uralstechCTO): [Unity Sentis Digit Recognition](https://x.com/uralstechCTO/status/1902056175153377353)
   - [Christoph Spinger](https://www.linkedin.com/in/christoph-spinger-280621190/): [Tracking a real ball and playing some XR football](https://www.linkedin.com/feed/update/urn:li:activity:7314282273791471616/)
   - [Danyl Bulbas](https://www.linkedin.com/in/danylbulbas/): [XR Chess](https://www.linkedin.com/feed/update/urn:li:activity:7313374042441375745/)
+  - [Christoph Spinger](https://www.linkedin.com/in/christoph-spinger-280621190/): [Custom ball-controller for the Meta Quest 3](https://www.linkedin.com/posts/christoph-spinger-280621190_i-just-worked-up-a-real-sweat-playing-vr-activity-7321457451889844225-HiTv?utm_source=share&utm_medium=member_desktop&rcm=ACoAACRDIgYBe94CQK8Ln4nJhdS1WdG2y9aZHYs)
 
 - **Shaders**
   - [Thomas Ratcliff](https://x.com/devtom7): [Water, blur, zoom shaders](https://x.com/devtom7/status/1901384363658350612)
@@ -396,6 +426,7 @@ You can send commands and receive results in any of these languages:
   - [Bastion](https://x.com/BastionReality): [Sobel edge detection + passthrough camera + R6 Lion scan SFX](https://x.com/BastionReality/status/1912358908804333844)
   - [Thomas Ratcliff](https://x.com/devtom7): [Dynamic reflection data generation](https://x.com/devtom7/status/1913667214399414659)
   - [Thomas Ratcliff](https://x.com/devtom7): [Camera based reflection and lighting](https://x.com/devtom7/status/1913965819987366267)
+  - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [Map color images onto a point cloud by combining Quest's Depth API and Passthrough Camera API](https://x.com/Tks_Yoshinaga/status/1916381129508012107)
 
 - **Light Estimation**
   - [pjchardt on Reddit](https://www.reddit.com/user/pjchardt/): [Prototype combining real lights and virtual objects using light estimation to affect 3d environment.](https://www.reddit.com/r/OculusQuest/comments/1jlvy3o/meta_quest_cameraapi_prototype_combining_real/)
@@ -416,6 +447,7 @@ You can send commands and receive results in any of these languages:
   - [水マヨ](https://x.com/mizzmayo): [AI image description](https://x.com/mizzmayo/status/1901855438083359120)
   - [妹尾雄大](https://x.com/senooyudai): [Img2Img process of SDXL](https://x.com/senooyudai/status/1900799052054491421)
   - [Rolando Masís-Obando](https://www.linkedin.com/in/rmasiso): [Image to image with LCM and SDXL Turbo](https://www.linkedin.com/feed/update/urn:li:activity:7307797312158789632/)
+  - [Hugues Bruyère](https://x.com/smallfly): [Mixed Reality + Diffusion prototype as a tool for exploring concepts, styles, and moods by transforming real-world surroundings into alternate realities.](https://x.com/smallfly/status/1916234097724215599)
  
 - Video recording and replay
   - [Lucas Martinic](https://x.com/lucas_martinic): [Rewind what you saw](https://x.com/lucas_martinic/status/1902700951728693618)
