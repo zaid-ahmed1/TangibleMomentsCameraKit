@@ -424,12 +424,12 @@ I wanted to dedicate this section to a couple of developers that are doing some 
   - [Sander Sneek](https://www.linkedin.com/in/sandersneek/): [Mixed Reality Voxel Demo](https://www.linkedin.com/feed/update/urn:li:activity:7312869115583414273/)
   - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [Point cloud data from Quest in real time](https://x.com/taka_yoshinaga/status/1910141763173712333)
   - [Bastion](https://x.com/BastionReality): [Sobel edge detection + passthrough camera + R6 Lion scan SFX](https://x.com/BastionReality/status/1912358908804333844)
-  - [Thomas Ratcliff](https://x.com/devtom7): [Dynamic reflection data generation](https://x.com/devtom7/status/1913667214399414659)
-  - [Thomas Ratcliff](https://x.com/devtom7): [Camera based reflection and lighting](https://x.com/devtom7/status/1913965819987366267)
   - [Takashi Yoshinaga](https://x.com/Taka_Yoshinaga): [Map color images onto a point cloud by combining Quest's Depth API and Passthrough Camera API](https://x.com/Tks_Yoshinaga/status/1916381129508012107)
 
-- **Light Estimation**
+- **Lighting and Reflection Estimation**
   - [pjchardt on Reddit](https://www.reddit.com/user/pjchardt/): [Prototype combining real lights and virtual objects using light estimation to affect 3d environment.](https://www.reddit.com/r/OculusQuest/comments/1jlvy3o/meta_quest_cameraapi_prototype_combining_real/)
+  - [Thomas Ratcliff](https://x.com/devtom7): [Dynamic reflection data generation](https://x.com/devtom7/status/1913667214399414659)
+  - [Thomas Ratcliff](https://x.com/devtom7): [Camera based reflection and lighting](https://x.com/devtom7/status/1913965819987366267)
 
 - **Environment Sampling**
   - [Christoph Spinger](https://www.linkedin.com/in/christoph-spinger-280621190/): [Chameleon color picker](https://www.linkedin.com/feed/update/urn:li:activity:7306688023843250176/)
