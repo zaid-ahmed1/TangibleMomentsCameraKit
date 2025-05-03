@@ -104,7 +104,7 @@ public class ObjectRenderer : MonoBehaviour
             {
                 if (Vector3.Distance(existingMarker.transform.position, markerWorldPos) < mergeThreshold)
                 {
-                    existingMarker.UpdateMarker(markerWorldPos, Quaternion.LookRotation(-centerHit.normal, Vector3.up), markerScale, labelKey);
+                    existingMarker.UpdateMarker(markerWorldPos, Quaternion.LookRotation(-centerHit.normal, Vector3.up), markerScale, labelKey, Color.white);
                     continue;
                 }
                 labelKey += $"_{i}";
@@ -118,7 +118,7 @@ public class ObjectRenderer : MonoBehaviour
                 continue;
             }
 
-            marker.UpdateMarker(markerWorldPos, Quaternion.LookRotation(-centerHit.normal, Vector3.up), markerScale, labelKey);
+            marker.UpdateMarker(markerWorldPos, Quaternion.LookRotation(-centerHit.normal, Vector3.up), markerScale, labelKey, Color.white);
             _activeMarkers[labelKey] = marker;
             print($"[Detection3DRenderer] Detection {i}: Marker placed with label: {labelKey}");
         }

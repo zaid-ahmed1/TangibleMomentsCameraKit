@@ -17,19 +17,19 @@ public class MarkerController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Updates the marker’s transform and text, and records the update time.
-    /// </summary>
-    public void UpdateMarker(Vector3 position, Quaternion rotation, Vector3 scale, string text)
+    public void UpdateMarker(Vector3 position, Quaternion rotation, Vector3 scale, string text, Color textColor)
     {
         transform.SetPositionAndRotation(position, rotation);
         transform.localScale = scale;
+        
         if (_textMesh)
         {
             _textMesh.text = text;
+            _textMesh.color = textColor;
         }
-        
+
         lastUpdateTime = Time.time;
+
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
@@ -42,7 +42,7 @@ public class MarkerController : MonoBehaviour
         {
             _textMesh.transform.rotation = Quaternion.LookRotation(_textMesh.transform.position - _camera.transform.position);
         }
-    
+
         if (gameObject.activeSelf && Time.time - lastUpdateTime > 2f)
         {
             gameObject.SetActive(false);

@@ -13,10 +13,16 @@ public class QrCodeDisplayManager : MonoBehaviour
 
     private readonly Dictionary<string, MarkerController> _activeMarkers = new();
     private PassthroughCameraEye _passthroughCameraEye;
+    private Postgres _postgres;
 
     private void Awake()
     {
         _passthroughCameraEye = passthroughCameraManager.Eye;
+        _postgres = FindFirstObjectByType<Postgres>();
+        if (_postgres == null)
+        {
+            Debug.LogError("Postgres instance not found in the scene.");
+        }
     }
 
     private void Update()
@@ -31,9 +37,7 @@ public class QrCodeDisplayManager : MonoBehaviour
         foreach (var qrResult in qrResults)
         {
             if (qrResult?.corners == null || qrResult.corners.Length < 4)
-            {
                 continue;
-            }
 
             var count = qrResult.corners.Length;
             var uvs = new Vector2[count];
@@ -41,12 +45,9 @@ public class QrCodeDisplayManager : MonoBehaviour
             {
                 uvs[i] = new Vector2(qrResult.corners[i].x, qrResult.corners[i].y);
             }
-            
+
             var centerUV = Vector2.zero;
-            foreach (var uv in uvs)
-            {
-                centerUV += uv;
-            }
+            foreach (var uv in uvs) centerUV += uv;
             centerUV /= count;
 
             var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(_passthroughCameraEye);
@@ -54,12 +55,10 @@ public class QrCodeDisplayManager : MonoBehaviour
                 Mathf.RoundToInt(centerUV.x * intrinsics.Resolution.x),
                 Mathf.RoundToInt(centerUV.y * intrinsics.Resolution.y)
             );
-            
+
             var centerRay = PassthroughCameraUtils.ScreenPointToRayInWorld(_passthroughCameraEye, centerPixel);
             if (!envRaycastManager || !envRaycastManager.Raycast(centerRay, out var hitInfo))
-            {
                 continue;
-            }
 
             var center = hitInfo.point;
             var distance = Vector3.Distance(centerRay.origin, hitInfo.point);
@@ -71,7 +70,7 @@ public class QrCodeDisplayManager : MonoBehaviour
                     Mathf.RoundToInt(uvs[i].x * intrinsics.Resolution.x),
                     Mathf.RoundToInt(uvs[i].y * intrinsics.Resolution.y)
                 );
-                
+
                 var r = PassthroughCameraUtils.ScreenPointToRayInWorld(_passthroughCameraEye, pixelCoord);
                 tempCorners[i] = r.origin + r.direction * distance;
             }
@@ -80,62 +79,73 @@ public class QrCodeDisplayManager : MonoBehaviour
             var right = (tempCorners[2] - tempCorners[1]).normalized;
             var normal = -Vector3.Cross(up, right).normalized;
             var qrPlane = new Plane(normal, center);
+
             var worldCorners = new Vector3[count];
-            
             for (var i = 0; i < count; i++)
             {
                 var pixelCoord = new Vector2Int(
                     Mathf.RoundToInt(uvs[i].x * intrinsics.Resolution.x),
                     Mathf.RoundToInt(uvs[i].y * intrinsics.Resolution.y)
                 );
-                
+
                 var r = PassthroughCameraUtils.ScreenPointToRayInWorld(_passthroughCameraEye, pixelCoord);
                 if (qrPlane.Raycast(r, out var enter))
-                {
                     worldCorners[i] = r.GetPoint(enter);
-                }
                 else
-                {
                     worldCorners[i] = tempCorners[i];
-                }
             }
 
             center = Vector3.zero;
-            foreach (var corner in worldCorners)
-            {
-                center += corner;
-            }
-            
+            foreach (var corner in worldCorners) center += corner;
             center /= count;
+
             up = (worldCorners[1] - worldCorners[0]).normalized;
             right = (worldCorners[2] - worldCorners[1]).normalized;
             normal = -Vector3.Cross(up, right).normalized;
-            
+
             var poseRot = Quaternion.LookRotation(normal, up);
             var width = Vector3.Distance(worldCorners[0], worldCorners[1]);
             var height = Vector3.Distance(worldCorners[0], worldCorners[3]);
             var scaleFactor = 1.5f;
             var scale = new Vector3(width * scaleFactor, height * scaleFactor, 1f);
 
+            // -------- Begin lookup + styling logic --------
+            string displayText = qrResult.text;
+            Color displayColor = Color.white;
+
+            if (qrResult.text.StartsWith("https://tangible-moments.me/"))
+            {
+                string qrCode = qrResult.text.Substring(28);
+                var memory = _postgres?.FindMemoryByQRCode(qrCode);
+
+                if (memory != null)
+                {
+                    displayText = memory.qr_code;
+                    PlayerPrefs.SetString("currentMemoryFileKey", memory.filekey);
+                    PlayerPrefs.Save();
+                    displayColor = Color.white;
+                }
+                else
+                {
+                    displayText = qrCode;
+                    displayColor = Color.red;
+                }
+            }
+            // -------- End lookup + styling logic --------
+
             if (_activeMarkers.TryGetValue(qrResult.text, out var marker))
             {
-                marker.UpdateMarker(center, poseRot, scale, qrResult.text);
+                marker.UpdateMarker(center, poseRot, scale, displayText, displayColor);
             }
             else
             {
                 var markerGo = MarkerPool.Instance.GetMarker();
-                if (!markerGo)
-                {
-                    continue;
-                }
-                
+                if (!markerGo) continue;
+
                 marker = markerGo.GetComponent<MarkerController>();
-                if (!marker)
-                {
-                    continue;
-                }
-                
-                marker.UpdateMarker(center, poseRot, scale, qrResult.text);
+                if (!marker) continue;
+
+                marker.UpdateMarker(center, poseRot, scale, displayText, displayColor);
                 _activeMarkers[qrResult.text] = marker;
             }
         }
@@ -146,7 +156,7 @@ public class QrCodeDisplayManager : MonoBehaviour
             if (!kvp.Value.gameObject.activeSelf)
                 keysToRemove.Add(kvp.Key);
         }
-        
+
         foreach (var key in keysToRemove)
         {
             _activeMarkers.Remove(key);
