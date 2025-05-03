@@ -29,7 +29,7 @@ public class QrCodeScanner : MonoBehaviour
 #if ZXING_ENABLED
     [SerializeField] private WebCamTextureManager camHelper;
     [SerializeField] private int sampleFactor = 2;
-    [SerializeField] private QrCodeDetectionMode detectionMode = QrCodeDetectionMode.Single;
+    [SerializeField] private QrCodeDetectionMode detectionMode = QrCodeDetectionMode.Multiple;
     [SerializeField] private ComputeShader downsampleShader;
 
     private RenderTexture _downsampledTexture;
