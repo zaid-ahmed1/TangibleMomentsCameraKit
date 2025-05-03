@@ -118,3 +118,5 @@ Assets/.avatar_sdk_sample_assets_importer.txt
 **/RuntimeActionBindings.json
 **/RuntimeActionBindings.json.meta
 .editorconfig
+
+TangibleMomentsCameraKit/Assets/Scripts/Postgres.cs
