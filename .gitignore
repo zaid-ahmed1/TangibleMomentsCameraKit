@@ -120,3 +120,4 @@ Assets/.avatar_sdk_sample_assets_importer.txt
 .editorconfig
 
 TangibleMomentsCameraKit/Assets/Scripts/Postgres.cs
+TangibleMomentsCameraKit/Assets/Scripts/S3.cs
