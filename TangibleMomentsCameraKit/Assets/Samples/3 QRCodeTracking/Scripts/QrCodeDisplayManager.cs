@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Meta.XR;
 using PassthroughCameraSamples;
+using TMPro;
 
 public class QrCodeDisplayManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class QrCodeDisplayManager : MonoBehaviour
     private Postgres _postgres;
     public Memory memory;
     private String qrCode;
+    public TextMeshProUGUI debugText;
     private void Awake()
     {
         _passthroughCameraEye = passthroughCameraManager.Eye;
@@ -121,6 +123,7 @@ public class QrCodeDisplayManager : MonoBehaviour
 
                 if (memory != null)
                 {
+                    debugText.text = memory.title; // Debugging line
                     displayText = memory.qr_code;
                     PlayerPrefs.SetString("currentMemoryFileKey", memory.filekey);
                     PlayerPrefs.Save();
@@ -128,6 +131,7 @@ public class QrCodeDisplayManager : MonoBehaviour
                 }
                 else
                 {
+                    debugText.text = "Not found."; // Debugging line
                     displayText = qrCode;
                     displayColor = Color.red;
                 }
@@ -138,7 +142,7 @@ public class QrCodeDisplayManager : MonoBehaviour
             {
                 // Replace the marker.UpdateMarker call with:
                 bool isValidQR = memory != null;
-                marker.UpdateMarker(center, poseRot, scale, qrCode, isValidQR ? Color.white : Color.red, isValidQR);
+                marker.UpdateMarker(center, poseRot, scale, displayText, displayColor, isValidQR);
             }
             else
             {

@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using PassthroughCameraSamples;
-using UnityEngine;
+using System.Threading.Tasks;
 using UnityEngine.Rendering;
+using UnityEngine;
+using System;
 #if ZXING_ENABLED
-using TMPro;
 using ZXing;
 using ZXing.Common;
 using ZXing.QrCode;
@@ -28,15 +27,16 @@ public class QrCodeResult
 public class QrCodeScanner : MonoBehaviour
 {
 #if ZXING_ENABLED
-    [SerializeField] private WebCamTextureManager camHelper;
     [SerializeField] private int sampleFactor = 2;
-    [SerializeField] private QrCodeDetectionMode detectionMode = QrCodeDetectionMode.Multiple;
+    [SerializeField] private QrCodeDetectionMode detectionMode = QrCodeDetectionMode.Single;
     [SerializeField] private ComputeShader downsampleShader;
 
+    private WebCamTextureManager _webCamTextureManager;
     private RenderTexture _downsampledTexture;
     private Texture2D _webcamTextureCache;
     private QRCodeReader _qrReader;
     private bool _isScanning;
+    
     private static readonly int Input1 = Shader.PropertyToID("_Input");
     private static readonly int Output = Shader.PropertyToID("_Output");
     private static readonly int InputWidth = Shader.PropertyToID("_InputWidth");
@@ -44,19 +44,11 @@ public class QrCodeScanner : MonoBehaviour
     private static readonly int OutputWidth = Shader.PropertyToID("_OutputWidth");
     private static readonly int OutputHeight = Shader.PropertyToID("_OutputHeight");
 
-    [SerializeField] private TMP_Text textMesh;
-    private Postgres postgres;
-
     private void Awake()
     {
+        _webCamTextureManager = FindAnyObjectByType<WebCamTextureManager>();
         _qrReader = new QRCodeReader();
-        postgres = FindFirstObjectByType<Postgres>();
-        if (postgres == null)
-        {
-            Debug.LogError("[QRCodeScanner] Postgres instance not found in the scene.");
-        }
     }
-
 
     private void OnDestroy()
     {
@@ -95,17 +87,17 @@ public class QrCodeScanner : MonoBehaviour
         _isScanning = true;
         try
         {
-            if (!camHelper)
+            if (!_webCamTextureManager)
             {
                 Debug.LogWarning("[QRCodeScanner] Camera helper is not assigned.");
                 return null;
             }
 
-            var webCamTex = camHelper.WebCamTexture;
+            var webCamTex = _webCamTextureManager.WebCamTexture;
             while (!webCamTex || !webCamTex.isPlaying)
             {
                 await Task.Delay(16);
-                webCamTex = camHelper.WebCamTexture;
+                webCamTex = _webCamTextureManager.WebCamTexture;
             }
 
             var texture = GetOrCreateTexture(webCamTex.width, webCamTex.height);
@@ -189,39 +181,6 @@ public class QrCodeScanner : MonoBehaviour
 
     private QrCodeResult ProcessDecodeResult(Result decodeResult, int targetWidth, int targetHeight)
     {
-        string rawText = decodeResult.Text;
-        string processedText = rawText;
-
-        if (rawText.StartsWith("https://tangible-moments.me/"))
-        {
-            processedText = rawText.Substring("https://tangible-moments.me/".Length);
-            if (postgres != null)
-            {
-                var memory = postgres.FindMemoryByQRCode(processedText);
-                if (memory != null)
-                {
-                    processedText = memory.qr_code;
-                    PlayerPrefs.SetString("currentMemoryFileKey", memory.filekey);
-                    PlayerPrefs.Save();
-
-                    if (textMesh != null)
-                    {
-                        textMesh.text = processedText;
-                        textMesh.color = Color.white;
-                    }
-                }
-                else
-                {
-                    if (textMesh != null)
-                    {
-                        textMesh.text = "Not found in database!";
-                        textMesh.color = Color.red;
-                    }
-                    Debug.LogWarning($"[QRCodeScanner] No memory found for QR code: {processedText}");
-                }
-            }
-        }
-
         var points = decodeResult.ResultPoints;
         var uvCorners = new Vector3[points.Length];
         for (var i = 0; i < points.Length; i++)
@@ -231,11 +190,10 @@ public class QrCodeScanner : MonoBehaviour
 
         return new QrCodeResult
         {
-            text = processedText,
+            text = decodeResult.Text,
             corners = uvCorners
         };
     }
-
 
     private Task<byte[]> ReadPixelsAsync(RenderTexture rt)
     {
