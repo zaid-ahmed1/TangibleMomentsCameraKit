@@ -14,7 +14,8 @@ public class QrCodeDisplayManager : MonoBehaviour
     private readonly Dictionary<string, MarkerController> _activeMarkers = new();
     private PassthroughCameraEye _passthroughCameraEye;
     private Postgres _postgres;
-
+    public Memory memory;
+    private String qrCode;
     private void Awake()
     {
         _passthroughCameraEye = passthroughCameraManager.Eye;
@@ -135,7 +136,9 @@ public class QrCodeDisplayManager : MonoBehaviour
 
             if (_activeMarkers.TryGetValue(qrResult.text, out var marker))
             {
-                marker.UpdateMarker(center, poseRot, scale, displayText, displayColor);
+                // Replace the marker.UpdateMarker call with:
+                bool isValidQR = memory != null;
+                marker.UpdateMarker(center, poseRot, scale, qrCode, isValidQR ? Color.white : Color.red, isValidQR);
             }
             else
             {
@@ -144,10 +147,12 @@ public class QrCodeDisplayManager : MonoBehaviour
 
                 marker = markerGo.GetComponent<MarkerController>();
                 if (!marker) continue;
+                bool isValidQR = memory != null;
 
-                marker.UpdateMarker(center, poseRot, scale, displayText, displayColor);
-                _activeMarkers[qrResult.text] = marker;
+                marker.UpdateMarker(center, poseRot, scale, qrCode, isValidQR ? Color.white : Color.red, isValidQR);
             }
+
+            _activeMarkers[qrResult.text] = marker;
         }
 
         var keysToRemove = new List<string>();

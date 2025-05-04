@@ -286,6 +286,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastUpdateTime: 0
+  _immerseButtonPrefab: {fileID: 5195989720595729368, guid: 496853f73906c934d853527ebe5ae60d, type: 3}
+  _buttonOffset: 0.1
 --- !u!33 &3062320157266883616
 MeshFilter:
   m_ObjectHideFlags: 0
