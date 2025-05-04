@@ -34,11 +34,13 @@ public class ObjectRenderer : MonoBehaviour
 
         var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(webCamTextureManager.Eye);
         var camRes = intrinsics.Resolution;
-        
+
         var imageWidth = YoloInputSize;
         var imageHeight = YoloInputSize;
         var halfWidth = imageWidth * 0.5f;
         var halfHeight = imageHeight * 0.5f;
+
+        var updatedKeys = new HashSet<string>(); // ✅ Track all updated marker keys
 
         for (var i = 0; i < numDetections; i++)
         {
@@ -75,7 +77,7 @@ public class ObjectRenderer : MonoBehaviour
                 Mathf.RoundToInt(u1 * camRes.x),
                 Mathf.RoundToInt((1.0f - v1) * camRes.y)
             );
-            
+
             var brPixel = new Vector2Int(
                 Mathf.RoundToInt(u2 * camRes.x),
                 Mathf.RoundToInt((1.0f - v2) * camRes.y)
@@ -105,6 +107,7 @@ public class ObjectRenderer : MonoBehaviour
                 if (Vector3.Distance(existingMarker.transform.position, markerWorldPos) < mergeThreshold)
                 {
                     existingMarker.UpdateMarker(markerWorldPos, Quaternion.LookRotation(-centerHit.normal, Vector3.up), markerScale, labelKey, Color.white, true);
+                    updatedKeys.Add(labelKey);
                     continue;
                 }
                 labelKey += $"_{i}";
@@ -119,11 +122,21 @@ public class ObjectRenderer : MonoBehaviour
             }
 
             marker.UpdateMarker(markerWorldPos, Quaternion.LookRotation(-centerHit.normal, Vector3.up), markerScale, labelKey, Color.white, true);
-
             _activeMarkers[labelKey] = marker;
+            updatedKeys.Add(labelKey);
             print($"[Detection3DRenderer] Detection {i}: Marker placed with label: {labelKey}");
         }
+
+        // ✅ Deactivate any markers that were not updated
+        foreach (var kvp in _activeMarkers)
+        {
+            if (!updatedKeys.Contains(kvp.Key))
+            {
+                kvp.Value.gameObject.SetActive(false);
+            }
+        }
     }
+
 
     private void ClearPreviousMarkers()
     {

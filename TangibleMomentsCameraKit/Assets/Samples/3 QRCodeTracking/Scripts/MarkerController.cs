@@ -6,12 +6,13 @@ public class MarkerController : MonoBehaviour
     private TextMeshProUGUI _textMesh;
     private Camera _camera;
     private GameObject _immerseButton;
+
     public float lastUpdateTime;
 
     [Header("Button Settings")]
     [SerializeField] private GameObject _immerseButtonPrefab;
     [SerializeField] private float _buttonOffset = 0.1f;
-    private float sizeReductionFactor = 0.1f;
+
     private void Awake()
     {
         _camera = Camera.main;
@@ -23,81 +24,70 @@ public class MarkerController : MonoBehaviour
     {
         transform.SetPositionAndRotation(position, rotation);
         transform.localScale = scale;
-        
+
+        // Update text
         if (_textMesh)
         {
             _textMesh.text = text;
             _textMesh.color = textColor;
         }
 
-        // Handle immerse button
+        // Handle immerse button (instantiate once, then reuse)
         if (showButton)
         {
             if (_immerseButton == null && _immerseButtonPrefab != null)
             {
                 _immerseButton = Instantiate(_immerseButtonPrefab, transform);
-                _immerseButton.transform.localPosition = new Vector3(0, -_buttonOffset, -_buttonOffset); // Adjusted position: lower in y and forward in z
-            
-                // Initial scaling to make button smaller
-                _immerseButton.transform.localScale = new Vector3(
-                    sizeReductionFactor / scale.x,
-                    sizeReductionFactor / scale.y,
-                    sizeReductionFactor / scale.z);
+                _immerseButton.transform.localPosition = new Vector3(0, -_buttonOffset, -_buttonOffset);
+                _immerseButton.transform.localRotation = Quaternion.identity;
             }
 
-            // Update button scale and rotation if it exists
             if (_immerseButton != null)
             {
-                // Counteract parent scaling with additional size reduction
-                _immerseButton.transform.localScale = new Vector3(
-                    sizeReductionFactor / scale.x,
-                    sizeReductionFactor / scale.y,
-                    sizeReductionFactor / scale.z);
-                
-                // Face camera
+                _immerseButton.SetActive(true);
+
+                // Position and face the camera
+                _immerseButton.transform.localPosition = new Vector3(0, -_buttonOffset, -_buttonOffset);
                 _immerseButton.transform.rotation = Quaternion.LookRotation(
                     _immerseButton.transform.position - _camera.transform.position);
             }
         }
         else
         {
-            RemoveButton();
+            HideButton();
         }
 
         lastUpdateTime = Time.time;
         gameObject.SetActive(true);
     }
 
-
-
-    private void RemoveButton()
+    private void HideButton()
     {
         if (_immerseButton != null)
         {
-            Destroy(_immerseButton);
-            _immerseButton = null;
+            _immerseButton.SetActive(false);
         }
     }
 
     private void Update()
     {
-        // Keep text facing camera
+        // Keep text facing the camera
         if (_textMesh)
         {
             _textMesh.transform.rotation = Quaternion.LookRotation(
                 _textMesh.transform.position - _camera.transform.position);
         }
 
-        // Auto-hide after timeout
+        // Auto-hide after 2 seconds
         if (gameObject.activeSelf && Time.time - lastUpdateTime > 2f)
         {
             gameObject.SetActive(false);
-            RemoveButton();
+            HideButton();
         }
     }
 
     private void OnDisable()
     {
-        RemoveButton();
+        HideButton();
     }
 }
