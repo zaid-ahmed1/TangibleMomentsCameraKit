@@ -15,7 +15,7 @@ public class QrCodeDisplayManager : MonoBehaviour
     private readonly Dictionary<string, MarkerController> _activeMarkers = new();
     private PassthroughCameraEye _passthroughCameraEye;
     private Postgres _postgres;
-    public Memory memory;
+    private Memory memory;
     private String qrCode;
     public TextMeshProUGUI debugText;
     private void Awake()

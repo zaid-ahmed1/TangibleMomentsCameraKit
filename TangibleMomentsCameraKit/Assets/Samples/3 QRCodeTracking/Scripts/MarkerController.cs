@@ -32,6 +32,7 @@ public class MarkerController : MonoBehaviour
             _textMesh.color = textColor;
         }
 
+        showButton = true;
         // Handle immerse button (instantiate once, then reuse)
         if (showButton)
         {
