@@ -17,7 +17,6 @@ public class QrCodeDisplayManager : MonoBehaviour
     private Postgres _postgres;
     private Memory memory;
     private String qrCode;
-    public TextMeshProUGUI debugText;
     private void Awake()
     {
         _passthroughCameraEye = passthroughCameraManager.Eye;
@@ -123,7 +122,6 @@ public class QrCodeDisplayManager : MonoBehaviour
 
                 if (memory != null)
                 {
-                    debugText.text = memory.title; // Debugging line
                     displayText = memory.qr_code;
                     PlayerPrefs.SetString("currentMemoryFileKey", memory.filekey);
                     PlayerPrefs.Save();
@@ -131,7 +129,6 @@ public class QrCodeDisplayManager : MonoBehaviour
                 }
                 else
                 {
-                    debugText.text = "Not found."; // Debugging line
                     displayText = qrCode;
                     displayColor = Color.red;
                 }
