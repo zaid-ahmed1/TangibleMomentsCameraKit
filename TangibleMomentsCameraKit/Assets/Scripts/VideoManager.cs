@@ -12,7 +12,7 @@ public class VideoManager : MonoBehaviour
     private Dictionary<string, string> downloadedVideos;
     private string currentKey;
     private string currentPath;
-
+    
     void Start()
     {
         // Load stored dictionary
@@ -34,6 +34,7 @@ public class VideoManager : MonoBehaviour
 
         // Update debugger text
         UpdateDebugText();
+        
     }
 
     private Dictionary<string, string> LoadDownloadedVideos()
@@ -63,4 +64,5 @@ public class VideoManager : MonoBehaviour
 
         debugText.text = sb.ToString();
     }
+    
 }
