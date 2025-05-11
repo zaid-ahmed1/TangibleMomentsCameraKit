@@ -7835,7 +7835,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cbe361fd08faab4ba0333bb9c4dc2b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugText: {fileID: 1076201755}
 --- !u!4 &658352748
 Transform:
   m_ObjectHideFlags: 0
@@ -13983,6 +13982,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugText: {fileID: 1076201755}
   sceneChanger: {fileID: 0}
+  SceneButtons: {fileID: 0}
 --- !u!4 &1148107649
 Transform:
   m_ObjectHideFlags: 0
@@ -23605,7 +23605,6 @@ MonoBehaviour:
   scanner: {fileID: 2018375885}
   envRaycastManager: {fileID: 2018375881}
   passthroughCameraManager: {fileID: 2120672014}
-  debugText: {fileID: 1076201755}
 --- !u!114 &2018375885
 MonoBehaviour:
   m_ObjectHideFlags: 0
