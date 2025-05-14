@@ -11,19 +11,34 @@ public class QrCodeDisplayManager : MonoBehaviour
     [SerializeField] private QrCodeScanner scanner;
     [SerializeField] private EnvironmentRaycastManager envRaycastManager;
     [SerializeField] private WebCamTextureManager passthroughCameraManager;
+    [SerializeField] private TextMeshProUGUI DebugText;
 
     private readonly Dictionary<string, MarkerController> _activeMarkers = new();
     private PassthroughCameraEye _passthroughCameraEye;
     private Postgres _postgres;
     private Memory memory;
-    private String qrCode;
+    private string qrCode;
+
+    private string validMemoryQrCode = null;
+    private string validMemoryFileKey = null;
+    private string invalidQrCode = null;
+
+    private readonly HashSet<string> copiedPairs = new();
+
+    
     private void Awake()
     {
         _passthroughCameraEye = passthroughCameraManager.Eye;
         _postgres = FindFirstObjectByType<Postgres>();
+
         if (_postgres == null)
         {
             Debug.LogError("Postgres instance not found in the scene.");
+            if (DebugText) DebugText.text += "\nError: Postgres not found!";
+        }
+        else
+        {
+            if (DebugText) DebugText.text += "\nPostgres initialized.";
         }
     }
 
@@ -114,11 +129,12 @@ public class QrCodeDisplayManager : MonoBehaviour
             // -------- Begin lookup + styling logic --------
             string displayText = qrResult.text;
             Color displayColor = Color.white;
+            memory = null;
 
             if (qrResult.text.StartsWith("https://tangible-moments.me/"))
             {
-                string qrCode = qrResult.text.Substring(28);
-                var memory = _postgres?.FindMemoryByQRCode(qrCode);
+                qrCode = qrResult.text.Substring(28);
+                memory = _postgres?.FindMemoryByQRCode(qrCode);
 
                 if (memory != null)
                 {
@@ -126,18 +142,27 @@ public class QrCodeDisplayManager : MonoBehaviour
                     PlayerPrefs.SetString("currentMemoryFileKey", memory.filekey);
                     PlayerPrefs.Save();
                     displayColor = Color.white;
+
+                    validMemoryQrCode = qrCode;
+                    validMemoryFileKey = memory.filekey;
+
+                    // if (DebugText) DebugText.text += $"\n✔ Found memory: {qrCode}";
                 }
                 else
                 {
                     displayText = qrCode;
                     displayColor = Color.red;
+
+                    invalidQrCode = qrCode;
+
+                    // if (DebugText) DebugText.text += $"\n✘ Invalid QR Code: {qrCode}";
                 }
             }
+
             // -------- End lookup + styling logic --------
 
             if (_activeMarkers.TryGetValue(qrResult.text, out var marker))
             {
-                // Replace the marker.UpdateMarker call with:
                 bool isValidQR = memory != null;
                 marker.UpdateMarker(center, poseRot, scale, displayText, displayColor, isValidQR);
             }
@@ -153,6 +178,27 @@ public class QrCodeDisplayManager : MonoBehaviour
                 marker.UpdateMarker(center, poseRot, scale, qrCode, isValidQR ? Color.white : Color.red, isValidQR);
             }
 
+            // If we have one valid and one invalid QR code, copy the memory
+            if (!string.IsNullOrEmpty(validMemoryFileKey) && !string.IsNullOrEmpty(invalidQrCode))
+            {
+                string pairKey = $"{validMemoryFileKey}->{invalidQrCode}";
+
+                if (!copiedPairs.Contains(pairKey))
+                {
+                    copiedPairs.Add(pairKey);
+                    if (DebugText) DebugText.text += $"\nCopying memory {validMemoryFileKey} to {invalidQrCode}...";
+                    await _postgres.CopyMemoryToQrCode(validMemoryFileKey, invalidQrCode);
+                    if (DebugText) DebugText.text += "\n✅ Copy successful!";
+                }
+                else
+                {
+                    if (DebugText) DebugText.text += $"\n⏩ Already copied {pairKey}, skipping.";
+                }
+
+                validMemoryQrCode = null;
+                validMemoryFileKey = null;
+                invalidQrCode = null;
+            }
             _activeMarkers[qrResult.text] = marker;
         }
 
