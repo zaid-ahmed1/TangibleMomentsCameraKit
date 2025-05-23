@@ -17,8 +17,8 @@ public class JengaSpawner : MonoBehaviour
         Dictionary<string, string> videos = S3.Instance.downloadedVideos;
 
         float xSpacing = 0.3f;  // distance between blocks
-        float yOffset = 0.3f;     // height above ground
-        float zOffset = 0.1f;     // distance forward
+        float yOffset = 0.7f;     // height above ground
+        float zOffset = 0.3f;     // distance forward
         int index = 0;
 
         foreach (var kvp in videos)

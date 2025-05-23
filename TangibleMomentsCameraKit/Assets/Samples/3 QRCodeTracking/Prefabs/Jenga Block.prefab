@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: f8766c17-aaf8-4b55-9431-de8deea83842
-  instanceId: 74d84283-eabf-4ef6-90f2-688de5be2fcc
+  instanceId: 66335bfe-a184-4fcb-ad67-baabd5d3d7f8
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: f8338144-8280-4ff6-9455-ae2bb9c20fe8
@@ -688,6 +688,7 @@ GameObject:
   - component: {fileID: 4469393504642388329}
   - component: {fileID: 2025589124799492720}
   - component: {fileID: 4167912806709646935}
+  - component: {fileID: 1078504726654848150}
   m_Layer: 0
   m_Name: '[BuildingBlock] Cube'
   m_TagString: Untagged
@@ -725,7 +726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: 7358e191-33b7-43ca-b066-b2f00531ac66
-  instanceId: 66d7f9ac-b5df-4334-b36c-1dc5e279ebcf
+  instanceId: 4b16b73b-2a7a-425e-baaa-5d02cce9ea08
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -802,8 +803,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.612671, y: 1.2669595, z: 1.2761259}
+  m_Center: {x: 0.10269104, y: 0.011064525, z: -0.004976784}
 --- !u!54 &4167912806709646935
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -831,6 +832,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1078504726654848150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6398102627924763929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da7950cfa4ce3084b9a1a7af1e949b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  memoryKey: 
 --- !u!1 &6485281693419984060
 GameObject:
   m_ObjectHideFlags: 0

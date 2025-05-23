@@ -187,7 +187,7 @@ public class QrCodeDisplayManager : MonoBehaviour
                 {
                     copiedPairs.Add(pairKey);
                     if (DebugText) DebugText.text += $"\nCopying memory {validMemoryFileKey} to {invalidQrCode}...";
-                    await _postgres.CopyMemoryToQrCode(validMemoryFileKey, invalidQrCode);
+                    StartCoroutine(_postgres.CopyMemoryToQrCodeCoroutine(memory, invalidQrCode));
                     if (DebugText) DebugText.text += "\n✅ Copy successful!";
                 }
                 else
