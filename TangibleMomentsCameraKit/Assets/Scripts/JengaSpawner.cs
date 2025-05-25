@@ -4,50 +4,95 @@ using UnityEngine;
 
 public class JengaSpawner : MonoBehaviour
 {
-    public GameObject jengaBlockPrefab; // Assign your Jenga Block prefab in the Inspector
-    public Transform spawnParent; // Optional: parent object to keep hierarchy clean
+    public Postgres postgres; // Assign this in the Inspector
+    public GameObject jengaBlockPrefab;
+    public Transform spawnParent;
+    public TextMeshProUGUI debugText; // Serialized debug output in Inspector
+
+    List<Memory> memoryList;
+
+    void Awake() // Changed from Start() to Awake()
+    {
+        if (postgres == null)
+        {
+            LogDebug("Postgres reference not assigned.");
+            return;
+        }
+
+        LogDebug("Subscribing to memory load events...");
+        postgres.OnMemoriesLoaded += OnMemoriesReady;
+    }
 
     void Start()
     {
-        SpawnBlocksFromVideos();
+        if (postgres == null) return;
+        
+        LogDebug("Checking if memories are already loaded...");
+        
+        // Check if memories are already available
+        var existingMemories = postgres.GetMemoryList();
+        if (existingMemories != null && existingMemories.Count > 0)
+        {
+            LogDebug("Memories already loaded, spawning immediately.");
+            OnMemoriesReady();
+        }
+        else
+        {
+            LogDebug("Waiting for memories to load...");
+        }
+    }
+    void OnMemoriesReady()
+    {
+        memoryList = postgres.GetMemoryList();
+
+        if (memoryList == null || memoryList.Count == 0)
+        {
+            LogDebug("Memory list is empty after loading.");
+            return;
+        }
+
+        LogDebug($"Loaded {memoryList.Count} memories.");
+        SpawnBlocksFromMemories();
     }
 
-    void SpawnBlocksFromVideos()
+    void SpawnBlocksFromMemories()
     {
-        Dictionary<string, string> videos = S3.Instance.downloadedVideos;
-
-        float xSpacing = 0.3f;  // distance between blocks
-        float yOffset = 0.7f;     // height above ground
-        float zOffset = 0.3f;     // distance forward
+        float xSpacing = 0.3f;
+        float yOffset = 0.7f;
+        float zOffset = 0.3f;
         int index = 0;
 
-        foreach (var kvp in videos)
+        foreach (var memory in memoryList)
         {
-            string key = kvp.Key;
             GameObject block = Instantiate(jengaBlockPrefab, spawnParent);
-            block.name = "JengaBlock_" + key;
+            block.name = "JengaBlock_" + memory.filekey;
 
-            // Position them side by side along X-axis
             block.transform.position = new Vector3(index * xSpacing, yOffset, zOffset);
 
-            // Assign the memory key
             var memoryScript = block.GetComponent<JengaBlockMemory>();
             if (memoryScript != null)
             {
-                memoryScript.memoryKey = key;
+                memoryScript.memoryKey = memory.filekey;
             }
 
-            // Set the label text to the key
             TextMeshProUGUI label = block.GetComponentInChildren<TextMeshProUGUI>();
             if (label != null)
             {
-                label.text = key;
+                label.text = memory.filekey;
             }
 
             index++;
         }
+
+        LogDebug($"Spawned {index} blocks.");
     }
 
-    
-    
+    void LogDebug(string message)
+    {
+        Debug.Log("[JengaSpawner] " + message);
+        if (debugText != null)
+        {
+            debugText.text += message + "\n";
+        }
+    }
 }

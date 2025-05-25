@@ -8675,7 +8675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &658352747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8688,6 +8688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cbe361fd08faab4ba0333bb9c4dc2b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugText: {fileID: 0}
 --- !u!4 &658352748
 Transform:
   m_ObjectHideFlags: 0
@@ -19833,6 +19834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d59d49353b3e12a4b85b45bea40f95de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  postgres: {fileID: 658352747}
 --- !u!4 &1591210916
 Transform:
   m_ObjectHideFlags: 0
@@ -20095,9 +20097,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5636934837033313858, guid: 09221ad978cd7f3499e176c67d9aa339, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1605239096}
-    - targetCorrespondingSourceObject: {fileID: 5895921202911126280, guid: 09221ad978cd7f3499e176c67d9aa339, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 09221ad978cd7f3499e176c67d9aa339, type: 3}
 --- !u!224 &1605239092 stripped
 RectTransform:
@@ -25379,6 +25378,7 @@ MonoBehaviour:
   scanner: {fileID: 2018375885}
   envRaycastManager: {fileID: 2018375881}
   passthroughCameraManager: {fileID: 2120672014}
+  DebugText: {fileID: 0}
 --- !u!114 &2018375885
 MonoBehaviour:
   m_ObjectHideFlags: 0
