@@ -29,21 +29,10 @@ public class JengaBlockMemory : MonoBehaviour
             {
                 // Set up share button for copying
                 string capturedKey = memoryKey; // Capture for closure
-                interactable.WhenSelect.AddListener(() => spawner.CopyMemoryByFilekey(capturedKey));
+                interactable.WhenSelect.AddListener(() => spawner.ShareMemory(capturedKey));
             }
         }
     }
 
     // Public method that can be called directly if needed
-    public void CopyThisMemory()
-    {
-        if (spawner != null)
-        {
-            spawner.CopyMemoryByFilekey(memoryKey);
-        }
-        else
-        {
-            Debug.LogError("Spawner reference is missing on JengaBlockMemory");
-        }
-    }
 }

@@ -14,8 +14,6 @@ public class JengaSpawner : MonoBehaviour
     public SceneChanger SceneChanger;
     
     List<Memory> memoryList;
-    private HashSet<string> currentlyCopying = new HashSet<string>(); // Track ongoing copies
-
     void Awake()
     {
         if (postgres == null)
@@ -24,7 +22,6 @@ public class JengaSpawner : MonoBehaviour
             return;
         }
 
-        LogDebug("Subscribing to memory load events...");
         postgres.OnMemoriesLoaded += OnMemoriesReady;
     }
 
@@ -57,7 +54,6 @@ public class JengaSpawner : MonoBehaviour
             return;
         }
 
-        LogDebug($"Loaded {memoryList.Count} memories.");
         ClearExistingBlocks();
         SpawnBlocksFromMemories();
     }
@@ -77,16 +73,24 @@ public class JengaSpawner : MonoBehaviour
         float yOffset = 0.7f;
         float zOffset = 0.3f;
         int index = 0;
-
-        LogDebug("Starting SpawnBlocksFromMemories...");
+        
+        // Get the participant number once for efficiency
+        int participantNumber = PlayerPrefs.GetInt("ParticipantNumber");
 
         foreach (var memory in memoryList)
         {
-            LogDebug($"Processing memory: {memory.filekey}");
+            LogDebug($"Processing memory: {memory.filekey}, visibility: {memory.visibility}");
+
+            // Check visibility: spawn only if visibility is 0 (public) or matches participant number
+            if (memory.visibility != 0 && memory.visibility != participantNumber)
+            {
+                continue;
+            }
+
+            LogDebug($"Spawning memory {memory.filekey} - visibility criteria met");
 
             if (jengaBlockPrefab == null)
             {
-                LogDebug("ERROR: jengaBlockPrefab is null!");
                 return;
             }
 
@@ -109,16 +113,13 @@ public class JengaSpawner : MonoBehaviour
             TextMeshProUGUI label = block.GetComponentInChildren<TextMeshProUGUI>();
             if (label != null)
             {
-                label.text = memory.filekey;
-                LogDebug($"Set label text: {memory.filekey}");
+                label.text = memory.title;
             }
 
             var interactables = block.GetComponentsInChildren<InteractableUnityEventWrapper>(true);
-            LogDebug($"Found {interactables.Length} interactables in block.");
 
             foreach (var interactable in interactables)
             {
-                LogDebug($"Processing interactable: {interactable.name}");
 
                 if (interactable.name.ToLower().Contains("immerse"))
                 {
@@ -130,7 +131,6 @@ public class JengaSpawner : MonoBehaviour
                         {
                             innerScript.memoryKey = capturedKey;
                             innerScript.SetMemoryKey();
-                            LogDebug($"Immerse selected: memoryKey = {capturedKey}");
                         }
                         else
                         {
@@ -139,7 +139,6 @@ public class JengaSpawner : MonoBehaviour
                     });
                     interactable.WhenSelect.AddListener(() =>
                     {
-                        LogDebug("Changing scene to 3d Video...");
                         SceneChanger.ChangeScene("3d Video");
                     });
                 }
@@ -148,8 +147,7 @@ public class JengaSpawner : MonoBehaviour
                     string capturedKey = memory.filekey;
                     interactable.WhenSelect.AddListener(() =>
                     {
-                        LogDebug($"Share selected: Copying memory {capturedKey}");
-                        CopyMemoryByFilekey(capturedKey);
+                        ShareMemory(capturedKey);
                     });
                 }
                 else
@@ -161,10 +159,9 @@ public class JengaSpawner : MonoBehaviour
             index++;
         }
 
-        LogDebug($"SpawnBlocksFromMemories completed. Spawned {index} blocks.");
+        LogDebug($"SpawnBlocksFromMemories completed. Spawned {index} blocks out of {memoryList.Count} total memories.");
     }
-
-    public void CopyMemoryByFilekey(string filekey)
+    public void ShareMemory(string filekey)
     {
         if (string.IsNullOrEmpty(filekey))
         {
@@ -172,59 +169,18 @@ public class JengaSpawner : MonoBehaviour
             return;
         }
 
-        // Check if already copying this memory
-        if (currentlyCopying.Contains(filekey))
-        {
-            LogDebug($"Already copying memory {filekey}. Please wait...");
-            return;
-        }
-
-        // Check if this memory has already been copied (has a copy version)
-        bool hasCopy = memoryList.Any(m => m.filekey == filekey && m.title.Contains("(Copy)"));
-        if (hasCopy)
-        {
-            LogDebug($"Memory {filekey} has already been copied. Cannot copy again.");
-            return;
-        }
-
-        // Find the memory with this filekey
-        Memory memoryToCopy = memoryList.Find(m => m.filekey == filekey);
-        
-        if (memoryToCopy == null)
+        Memory memoryToUpdate = memoryList.Find(m => m.filekey == filekey);
+        if (memoryToUpdate == null)
         {
             LogDebug($"Error: Could not find memory with filekey: {filekey}");
             return;
         }
 
-        // Check if this IS a copy (prevent copying copies)
-        if (memoryToCopy.title.Contains("(Copy)"))
-        {
-            LogDebug($"Cannot copy a copy: {memoryToCopy.title}");
-            return;
-        }
-
-        LogDebug($"Copying memory: {memoryToCopy.title} (filekey: {filekey})");
-        StartCoroutine(CopyMemoryCoroutine(memoryToCopy));
+        LogDebug($"Setting visibility of memory {filekey} to 0.");
+        postgres.SetMemoryVisibility(memoryToUpdate, 0);
     }
 
-    private IEnumerator CopyMemoryCoroutine(Memory memoryToCopy)
-    {
-        string filekey = memoryToCopy.filekey;
-        
-        // Add to currently copying set
-        currentlyCopying.Add(filekey);
-        
-        try
-        {
-            // Create a new coroutine specifically for copying without QR code
-            yield return StartCoroutine(postgres.CopyMemoryToQrCodeCoroutine(memoryToCopy, "_"));
-        }
-        finally
-        {
-            // Remove from currently copying set when done (success or failure)
-            currentlyCopying.Remove(filekey);
-        }
-    }
+    
 
     void LogDebug(string message)
     {
