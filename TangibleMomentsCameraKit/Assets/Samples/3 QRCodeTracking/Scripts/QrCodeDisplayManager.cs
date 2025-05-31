@@ -136,7 +136,10 @@ public class QrCodeDisplayManager : MonoBehaviour
                 qrCode = qrResult.text.Substring(28);
                 memory = _postgres?.FindMemoryByQRCode(qrCode);
 
-                if (memory != null)
+                int participantNumber = PlayerPrefs.GetInt("ParticipantNumber", 0);
+                bool isVisible = memory == null || memory.visibility == 0 || memory.visibility == participantNumber;
+
+                if (memory != null && isVisible)
                 {
                     displayText = memory.qr_code;
                     PlayerPrefs.SetString("currentMemoryFileKey", memory.filekey);
@@ -145,17 +148,18 @@ public class QrCodeDisplayManager : MonoBehaviour
 
                     validMemoryQrCode = qrCode;
                     validMemoryFileKey = memory.filekey;
-
-                    // if (DebugText) DebugText.text += $"\n✔ Found memory: {qrCode}";
+                }
+                else if (memory != null && !isVisible)
+                {
+                    displayText = "Hidden";
+                    displayColor = Color.gray;
+                    memory = null; // Treat as if memory doesn't exist for logic below
                 }
                 else
                 {
                     displayText = qrCode;
                     displayColor = Color.red;
-
                     invalidQrCode = qrCode;
-
-                    // if (DebugText) DebugText.text += $"\n✘ Invalid QR Code: {qrCode}";
                 }
             }
 
@@ -164,7 +168,9 @@ public class QrCodeDisplayManager : MonoBehaviour
             if (_activeMarkers.TryGetValue(qrResult.text, out var marker))
             {
                 bool isValidQR = memory != null;
-                marker.UpdateMarker(center, poseRot, scale, displayText, displayColor, isValidQR);
+                int participantNumber = PlayerPrefs.GetInt("ParticipantNumber", 0);
+                bool isVisible = memory == null || memory.visibility == 0 || memory.visibility == participantNumber;
+                marker.UpdateMarker(center, poseRot, scale, displayText, displayColor, isValidQR && isVisible);
             }
             else
             {
@@ -173,8 +179,8 @@ public class QrCodeDisplayManager : MonoBehaviour
 
                 marker = markerGo.GetComponent<MarkerController>();
                 if (!marker) continue;
-                bool isValidQR = memory != null;
 
+                bool isValidQR = memory != null;
                 marker.UpdateMarker(center, poseRot, scale, qrCode, isValidQR ? Color.white : Color.red, isValidQR);
             }
 
@@ -183,6 +189,7 @@ public class QrCodeDisplayManager : MonoBehaviour
             {
                 string pairKey = $"{validMemoryFileKey}->{invalidQrCode}";
 
+                // Make sure the valid memory was visible, otherwise don't allow copy
                 if (!copiedPairs.Contains(pairKey))
                 {
                     copiedPairs.Add(pairKey);
@@ -199,6 +206,7 @@ public class QrCodeDisplayManager : MonoBehaviour
                 validMemoryFileKey = null;
                 invalidQrCode = null;
             }
+
             _activeMarkers[qrResult.text] = marker;
         }
 
