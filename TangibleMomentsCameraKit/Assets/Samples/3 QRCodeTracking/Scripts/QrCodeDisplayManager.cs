@@ -25,11 +25,14 @@ public class QrCodeDisplayManager : MonoBehaviour
 
     private readonly HashSet<string> copiedPairs = new();
 
-    
+    // Camera reference for orientation calculations
+    private Camera _mainCamera;
+
     private void Awake()
     {
         _passthroughCameraEye = passthroughCameraManager.Eye;
         _postgres = FindFirstObjectByType<Postgres>();
+        _mainCamera = Camera.main;
 
         if (_postgres == null)
         {
@@ -50,6 +53,12 @@ public class QrCodeDisplayManager : MonoBehaviour
     private async void UpdateMarkers()
     {
         var qrResults = await scanner.ScanFrameAsync() ?? Array.Empty<QrCodeResult>();
+
+        // Reset these at the start of each frame - only valid if detected THIS frame
+        string currentFrameValidMemoryQrCode = null;
+        string currentFrameValidMemoryFileKey = null;
+        string currentFrameInvalidQrCode = null;
+        Memory currentFrameValidMemory = null;
 
         foreach (var qrResult in qrResults)
         {
@@ -80,51 +89,16 @@ public class QrCodeDisplayManager : MonoBehaviour
             var center = hitInfo.point;
             var distance = Vector3.Distance(centerRay.origin, hitInfo.point);
 
-            var tempCorners = new Vector3[count];
-            for (var i = 0; i < count; i++)
-            {
-                var pixelCoord = new Vector2Int(
-                    Mathf.RoundToInt(uvs[i].x * intrinsics.Resolution.x),
-                    Mathf.RoundToInt(uvs[i].y * intrinsics.Resolution.y)
-                );
+            // Simple approach: just use the hit point and face the camera
+            Vector3 markerPosition = center;
 
-                var r = PassthroughCameraUtils.ScreenPointToRayInWorld(_passthroughCameraEye, pixelCoord);
-                tempCorners[i] = r.origin + r.direction * distance;
-            }
+            // Calculate a simple camera-facing rotation
+            Vector3 toCameraDirection = (_mainCamera.transform.position - center).normalized;
+            Quaternion poseRot = Quaternion.LookRotation(-toCameraDirection, Vector3.up);
 
-            var up = (tempCorners[1] - tempCorners[0]).normalized;
-            var right = (tempCorners[2] - tempCorners[1]).normalized;
-            var normal = -Vector3.Cross(up, right).normalized;
-            var qrPlane = new Plane(normal, center);
-
-            var worldCorners = new Vector3[count];
-            for (var i = 0; i < count; i++)
-            {
-                var pixelCoord = new Vector2Int(
-                    Mathf.RoundToInt(uvs[i].x * intrinsics.Resolution.x),
-                    Mathf.RoundToInt(uvs[i].y * intrinsics.Resolution.y)
-                );
-
-                var r = PassthroughCameraUtils.ScreenPointToRayInWorld(_passthroughCameraEye, pixelCoord);
-                if (qrPlane.Raycast(r, out var enter))
-                    worldCorners[i] = r.GetPoint(enter);
-                else
-                    worldCorners[i] = tempCorners[i];
-            }
-
-            center = Vector3.zero;
-            foreach (var corner in worldCorners) center += corner;
-            center /= count;
-
-            up = (worldCorners[1] - worldCorners[0]).normalized;
-            right = (worldCorners[2] - worldCorners[1]).normalized;
-            normal = -Vector3.Cross(up, right).normalized;
-
-            var poseRot = Quaternion.LookRotation(normal, up);
-            var width = Vector3.Distance(worldCorners[0], worldCorners[1]);
-            var height = Vector3.Distance(worldCorners[0], worldCorners[3]);
-            var scaleFactor = 1.5f;
-            var scale = new Vector3(width * scaleFactor, height * scaleFactor, 1f);
+            // Calculate scale based on estimated QR size, with reasonable limits
+            float estimatedSize = Mathf.Max(0.05f, Mathf.Min(0.3f, distance * 0.1f));
+            var scale = Vector3.one * estimatedSize;
 
             // -------- Begin lookup + styling logic --------
             string displayText = qrResult.text;
@@ -146,8 +120,10 @@ public class QrCodeDisplayManager : MonoBehaviour
                     PlayerPrefs.Save();
                     displayColor = Color.white;
 
-                    validMemoryQrCode = qrCode;
-                    validMemoryFileKey = memory.filekey;
+                    // Store for THIS frame only
+                    currentFrameValidMemoryQrCode = qrCode;
+                    currentFrameValidMemoryFileKey = memory.filekey;
+                    currentFrameValidMemory = memory;
                 }
                 else if (memory != null && !isVisible)
                 {
@@ -159,7 +135,8 @@ public class QrCodeDisplayManager : MonoBehaviour
                 {
                     displayText = qrCode;
                     displayColor = Color.red;
-                    invalidQrCode = qrCode;
+                    // Store for THIS frame only
+                    currentFrameInvalidQrCode = qrCode;
                 }
             }
 
@@ -170,7 +147,7 @@ public class QrCodeDisplayManager : MonoBehaviour
                 bool isValidQR = memory != null;
                 int participantNumber = PlayerPrefs.GetInt("ParticipantNumber", 0);
                 bool isVisible = memory == null || memory.visibility == 0 || memory.visibility == participantNumber;
-                marker.UpdateMarker(center, poseRot, scale, displayText, displayColor, isValidQR && isVisible);
+                marker.UpdateMarker(markerPosition, poseRot, scale, displayText, displayColor, isValidQR && isVisible);
             }
             else
             {
@@ -181,33 +158,31 @@ public class QrCodeDisplayManager : MonoBehaviour
                 if (!marker) continue;
 
                 bool isValidQR = memory != null;
-                marker.UpdateMarker(center, poseRot, scale, qrCode, isValidQR ? Color.white : Color.red, isValidQR);
+                marker.UpdateMarker(markerPosition, poseRot, scale, displayText, isValidQR ? Color.white : Color.red,
+                    isValidQR);
+                _activeMarkers[qrResult.text] = marker;
             }
+        }
 
-            // If we have one valid and one invalid QR code, copy the memory
-            if (!string.IsNullOrEmpty(validMemoryFileKey) && !string.IsNullOrEmpty(invalidQrCode))
+        // Only perform copy if BOTH codes are detected in THIS frame
+        if (!string.IsNullOrEmpty(currentFrameValidMemoryFileKey) && !string.IsNullOrEmpty(currentFrameInvalidQrCode))
+        {
+            string pairKey = $"{currentFrameValidMemoryFileKey}->{currentFrameInvalidQrCode}";
+
+            if (!copiedPairs.Contains(pairKey))
             {
-                string pairKey = $"{validMemoryFileKey}->{invalidQrCode}";
-
-                // Make sure the valid memory was visible, otherwise don't allow copy
-                if (!copiedPairs.Contains(pairKey))
-                {
-                    copiedPairs.Add(pairKey);
-                    if (DebugText) DebugText.text += $"\nCopying memory {validMemoryFileKey} to {invalidQrCode}...";
-                    StartCoroutine(_postgres.CopyMemoryToQrCodeCoroutine(memory, invalidQrCode));
-                    if (DebugText) DebugText.text += "\n✅ Copy successful!";
-                }
-                else
-                {
-                    if (DebugText) DebugText.text += $"\n⏩ Already copied {pairKey}, skipping.";
-                }
-
-                validMemoryQrCode = null;
-                validMemoryFileKey = null;
-                invalidQrCode = null;
+                copiedPairs.Add(pairKey);
+                if (DebugText)
+                    DebugText.text +=
+                        $"\nCopying memory {currentFrameValidMemoryFileKey} to {currentFrameInvalidQrCode}...";
+                StartCoroutine(
+                    _postgres.CopyMemoryToQrCodeCoroutine(currentFrameValidMemory, currentFrameInvalidQrCode));
+                if (DebugText) DebugText.text += "\n✅ Copy successful!";
             }
-
-            _activeMarkers[qrResult.text] = marker;
+            else
+            {
+                if (DebugText) DebugText.text += $"\n⏩ Already copied {pairKey}, skipping.";
+            }
         }
 
         var keysToRemove = new List<string>();
@@ -222,5 +197,5 @@ public class QrCodeDisplayManager : MonoBehaviour
             _activeMarkers.Remove(key);
         }
     }
-#endif
 }
+#endif

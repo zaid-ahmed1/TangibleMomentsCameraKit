@@ -11,7 +11,8 @@ public class MarkerController : MonoBehaviour
 
     [Header("Button Settings")]
     [SerializeField] private GameObject _immerseButtonPrefab;
-    [SerializeField] private float _buttonOffset = 0.1f;
+    [SerializeField] private float _buttonOffset = 0.15f;
+    [SerializeField] private float _buttonScale = 0.5f;
 
     private void Awake()
     {
@@ -32,25 +33,23 @@ public class MarkerController : MonoBehaviour
             _textMesh.color = textColor;
         }
 
-        // showButton = true;
-        // Handle immerse button (instantiate once, then reuse)
+        // Handle immerse button
         if (showButton)
         {
             if (_immerseButton == null && _immerseButtonPrefab != null)
             {
                 _immerseButton = Instantiate(_immerseButtonPrefab, transform);
-                _immerseButton.transform.localPosition = new Vector3(0, -_buttonOffset, -_buttonOffset);
+                _immerseButton.transform.localPosition = new Vector3(0, -_buttonOffset, 0);
                 _immerseButton.transform.localRotation = Quaternion.identity;
+                _immerseButton.transform.localScale = Vector3.one * _buttonScale;
             }
 
             if (_immerseButton != null)
             {
                 _immerseButton.SetActive(true);
-
-                // Position and face the camera
-                _immerseButton.transform.localPosition = new Vector3(0, -_buttonOffset, -_buttonOffset);
-                _immerseButton.transform.rotation = Quaternion.LookRotation(
-                    _immerseButton.transform.position - _camera.transform.position);
+                _immerseButton.transform.localPosition = new Vector3(0, -_buttonOffset, 0);
+                _immerseButton.transform.localRotation = Quaternion.identity;
+                _immerseButton.transform.localScale = Vector3.one * _buttonScale;
             }
         }
         else
@@ -72,13 +71,6 @@ public class MarkerController : MonoBehaviour
 
     private void Update()
     {
-        // Keep text facing the camera
-        if (_textMesh)
-        {
-            _textMesh.transform.rotation = Quaternion.LookRotation(
-                _textMesh.transform.position - _camera.transform.position);
-        }
-
         // Auto-hide after 2 seconds
         if (gameObject.activeSelf && Time.time - lastUpdateTime > 2f)
         {
