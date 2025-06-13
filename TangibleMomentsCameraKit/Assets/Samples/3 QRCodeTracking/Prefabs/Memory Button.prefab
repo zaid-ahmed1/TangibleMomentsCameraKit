@@ -741,7 +741,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!95 &1572808694387262894
 Animator:
   serializedVersion: 7
@@ -752,7 +752,7 @@ Animator:
   m_GameObject: {fileID: 2012197225165376351}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 781b75b5de7c1dd4b92e4a2c35298bae, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9c4278eae38c0c54bb1bd3a55d7e7d81, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

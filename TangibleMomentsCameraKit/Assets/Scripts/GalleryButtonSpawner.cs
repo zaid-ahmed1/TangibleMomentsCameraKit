@@ -63,7 +63,7 @@ public class GalleryButtonSpawner : MonoBehaviour
             return;
         }
 
-        int participantNumber = PlayerPrefs.GetInt("ParticipantNumber");
+        int participantNumber = PlayerPrefs.GetInt("ParticipantNumber", 0);
         List<Memory> memories = postgres.GetMemoryList();
         Dictionary<string, string> videos = S3.Instance.downloadedVideos;
         int spawnedCount = 0;
