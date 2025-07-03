@@ -37,11 +37,11 @@ public class QrCodeDisplayManager : MonoBehaviour
         if (_postgres == null)
         {
             Debug.LogError("Postgres instance not found in the scene.");
-            if (DebugText) DebugText.text += "\nError: Postgres not found!";
+            Debug.LogError("Error: Postgres not found!");
         }
         else
         {
-            if (DebugText) DebugText.text += "\nPostgres initialized.";
+            Debug.LogError("Postgres initialized.");
         }
     }
 
@@ -172,16 +172,15 @@ public class QrCodeDisplayManager : MonoBehaviour
             if (!copiedPairs.Contains(pairKey))
             {
                 copiedPairs.Add(pairKey);
-                if (DebugText)
-                    DebugText.text +=
-                        $"\nCopying memory {currentFrameValidMemoryFileKey} to {currentFrameInvalidQrCode}...";
+
+                Debug.Log("\nCopying memory {currentFrameValidMemoryFileKey} to {currentFrameInvalidQrCode}...");
                 StartCoroutine(
                     _postgres.CopyMemoryToQrCodeCoroutine(currentFrameValidMemory, currentFrameInvalidQrCode));
-                if (DebugText) DebugText.text += "\n✅ Copy successful!";
+                 DebugText.text += "Shared Memory";
             }
             else
             {
-                if (DebugText) DebugText.text += $"\n⏩ Already copied {pairKey}, skipping.";
+                 Debug.Log("Already copied {pairKey}, skipping.");
             }
         }
 

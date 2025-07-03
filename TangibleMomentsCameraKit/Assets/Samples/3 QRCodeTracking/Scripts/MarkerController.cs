@@ -39,7 +39,7 @@ public class MarkerController : MonoBehaviour
             if (_immerseButton == null && _immerseButtonPrefab != null)
             {
                 _immerseButton = Instantiate(_immerseButtonPrefab, transform);
-                _immerseButton.transform.localPosition = new Vector3(0, -_buttonOffset, 0);
+                _immerseButton.transform.localPosition = new Vector3(_buttonOffset, 0, 0);
                 _immerseButton.transform.localRotation = Quaternion.identity;
                 _immerseButton.transform.localScale = Vector3.one * _buttonScale;
             }
@@ -47,11 +47,12 @@ public class MarkerController : MonoBehaviour
             if (_immerseButton != null)
             {
                 _immerseButton.SetActive(true);
-                _immerseButton.transform.localPosition = new Vector3(0, -_buttonOffset, 0);
+                _immerseButton.transform.localPosition = new Vector3(_buttonOffset, 0, 0);
                 _immerseButton.transform.localRotation = Quaternion.identity;
                 _immerseButton.transform.localScale = Vector3.one * _buttonScale;
             }
         }
+
         else
         {
             HideButton();

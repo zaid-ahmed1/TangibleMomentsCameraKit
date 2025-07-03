@@ -30,7 +30,7 @@ public class GalleryButtonSpawner : MonoBehaviour
         }
         else
         {
-            AddDebugMessage("❌ Postgres reference is null!");
+            Debug.Log("❌ Postgres reference is null!");
         }
     }
 
@@ -59,7 +59,7 @@ public class GalleryButtonSpawner : MonoBehaviour
     {
         if (postgres == null || !postgres.IsDataLoaded())
         {
-            AddDebugMessage("⚠️ Cannot spawn buttons: Postgres data not loaded");
+            Debug.Log("⚠️ Cannot spawn buttons: Postgres data not loaded");
             return;
         }
 
@@ -116,7 +116,7 @@ public class GalleryButtonSpawner : MonoBehaviour
                     
                     toggle.onValueChanged.AddListener((bool isOn) =>
                     {
-                        AddDebugMessage($"🎥 IMMERSE BUTTON HIT! isOn: {isOn}, key: {capturedKey}");
+                        Debug.Log($"🎥 IMMERSE BUTTON HIT! isOn: {isOn}, key: {capturedKey}");
                         
                         if (isOn && !processingButtons.Contains(buttonId))
                         {
@@ -125,7 +125,7 @@ public class GalleryButtonSpawner : MonoBehaviour
                         }
                         else if (processingButtons.Contains(buttonId))
                         {
-                            AddDebugMessage($"🚫 IMMERSE ALREADY PROCESSING for {capturedKey}");
+                            Debug.Log($"🚫 IMMERSE ALREADY PROCESSING for {capturedKey}");
                         }
                     });
                 }
@@ -137,8 +137,9 @@ public class GalleryButtonSpawner : MonoBehaviour
                     
                     toggle.onValueChanged.AddListener((bool isOn) =>
                     {
-                        AddDebugMessage($"🌍 SHARE BUTTON HIT! isOn: {isOn}, key: {capturedMemory.filekey}");
-                        
+                        AddDebugMessage($"Shared Memory");
+                        Debug.Log($"📤 SHARE BUTTON HIT! isOn: {isOn}, key: {capturedMemory.filekey}"); 
+
                         if (isOn && !processingButtons.Contains(buttonId))
                         {
                             processingButtons.Add(buttonId);
@@ -146,7 +147,7 @@ public class GalleryButtonSpawner : MonoBehaviour
                         }
                         else if (processingButtons.Contains(buttonId))
                         {
-                            AddDebugMessage($"🚫 SHARE ALREADY PROCESSING for {capturedMemory.filekey}");
+                            Debug.Log($"🚫 SHARE ALREADY PROCESSING for {capturedMemory.filekey}");
                         }
                     });
                 }
@@ -155,7 +156,7 @@ public class GalleryButtonSpawner : MonoBehaviour
             spawnedCount++;
         }
 
-        AddDebugMessage($"🎉 Spawned {spawnedCount} dropdowns");
+        Debug.Log($"🎉 Spawned {spawnedCount} dropdowns");
     }
 
     // Helper method to find a child GameObject by name recursively
@@ -180,7 +181,7 @@ public class GalleryButtonSpawner : MonoBehaviour
     // Optional: Method to refresh the gallery (useful after sharing/visibility changes)
     public void RefreshGallery()
     {
-        AddDebugMessage("🔄 Refreshing gallery...");
+        Debug.Log("🔄 Refreshing gallery...");
         
         // Clear existing buttons
         foreach (Transform child in memoryLayoutParent)
@@ -197,47 +198,47 @@ public class GalleryButtonSpawner : MonoBehaviour
 
     private System.Collections.IEnumerator HandleImmerseAction(string capturedKey, Toggle toggle, string buttonId)
     {
-        AddDebugMessage("🎥 Starting immerse coroutine...");
+        Debug.Log("🎥 Starting immerse coroutine...");
         yield return null; // Wait one frame to ensure UI updates
         
         try
         {
-            AddDebugMessage("🎥 Setting PlayerPrefs...");
+            Debug.Log("🎥 Setting PlayerPrefs...");
             PlayerPrefs.SetString("currentMemoryFileKey", capturedKey);
             PlayerPrefs.Save(); // Force save immediately
             
-            AddDebugMessage("🎥 PlayerPrefs set successfully");
+            Debug.Log("🎥 PlayerPrefs set successfully");
         }
         catch (System.Exception e)
         {
-            AddDebugMessage($"❌ PLAYERPREFS ERROR: {e.Message}");
+            Debug.Log($"❌ PLAYERPREFS ERROR: {e.Message}");
         }
         
         yield return null; // Wait another frame
         
         try
         {
-            AddDebugMessage("🎥 About to call SceneChanger...");
+            Debug.Log("🎥 About to call SceneChanger...");
             
             // Check if SceneChanger is null before calling
             if (SceneChanger == null)
             {
-                AddDebugMessage("❌ SceneChanger is NULL!");
+                Debug.Log("❌ SceneChanger is NULL!");
                 // Reset toggle and exit
                 if (toggle != null) toggle.isOn = false;
                 processingButtons.Remove(buttonId);
                 yield break;
             }
             
-            AddDebugMessage("🎥 Calling ChangeScene...");
+            Debug.Log("🎥 Calling ChangeScene...");
             SceneChanger.ChangeScene("3d Video");
             
-            AddDebugMessage("🎥 ChangeScene call completed");
+            Debug.Log("🎥 ChangeScene call completed");
         }
         catch (System.Exception e)
         {
-            AddDebugMessage($"❌ SCENE CHANGE ERROR: {e.Message}");
-            AddDebugMessage($"❌ Stack trace: {e.StackTrace}");
+            Debug.Log($"❌ SCENE CHANGE ERROR: {e.Message}");
+            Debug.Log($"❌ Stack trace: {e.StackTrace}");
         }
         
         // Reset toggle and remove from processing set
@@ -246,36 +247,36 @@ public class GalleryButtonSpawner : MonoBehaviour
             toggle.isOn = false;
         }
         processingButtons.Remove(buttonId);
-        AddDebugMessage("🎥 Immerse action finished");
+        Debug.Log("🎥 Immerse action finished");
     }
 
     private System.Collections.IEnumerator HandleShareAction(Memory capturedMemory, Toggle toggle, string buttonId)
     {
-        AddDebugMessage("📤 Starting share coroutine...");
+        Debug.Log("📤 Starting share coroutine...");
         yield return null; // Wait one frame to ensure UI updates
         
         try
         {
-            AddDebugMessage($"📤 Sharing memory: {capturedMemory.filekey}");
+            Debug.Log($"📤 Sharing memory: {capturedMemory.filekey}");
             
             if (postgres == null)
             {
-                AddDebugMessage("❌ Postgres is NULL!");
+                Debug.Log("❌ Postgres is NULL!");
                 // Reset toggle and exit
                 if (toggle != null) toggle.isOn = false;
                 processingButtons.Remove(buttonId);
                 yield break;
             }
             
-            AddDebugMessage("📤 Calling SetMemoryVisibility...");
+            Debug.Log("📤 Calling SetMemoryVisibility...");
             postgres.SetMemoryVisibility(capturedMemory, 0);
             
-            AddDebugMessage("📤 SetMemoryVisibility call completed");
+            Debug.Log("📤 SetMemoryVisibility call completed");
         }
         catch (System.Exception e)
         {
-            AddDebugMessage($"❌ SHARE ERROR: {e.Message}");
-            AddDebugMessage($"❌ Stack trace: {e.StackTrace}");
+            Debug.Log($"❌ SHARE ERROR: {e.Message}");
+            Debug.Log($"❌ Stack trace: {e.StackTrace}");
         }
         
         yield return null; // Wait a frame after the database call
@@ -286,7 +287,7 @@ public class GalleryButtonSpawner : MonoBehaviour
             toggle.isOn = false;
         }
         processingButtons.Remove(buttonId);
-        AddDebugMessage("📤 Share action finished");
+        Debug.Log("📤 Share action finished");
     }
 
     private System.Collections.IEnumerator RefreshAfterDelay()

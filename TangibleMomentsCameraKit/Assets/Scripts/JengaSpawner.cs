@@ -18,7 +18,7 @@ public class JengaSpawner : MonoBehaviour
     {
         if (postgres == null)
         {
-            LogDebug("Postgres reference not assigned.");
+            Debug.Log("Postgres reference not assigned.");
             return;
         }
 
@@ -29,18 +29,18 @@ public class JengaSpawner : MonoBehaviour
     {
         if (postgres == null) return;
         
-        LogDebug("Checking if memories are already loaded...");
+        Debug.Log("Checking if memories are already loaded...");
         
         // Check if memories are already available
         var existingMemories = postgres.GetMemoryList();
         if (existingMemories != null && existingMemories.Count > 0)
         {
-            LogDebug("Memories already loaded, spawning immediately.");
+            Debug.Log("Memories already loaded, spawning immediately.");
             OnMemoriesReady();
         }
         else
         {
-            LogDebug("Waiting for memories to load...");
+            Debug.Log("Waiting for memories to load...");
         }
     }
 
@@ -50,7 +50,7 @@ public class JengaSpawner : MonoBehaviour
 
         if (memoryList == null || memoryList.Count == 0)
         {
-            LogDebug("Memory list is empty after loading.");
+            Debug.Log("Memory list is empty after loading.");
             return;
         }
 
@@ -79,7 +79,7 @@ public class JengaSpawner : MonoBehaviour
 
         foreach (var memory in memoryList)
         {
-            LogDebug($"Processing memory: {memory.filekey}, visibility: {memory.visibility}");
+            Debug.Log($"Processing memory: {memory.filekey}, visibility: {memory.visibility}");
 
             // Check visibility: spawn only if visibility is 0 (public) or matches participant number
             if (memory.visibility != 0 && memory.visibility != participantNumber)
@@ -87,7 +87,7 @@ public class JengaSpawner : MonoBehaviour
                 continue;
             }
 
-            LogDebug($"Spawning memory {memory.filekey} - visibility criteria met");
+            Debug.Log($"Spawning memory {memory.filekey} - visibility criteria met");
 
             if (jengaBlockPrefab == null)
             {
@@ -107,7 +107,7 @@ public class JengaSpawner : MonoBehaviour
             }
             else
             {
-                LogDebug("WARNING: JengaBlockMemory component not found on block.");
+                Debug.Log("WARNING: JengaBlockMemory component not found on block.");
             }
 
             TextMeshProUGUI label = block.GetComponentInChildren<TextMeshProUGUI>();
@@ -134,7 +134,7 @@ public class JengaSpawner : MonoBehaviour
                         }
                         else
                         {
-                            LogDebug("ERROR: JengaBlockMemory not found during Immerse select.");
+                            Debug.Log("ERROR: JengaBlockMemory not found during Immerse select.");
                         }
                     });
                     interactable.WhenSelect.AddListener(() =>
@@ -152,31 +152,31 @@ public class JengaSpawner : MonoBehaviour
                 }
                 else
                 {
-                    LogDebug($"Interactable '{interactable.name}' did not match known keywords.");
+                    Debug.Log($"Interactable '{interactable.name}' did not match known keywords.");
                 }
             }
 
             index++;
         }
 
-        LogDebug($"SpawnBlocksFromMemories completed. Spawned {index} blocks out of {memoryList.Count} total memories.");
+        Debug.Log($"SpawnBlocksFromMemories completed. Spawned {index} blocks out of {memoryList.Count} total memories.");
     }
     public void ShareMemory(string filekey)
     {
         if (string.IsNullOrEmpty(filekey))
         {
-            LogDebug("Error: Filekey is null or empty");
+            Debug.Log("Error: Filekey is null or empty");
             return;
         }
 
         Memory memoryToUpdate = memoryList.Find(m => m.filekey == filekey);
         if (memoryToUpdate == null)
         {
-            LogDebug($"Error: Could not find memory with filekey: {filekey}");
+            Debug.Log($"Error: Could not find memory with filekey: {filekey}");
             return;
         }
 
-        LogDebug($"Setting visibility of memory {filekey} to 0.");
+        LogDebug($"Shared Memory");
         postgres.SetMemoryVisibility(memoryToUpdate, 0);
     }
 
