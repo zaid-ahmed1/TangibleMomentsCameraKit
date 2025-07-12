@@ -5,19 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Start.unity
     guid: 2cc068f71b8a18d499cf170676fa4ce1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Samples/3 QRCodeTracking/Virtual Block.unity
     guid: 8c16555247704624db231f6429aa591a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Samples/3 QRCodeTracking/QRCodeTracking.unity
     guid: 987cb8b6148ad48e2882cf1a7a847068
-  - enabled: 1
+  - enabled: 0
     path: Assets/Samples/3 QRCodeTracking/Gallery.unity
     guid: f7e60587cbbd3f648a251244f9d9d7c7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/3d Video.unity
     guid: 474294da857a41d4a91568d12e5701a3
   - enabled: 1
