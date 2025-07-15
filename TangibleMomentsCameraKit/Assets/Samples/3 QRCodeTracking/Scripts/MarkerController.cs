@@ -11,8 +11,9 @@ public class MarkerController : MonoBehaviour
 
     [Header("Button Settings")]
     [SerializeField] private GameObject _immerseButtonPrefab;
-    [SerializeField] private float _buttonOffset = 0.15f;
-    [SerializeField] private float _buttonScale = 0.5f;
+
+    [SerializeField] private float _buttonOffset;
+    [SerializeField] private float _buttonScale;
 
     private void Awake()
     {
@@ -39,7 +40,7 @@ public class MarkerController : MonoBehaviour
             if (_immerseButton == null && _immerseButtonPrefab != null)
             {
                 _immerseButton = Instantiate(_immerseButtonPrefab, transform);
-                _immerseButton.transform.localPosition = new Vector3(_buttonOffset, 0, 0);
+                _immerseButton.transform.localPosition = new Vector3(_buttonOffset, _buttonOffset, 0);
                 _immerseButton.transform.localRotation = Quaternion.identity;
                 _immerseButton.transform.localScale = Vector3.one * _buttonScale;
             }
@@ -47,7 +48,7 @@ public class MarkerController : MonoBehaviour
             if (_immerseButton != null)
             {
                 _immerseButton.SetActive(true);
-                _immerseButton.transform.localPosition = new Vector3(_buttonOffset, 0, 0);
+                _immerseButton.transform.localPosition = new Vector3(_buttonOffset, _buttonOffset, 0);
                 _immerseButton.transform.localRotation = Quaternion.identity;
                 _immerseButton.transform.localScale = Vector3.one * _buttonScale;
             }
