@@ -65,19 +65,12 @@ public class GalleryButtonSpawner : MonoBehaviour
 
         int participantNumber = PlayerPrefs.GetInt("ParticipantNumber", 0);
         List<Memory> memories = postgres.GetMemoryList();
-        Dictionary<string, string> videos = S3.Instance.downloadedVideos;
         int spawnedCount = 0;
 
         foreach (var memory in memories)
         {
             // Check visibility: spawn only if visibility is 0 (public) or matches participant number
             if (memory.visibility != 0 && memory.visibility != participantNumber)
-            {
-                continue;
-            }
-
-            // Check if the video file is actually downloaded
-            if (!videos.ContainsKey(memory.filekey))
             {
                 continue;
             }
@@ -111,13 +104,13 @@ public class GalleryButtonSpawner : MonoBehaviour
                 if (toggle.name.ToLower().Contains("immerse"))
                 {
                     // Immerse toggle - existing functionality
-                    string capturedKey = memory.filekey;
+                    string capturedKey = memory.title;
                     string buttonId = "immerse_" + capturedKey;
-                    
+
                     toggle.onValueChanged.AddListener((bool isOn) =>
                     {
                         Debug.Log($"🎥 IMMERSE BUTTON HIT! isOn: {isOn}, key: {capturedKey}");
-                        
+
                         if (isOn && !processingButtons.Contains(buttonId))
                         {
                             processingButtons.Add(buttonId);
@@ -132,13 +125,13 @@ public class GalleryButtonSpawner : MonoBehaviour
                 else if (toggle.name.ToLower().Contains("share"))
                 {
                     // Share toggle - sets visibility to 0 (public)
-                    Memory capturedMemory = memory; // Capture the memory object
+                    Memory capturedMemory = memory;
                     string buttonId = "share_" + capturedMemory.filekey;
-                    
+
                     toggle.onValueChanged.AddListener((bool isOn) =>
                     {
                         AddDebugMessage($"Shared Memory");
-                        Debug.Log($"📤 SHARE BUTTON HIT! isOn: {isOn}, key: {capturedMemory.filekey}"); 
+                        Debug.Log($"📤 SHARE BUTTON HIT! isOn: {isOn}, key: {capturedMemory.filekey}");
 
                         if (isOn && !processingButtons.Contains(buttonId))
                         {
@@ -158,6 +151,7 @@ public class GalleryButtonSpawner : MonoBehaviour
 
         Debug.Log($"🎉 Spawned {spawnedCount} dropdowns");
     }
+
 
     // Helper method to find a child GameObject by name recursively
     private Transform FindChildByName(Transform parent, string name)
