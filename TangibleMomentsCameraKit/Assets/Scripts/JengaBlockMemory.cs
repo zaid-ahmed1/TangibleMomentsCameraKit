@@ -8,7 +8,7 @@ public class JengaBlockMemory : MonoBehaviour
 
     public void SetMemoryKey()
     {
-        PlayerPrefs.SetString("currentMemoryFileKey", memoryKey);
+        PlayerPrefs.SetString("currentMemory", memoryKey);
         PlayerPrefs.Save();
         Debug.Log($"🧠 Set memory key to: {memoryKey}");
     }

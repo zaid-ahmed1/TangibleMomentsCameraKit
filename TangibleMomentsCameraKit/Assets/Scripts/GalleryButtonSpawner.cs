@@ -204,7 +204,7 @@ public class GalleryButtonSpawner : MonoBehaviour
         try
         {
             Debug.Log("🎥 Setting PlayerPrefs...");
-            PlayerPrefs.SetString("currentMemoryFileKey", capturedKey);
+            PlayerPrefs.SetString("currentMemory", capturedKey);
             PlayerPrefs.Save(); // Force save immediately
             
             Debug.Log("🎥 PlayerPrefs set successfully");

@@ -102,7 +102,7 @@ public class JengaSpawner : MonoBehaviour
             var memoryScript = block.GetComponentInChildren<JengaBlockMemory>();
             if (memoryScript != null)
             {
-                memoryScript.memoryKey = memory.filekey;
+                memoryScript.memoryKey = memory.title;
                 memoryScript.spawner = this;
             }
             else
