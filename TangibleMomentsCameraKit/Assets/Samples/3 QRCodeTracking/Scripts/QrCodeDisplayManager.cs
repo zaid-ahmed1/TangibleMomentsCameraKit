@@ -116,7 +116,7 @@ public class QrCodeDisplayManager : MonoBehaviour
                 if (memory != null && isVisible)
                 {
                     displayText = memory.qr_code;
-                    PlayerPrefs.SetString("currentMemory", memory.filekey);
+                    PlayerPrefs.SetString("currentMemory", memory.title);
                     PlayerPrefs.Save();
                     displayColor = Color.white;
 
