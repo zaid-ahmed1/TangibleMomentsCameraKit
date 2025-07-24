@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GalleryButtonSpawner : MonoBehaviour
 {
@@ -225,6 +226,7 @@ public class GalleryButtonSpawner : MonoBehaviour
             }
             
             Debug.Log("🎥 Calling ChangeScene...");
+            PlayerPrefs.SetString("lastScene", SceneManager.GetActiveScene().name);
             SceneChanger.ChangeScene("3d Video");
             
             Debug.Log("🎥 ChangeScene call completed");

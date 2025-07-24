@@ -4,6 +4,7 @@ using System.Linq;
 using Oculus.Interaction;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class JengaSpawner : MonoBehaviour
 {
@@ -139,6 +140,7 @@ public class JengaSpawner : MonoBehaviour
                     });
                     interactable.WhenSelect.AddListener(() =>
                     {
+                        PlayerPrefs.SetString("lastScene", SceneManager.GetActiveScene().name);
                         SceneChanger.ChangeScene("3d Video");
                     });
                 }
