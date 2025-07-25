@@ -226,7 +226,7 @@ public class GalleryButtonSpawner : MonoBehaviour
             }
             
             Debug.Log("🎥 Calling ChangeScene...");
-            PlayerPrefs.SetString("lastScene", SceneManager.GetActiveScene().name);
+            SceneChanger.SetLastScene(SceneManager.GetActiveScene().name);
             SceneChanger.ChangeScene("3d Video");
             
             Debug.Log("🎥 ChangeScene call completed");

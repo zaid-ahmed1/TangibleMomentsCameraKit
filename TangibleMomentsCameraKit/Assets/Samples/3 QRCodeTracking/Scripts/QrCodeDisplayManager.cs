@@ -56,7 +56,7 @@ public class QrCodeDisplayManager : MonoBehaviour
 
         // Reset these at the start of each frame - only valid if detected THIS frame
         string currentFrameValidMemoryQrCode = null;
-        string currentFrameValidMemoryFileKey = null;
+        string currentFrameValidMemoryTitle = null;
         string currentFrameInvalidQrCode = null;
         Memory currentFrameValidMemory = null;
 
@@ -122,7 +122,7 @@ public class QrCodeDisplayManager : MonoBehaviour
 
                     // Store for THIS frame only
                     currentFrameValidMemoryQrCode = qrCode;
-                    currentFrameValidMemoryFileKey = memory.filekey;
+                    currentFrameValidMemoryTitle = memory.title;
                     currentFrameValidMemory = memory;
                 }
                 else if (memory != null && !isVisible)
@@ -165,15 +165,15 @@ public class QrCodeDisplayManager : MonoBehaviour
         }
 
         // Only perform copy if BOTH codes are detected in THIS frame
-        if (!string.IsNullOrEmpty(currentFrameValidMemoryFileKey) && !string.IsNullOrEmpty(currentFrameInvalidQrCode))
+        if (!string.IsNullOrEmpty(currentFrameValidMemoryTitle) && !string.IsNullOrEmpty(currentFrameInvalidQrCode))
         {
-            string pairKey = $"{currentFrameValidMemoryFileKey}->{currentFrameInvalidQrCode}";
+            string pairKey = $"{currentFrameValidMemoryTitle}->{currentFrameInvalidQrCode}";
 
             if (!copiedPairs.Contains(pairKey))
             {
                 copiedPairs.Add(pairKey);
 
-                Debug.Log("\nCopying memory {currentFrameValidMemoryFileKey} to {currentFrameInvalidQrCode}...");
+                Debug.Log("\nCopying memory {currentFrameValidMemoryTitle} to {currentFrameInvalidQrCode}...");
                 StartCoroutine(
                     _postgres.CopyMemoryToQrCodeCoroutine(currentFrameValidMemory, currentFrameInvalidQrCode));
                  DebugText.text += "Shared Memory";

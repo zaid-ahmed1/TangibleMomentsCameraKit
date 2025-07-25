@@ -140,7 +140,7 @@ public class JengaSpawner : MonoBehaviour
                     });
                     interactable.WhenSelect.AddListener(() =>
                     {
-                        PlayerPrefs.SetString("lastScene", SceneManager.GetActiveScene().name);
+                        SceneChanger.SetLastScene(SceneManager.GetActiveScene().name);
                         SceneChanger.ChangeScene("3d Video");
                     });
                 }

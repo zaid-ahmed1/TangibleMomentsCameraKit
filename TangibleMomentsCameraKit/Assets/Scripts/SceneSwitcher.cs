@@ -15,4 +15,11 @@ public class SceneChanger : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+    
+    public void SetLastScene(string sceneName)
+    {
+        PlayerPrefs.SetString("lastScene", sceneName);
+        PlayerPrefs.Save();
+        Debug.Log($"Last scene set to: {sceneName}");
+    }
 }
