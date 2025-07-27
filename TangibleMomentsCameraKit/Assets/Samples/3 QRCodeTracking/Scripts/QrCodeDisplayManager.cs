@@ -165,6 +165,7 @@ public class QrCodeDisplayManager : MonoBehaviour
         }
 
         int isMemoryShareable = PlayerPrefs.GetInt(memory.title + "_shareable", 0);
+        DebugText.text = isMemoryShareable.ToString();
         // Only perform copy if BOTH codes are detected in THIS frame
         if (!string.IsNullOrEmpty(currentFrameValidMemoryTitle) && !string.IsNullOrEmpty(currentFrameInvalidQrCode) &&
             isMemoryShareable == 1)
@@ -173,14 +174,18 @@ public class QrCodeDisplayManager : MonoBehaviour
 
             if (!copiedPairs.Contains(pairKey))
             {
-                copiedPairs.Add(pairKey);
 
                 Debug.Log("\nCopying memory {currentFrameValidMemoryTitle} to {currentFrameInvalidQrCode}...");
                 shareDialog.ShowDialog(
                     currentFrameValidMemory,
                     null,
-                    $"{currentFrameValidMemoryTitle}->{currentFrameInvalidQrCode}",
-                    currentFrameInvalidQrCode
+                    pairKey,
+                    currentFrameInvalidQrCode,
+                    (successfulKey) =>
+                    {
+                        copiedPairs.Add(successfulKey);
+                        Debug.Log($"✅ Added {successfulKey} to copiedPairs after successful share.");
+                    }
                 );
             }
             else

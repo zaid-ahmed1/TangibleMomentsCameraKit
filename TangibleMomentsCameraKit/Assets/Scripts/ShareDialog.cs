@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,7 +14,8 @@ public class ShareDialog : MonoBehaviour
     public TextMeshProUGUI DebugText; // Text for debug output
     [Header("Dependencies")]
     public Postgres postgres; // Reference to your postgres manager
-    
+    private Action<string> onSuccessfulShareCallback;
+
     // Private fields to store the passed arguments
     private Memory currentMemory;
     private Toggle originalToggle;
@@ -37,19 +39,22 @@ public class ShareDialog : MonoBehaviour
     }
     
     // This method is called from GalleryButtonSpawner.ShowShareDialog()
-    public void ShowDialog(Memory capturedMemory, Toggle toggle, string buttonId, string qrCodeTarget)
+
+    public void ShowDialog(Memory capturedMemory, Toggle toggle, string buttonId, string qrCodeTarget, Action<string> onSuccess = null)
     {
         currentMemory = capturedMemory;
         originalToggle = toggle;
         currentButtonId = buttonId;
-        targetQrCode = qrCodeTarget; // New line
+        targetQrCode = qrCodeTarget;
+        onSuccessfulShareCallback = onSuccess;
 
         dialogPanel.SetActive(true);
         if (shareToggle != null) shareToggle.isOn = false;
         if (cancelToggle != null) cancelToggle.isOn = false;
 
-        DebugText.text = ($"📱 Showing share dialog for memory: {capturedMemory?.title}, to QR: {targetQrCode}");
+        DebugText.text = $"📱 Showing share dialog for memory: {capturedMemory?.title}, to QR: {targetQrCode}";
     }
+
 
     
     public void HideDialog()
@@ -107,48 +112,53 @@ public class ShareDialog : MonoBehaviour
             HideDialog();
         }
     }
-    
-    private IEnumerator HandleShareAction(Memory capturedMemory, Toggle toggle, string buttonId)
-    {
-        Debug.Log("📤 Starting share coroutine...");
-        yield return null;
-
-        bool success = false;
-
-        if (postgres == null)
+        private IEnumerator HandleShareAction(Memory capturedMemory, Toggle toggle, string buttonId)
         {
-            Debug.Log("❌ Postgres is NULL!");
+            Debug.Log("📤 Starting share coroutine...");
+            yield return null;
+    
+            bool success = false;
+    
+            if (postgres == null)
+            {
+                Debug.Log("❌ Postgres is NULL!");
+                if (toggle != null) toggle.isOn = false;
+                processingButtons.Remove(buttonId);
+                yield break;
+            }
+    
+            // Perform coroutine separately from try block
+            IEnumerator copyCoroutine = postgres.CopyMemoryToQrCodeCoroutine(capturedMemory, targetQrCode);
+            yield return StartCoroutine(copyCoroutine);
+    
+            try
+            {
+                // No actual `yield` here — just post-success logic
+                Debug.Log("📤 Memory copy completed successfully");
+                success = true;
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log($"❌ SHARE ERROR: {e.Message}");
+                Debug.Log($"❌ Stack trace: {e.StackTrace}");
+            }
+    
+            if (success)
+            {
+                Debug.Log($"✅ Successfully shared {capturedMemory.title} → {targetQrCode}");
+
+                onSuccessfulShareCallback?.Invoke($"{capturedMemory.title}->{targetQrCode}");
+
+                yield return new WaitForSeconds(0.2f);
+                HideDialog();
+            }
+
+    
             if (toggle != null) toggle.isOn = false;
             processingButtons.Remove(buttonId);
-            yield break;
+            Debug.Log("📤 Share action finished");
         }
 
-        // Perform coroutine separately from try block
-        IEnumerator copyCoroutine = postgres.CopyMemoryToQrCodeCoroutine(capturedMemory, targetQrCode);
-        yield return StartCoroutine(copyCoroutine);
-
-        try
-        {
-            // No actual `yield` here — just post-success logic
-            Debug.Log("📤 Memory copy completed successfully");
-            success = true;
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log($"❌ SHARE ERROR: {e.Message}");
-            Debug.Log($"❌ Stack trace: {e.StackTrace}");
-        }
-
-        if (success)
-        {
-            yield return new WaitForSeconds(0.2f);
-            HideDialog();
-        }
-
-        if (toggle != null) toggle.isOn = false;
-        processingButtons.Remove(buttonId);
-        Debug.Log("📤 Share action finished");
-    }
 
 
 
