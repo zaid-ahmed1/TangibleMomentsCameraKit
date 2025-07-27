@@ -18,7 +18,7 @@ public class QrCodeDisplayManager : MonoBehaviour
     private Postgres _postgres;
     private Memory memory;
     private string qrCode;
-
+    public ShareDialog shareDialog;
     private string validMemoryQrCode = null;
     private string validMemoryFileKey = null;
     private string invalidQrCode = null;
@@ -164,8 +164,10 @@ public class QrCodeDisplayManager : MonoBehaviour
             }
         }
 
+        int isMemoryShareable = PlayerPrefs.GetInt(memory.title + "_shareable", 0);
         // Only perform copy if BOTH codes are detected in THIS frame
-        if (!string.IsNullOrEmpty(currentFrameValidMemoryTitle) && !string.IsNullOrEmpty(currentFrameInvalidQrCode))
+        if (!string.IsNullOrEmpty(currentFrameValidMemoryTitle) && !string.IsNullOrEmpty(currentFrameInvalidQrCode) &&
+            isMemoryShareable == 1)
         {
             string pairKey = $"{currentFrameValidMemoryTitle}->{currentFrameInvalidQrCode}";
 
@@ -174,9 +176,12 @@ public class QrCodeDisplayManager : MonoBehaviour
                 copiedPairs.Add(pairKey);
 
                 Debug.Log("\nCopying memory {currentFrameValidMemoryTitle} to {currentFrameInvalidQrCode}...");
-                StartCoroutine(
-                    _postgres.CopyMemoryToQrCodeCoroutine(currentFrameValidMemory, currentFrameInvalidQrCode));
-                 DebugText.text += "Shared Memory";
+                shareDialog.ShowDialog(
+                    currentFrameValidMemory,
+                    null,
+                    $"{currentFrameValidMemoryTitle}->{currentFrameInvalidQrCode}",
+                    currentFrameInvalidQrCode
+                );
             }
             else
             {
