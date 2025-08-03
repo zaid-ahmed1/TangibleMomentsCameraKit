@@ -11,8 +11,9 @@ public class GalleryButtonSpawner : MonoBehaviour
     public SceneChanger SceneChanger;
     public Postgres postgres; // Reference to your Postgres script
     public TextMeshProUGUI DebugText; // Debug text display
-    
+    public ShareDialog shareDialog;
     private HashSet<string> processingButtons = new HashSet<string>(); // Track which buttons are currently being processed
+    private readonly HashSet<string> copiedPairs = new();
 
     void Start()
     {
@@ -78,7 +79,7 @@ public class GalleryButtonSpawner : MonoBehaviour
 
             // Instantiate and activate
             GameObject buttonObj = Instantiate(memoryButtonPrefab, memoryLayoutParent);
-            buttonObj.name = "MemoryDropdown_" + memory.filekey;
+            buttonObj.name = "MemoryDropdown_" + memory.title;
             buttonObj.SetActive(true);
 
             // Set title text - find the specific "Title" GameObject
@@ -93,7 +94,7 @@ public class GalleryButtonSpawner : MonoBehaviour
                 TextMeshProUGUI titleText = titleTransform.GetComponent<TextMeshProUGUI>();
                 if (titleText != null)
                 {
-                    titleText.text = memory.title ?? memory.filekey;
+                    titleText.text = memory.title ?? memory.title;
                 }
             }
 
@@ -127,21 +128,17 @@ public class GalleryButtonSpawner : MonoBehaviour
                 {
                     // Share toggle - sets visibility to 0 (public)
                     Memory capturedMemory = memory;
-                    string buttonId = "share_" + capturedMemory.filekey;
+                    string buttonId = "share_" + capturedMemory.title;
 
                     toggle.onValueChanged.AddListener((bool isOn) =>
                     {
                         AddDebugMessage($"Shared Memory");
-                        Debug.Log($"📤 SHARE BUTTON HIT! isOn: {isOn}, key: {capturedMemory.filekey}");
+                        Debug.Log($"📤 SHARE BUTTON HIT! isOn: {isOn}, key: {capturedMemory.title}");
 
-                        if (isOn && !processingButtons.Contains(buttonId))
+                        if (isOn)
                         {
-                            processingButtons.Add(buttonId);
-                            StartCoroutine(HandleShareAction(capturedMemory, toggle, buttonId));
-                        }
-                        else if (processingButtons.Contains(buttonId))
-                        {
-                            Debug.Log($"🚫 SHARE ALREADY PROCESSING for {capturedMemory.filekey}");
+                            // Call the sharing logic similar to your original code
+                            HandleMemoryShare(capturedMemory, toggle, buttonId);
                         }
                     });
                 }
@@ -152,8 +149,51 @@ public class GalleryButtonSpawner : MonoBehaviour
 
         Debug.Log($"🎉 Spawned {spawnedCount} dropdowns");
     }
+    
+    private void HandleMemoryShare(Memory memory, Toggle toggle, string buttonId)
+    {
+        // Extract the necessary values from the memory object
+        string memoryTitle = memory.title; // Adjust property name as needed
+        
+    
+        if (!string.IsNullOrEmpty(memoryTitle))
+        {
+            string pairKey = $"{memoryTitle}";
 
+            if (!copiedPairs.Contains(pairKey))
+            {
+                Debug.Log($"\nCopying memory {memoryTitle}");
+                shareDialog.ShowDialog(
+                    memory, // Pass the full memory object
+                    null,
+                    pairKey,
+                    "x",
+                    (successfulKey) =>
+                    {
+                        copiedPairs.Add(successfulKey);
+                        Debug.Log($"✅ Added {successfulKey} to copiedPairs after successful share.");
+                        RefreshGallery();
+                        // Optional: Update toggle state or UI as needed
+                    }
+                );
+            }
+            else
+            {
+                Debug.Log($"Already copied {pairKey}, skipping.");
+                processingButtons.Remove(buttonId);
+            }
+        }
+        else
+        {
+            Debug.Log($"❌ Cannot share memory - missing required data or not shareable");
+            processingButtons.Remove(buttonId);
+        
+            // Optional: Reset toggle state if sharing failed
+            toggle.isOn = false;
+        }
+    }
 
+    
     // Helper method to find a child GameObject by name recursively
     private Transform FindChildByName(Transform parent, string name)
     {
@@ -176,19 +216,9 @@ public class GalleryButtonSpawner : MonoBehaviour
     // Optional: Method to refresh the gallery (useful after sharing/visibility changes)
     public void RefreshGallery()
     {
-        Debug.Log("🔄 Refreshing gallery...");
-        
-        // Clear existing buttons
-        foreach (Transform child in memoryLayoutParent)
-        {
-            if (child.name.StartsWith("MemoryDropdown_"))
-            {
-                Destroy(child.gameObject);
-            }
-        }
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
 
-        // Wait a frame for cleanup, then respawn
-        StartCoroutine(RefreshAfterDelay());
     }
 
     private System.Collections.IEnumerator HandleImmerseAction(string capturedKey, Toggle toggle, string buttonId)
@@ -253,7 +283,7 @@ public class GalleryButtonSpawner : MonoBehaviour
         
         try
         {
-            Debug.Log($"📤 Sharing memory: {capturedMemory.filekey}");
+            Debug.Log($"📤 Sharing memory: {capturedMemory.title}");
             
             if (postgres == null)
             {
@@ -291,21 +321,5 @@ public class GalleryButtonSpawner : MonoBehaviour
         yield return null; // Wait one frame
         SpawnMemoryButtons();
     }
-
-    // Debug method to manually trigger spawning
-    [ContextMenu("Debug: Spawn Memory Buttons")]
-    public void DebugSpawnButtons()
-    {
-        SpawnMemoryButtons();
-    }
-
-    // Method to clear debug text
-    [ContextMenu("Clear Debug Text")]
-    public void ClearDebugText()
-    {
-        if (DebugText != null)
-        {
-            DebugText.text = "";
-        }
-    }
+    
 }

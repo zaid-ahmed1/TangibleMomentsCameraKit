@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/3d Video.unity
     guid: 474294da857a41d4a91568d12e5701a3
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Trial.unity
     guid: 8911ec3df55364d46af48744ce6f6b26
   - enabled: 0
