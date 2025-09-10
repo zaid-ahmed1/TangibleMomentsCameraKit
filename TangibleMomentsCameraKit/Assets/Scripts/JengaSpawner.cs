@@ -13,6 +13,8 @@ public class JengaSpawner : MonoBehaviour
     public Transform spawnParent;
     public TextMeshProUGUI debugText; // Serialized debug output in Inspector
     public SceneChanger SceneChanger;
+    public ShareDialog ShareDialog;
+    private readonly HashSet<string> copiedPairs = new HashSet<string>();
     
     List<Memory> memoryList;
     void Awake()
@@ -74,116 +76,100 @@ public class JengaSpawner : MonoBehaviour
         float yOffset = 0.7f;
         float zOffset = 0.3f;
         int index = 0;
-        
-        // Get the participant number once for efficiency
+
         int participantNumber = PlayerPrefs.GetInt("ParticipantNumber");
 
         foreach (var memory in memoryList)
         {
-            Debug.Log($"Processing memory: {memory.filekey}, visibility: {memory.visibility}");
-
-            // Check visibility: spawn only if visibility is 0 (public) or matches participant number
             if (memory.visibility != 0 && memory.visibility != participantNumber)
-            {
                 continue;
-            }
-
-            Debug.Log($"Spawning memory {memory.filekey} - visibility criteria met");
-
-            if (jengaBlockPrefab == null)
-            {
-                return;
-            }
 
             GameObject block = Instantiate(jengaBlockPrefab, spawnParent);
-            block.name = "JengaBlock_" + memory.filekey;
-
+            block.name = "JengaBlock_" + memory.title;
             block.transform.position = new Vector3(index * xSpacing, yOffset, zOffset);
 
             var memoryScript = block.GetComponentInChildren<JengaBlockMemory>();
             if (memoryScript != null)
             {
-                memoryScript.memoryKey = memory.title;
-                memoryScript.spawner = this;
+                memoryScript.Initialize(memory, this);
             }
             else
             {
-                Debug.Log("WARNING: JengaBlockMemory component not found on block.");
-            }
-
-            TextMeshProUGUI label = block.GetComponentInChildren<TextMeshProUGUI>();
-            if (label != null)
-            {
-                label.text = memory.title;
-            }
-
-            var interactables = block.GetComponentsInChildren<InteractableUnityEventWrapper>(true);
-
-            foreach (var interactable in interactables)
-            {
-
-                if (interactable.name.ToLower().Contains("immerse"))
-                {
-                    string capturedKey = memory.filekey;
-                    interactable.WhenSelect.AddListener(() =>
-                    {
-                        var innerScript = block.GetComponent<JengaBlockMemory>();
-                        if (innerScript != null)
-                        {
-                            innerScript.memoryKey = capturedKey;
-                            innerScript.SetMemoryKey();
-                        }
-                        else
-                        {
-                            Debug.Log("ERROR: JengaBlockMemory not found during Immerse select.");
-                        }
-                    });
-                    interactable.WhenSelect.AddListener(() =>
-                    {
-                        SceneChanger.SetLastScene(SceneManager.GetActiveScene().name);
-                        SceneChanger.ChangeScene("3d Video");
-                    });
-                }
-                else if (interactable.name.ToLower().Contains("share"))
-                {
-                    string capturedKey = memory.filekey;
-                    interactable.WhenSelect.AddListener(() =>
-                    {
-                        ShareMemory(capturedKey);
-                    });
-                }
-                else
-                {
-                    Debug.Log($"Interactable '{interactable.name}' did not match known keywords.");
-                }
+                Debug.LogWarning("⚠️ JengaBlockMemory component not found on block.");
             }
 
             index++;
         }
 
-        Debug.Log($"SpawnBlocksFromMemories completed. Spawned {index} blocks out of {memoryList.Count} total memories.");
-    }
-    public void ShareMemory(string filekey)
-    {
-        if (string.IsNullOrEmpty(filekey))
-        {
-            Debug.Log("Error: Filekey is null or empty");
-            return;
-        }
-
-        Memory memoryToUpdate = memoryList.Find(m => m.filekey == filekey);
-        if (memoryToUpdate == null)
-        {
-            Debug.Log($"Error: Could not find memory with filekey: {filekey}");
-            return;
-        }
-
-        LogDebug($"Shared Memory");
-        postgres.SetMemoryVisibility(memoryToUpdate, 0);
+        Debug.Log($"✅ SpawnBlocksFromMemories completed. Spawned {index} blocks out of {memoryList.Count} total memories.");
     }
 
     
+    
+    
+    public void ShareMemory(Memory memory)
+    {
 
+        if (memory == null)
+        {
+            Debug.Log($"Error: Could not find memory with title: {memory.title}");
+            return;
+        }
+
+        string pairKey = $"{memory.title}";
+
+        if (!copiedPairs.Contains(pairKey))
+        {
+            LogDebug($"Sharing memory: {memory.title}");
+        
+            ShareDialog.ShowDialog(
+                memory, // Pass the full memory object
+                null,
+                pairKey,
+                "x",
+                (successfulKey) =>
+                {
+                    copiedPairs.Add(successfulKey);
+                    Debug.Log($"✅ Successfully shared {successfulKey}");
+                    LogDebug($"Share completed for {successfulKey}");
+                
+                    // Reload the scene/blocks after successful share
+                    RefreshBlocks();
+                }
+            );
+        }
+        else
+        {
+            Debug.Log($"Already shared {pairKey}, skipping.");
+            LogDebug($"Memory {memory.title} already shared");
+        }
+    }
+    
+    public void RefreshBlocks()
+    {
+        Debug.Log("🔄 Refreshing blocks after share...");
+        LogDebug("Refreshing blocks...");
+    
+        // Clear existing blocks
+        ClearExistingBlocks();
+    
+        // Wait a frame for cleanup, then respawn
+        StartCoroutine(RefreshAfterDelay());
+    }
+
+    private System.Collections.IEnumerator RefreshAfterDelay()
+    {
+        yield return null; // Wait one frame
+    
+        // Refresh the memory list from database
+        memoryList = postgres.GetMemoryList();
+    
+        // Respawn blocks with updated data
+        SpawnBlocksFromMemories();
+    
+        LogDebug("Blocks refreshed successfully");
+    }
+    
     void LogDebug(string message)
     {
         Debug.Log("[JengaSpawner] " + message);

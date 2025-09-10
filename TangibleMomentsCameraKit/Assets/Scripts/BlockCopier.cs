@@ -16,7 +16,7 @@ public class BlockCopier : MonoBehaviour
         Transform dummyRoot = transform.parent;
 
         GameObject clone = Instantiate(other.gameObject, dummyRoot.position, dummyRoot.rotation, dummyRoot.parent);
-        clone.name = "Cloned_" + memoryBlock.memoryKey;
+        clone.name = "Cloned_" + memoryBlock.name;
 
         debugText.text = clone.name;
 
